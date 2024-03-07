@@ -6,7 +6,6 @@ import logger from 'morgan'
 import * as bodyParser from 'body-parser'
 import '@betaschool-reborn/database-model/connection'
 import expressSession from 'express-session'
-// import {ExpressValidator} from 'express-validator'
 import passport from './services/passportconfig';
 
 const app = express();
