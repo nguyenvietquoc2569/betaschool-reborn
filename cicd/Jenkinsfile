@@ -1,5 +1,5 @@
 def distributedTasks = [:]
-def version = '4.0.0'
+def version = '1.0.0'
 def projects = [:]
 def raw
 def baseSha = 'last-success-build'
@@ -23,7 +23,7 @@ stage("Build") {
       projects.eachWithIndex { project, i ->
         if (fileExists("apps/${project}")) {
           if (!(configProjects.contains(project))) {
-            sh "npx nx run ${project}:build --prod"
+            sh "npx nx run ${project}:build:production"
           }
           docker.build("nguyenvietquoc2569/betaschool-reborn-${project}:${version}", ". -f apps/${project}/Dockerfile")
         }
