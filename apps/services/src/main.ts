@@ -5,6 +5,7 @@ import * as path from 'path'
 import logger from 'morgan'
 import * as bodyParser from 'body-parser'
 import '@betaschool-reborn/database-model/connection'
+import expressSession from 'express-session'
 // import {ExpressValidator} from 'express-validator'
 import passport from './services/passportconfig';
 
@@ -24,8 +25,8 @@ app.use(bodyParser.json({limit: '30mb'}));
 app.use(bodyParser.urlencoded({limit: '30mb', extended: true }));
 
 //passport
-app.use(require('express-session')({ 
-  secret: 'Enter your secret key',
+app.use(expressSession({ 
+  secret: process.env.secretExpressSession,
   resave: true,
   saveUninitialized: true
 }));
