@@ -56,7 +56,7 @@ stage("Build") {
 def jsTask(Closure cl) {
   node {
     withEnv(["HOME=${workspace}"]) {
-      docker.image('node:14').inside('--tmpfs /.config', cl)
+      docker.image('node:20').inside('--tmpfs /.config', cl)
     }
   }
 }
