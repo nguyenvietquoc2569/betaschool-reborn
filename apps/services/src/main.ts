@@ -6,7 +6,7 @@ import logger from 'morgan'
 import * as bodyParser from 'body-parser'
 import '@betaschool-reborn/database-model/connection'
 import expressSession from 'express-session'
-import passport from './services/passportconfig';
+import passport from './services/passportconfig'
 
 const app = express();
 app.use(helmet());
