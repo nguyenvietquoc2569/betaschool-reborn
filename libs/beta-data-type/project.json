@@ -1,0 +1,8 @@
+{
+  "name": "beta-data-type",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/beta-data-type/src",
+  "projectType": "library",
+  "targets": {},
+  "tags": []
+}

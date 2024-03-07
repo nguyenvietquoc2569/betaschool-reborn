@@ -1,0 +1,8 @@
+{
+  "name": "things-pub-sub",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/things-pub-sub/src",
+  "projectType": "library",
+  "targets": {},
+  "tags": []
+}

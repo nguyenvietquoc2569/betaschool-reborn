@@ -1,0 +1,8 @@
+{
+  "name": "database-model",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/database-model/src",
+  "projectType": "library",
+  "targets": {},
+  "tags": []
+}

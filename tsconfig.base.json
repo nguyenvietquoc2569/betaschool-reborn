@@ -14,7 +14,12 @@
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
-    "paths": {}
+    "paths": {
+      "@betaschool-reborn/beta-data-type": ["libs/beta-data-type/src/index.ts"],
+      "@betaschool-reborn/database-model": ["libs/database-model/src/index.ts"],
+      "@betaschool-reborn/database-model/*": ["libs/database-model/src/*"],
+      "@betaschool-reborn/things-pub-sub": ["libs/things-pub-sub/src/index.ts"]
+    }
   },
   "exclude": ["node_modules", "tmp"]
 }
