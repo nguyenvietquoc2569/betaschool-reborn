@@ -5,8 +5,6 @@ stage("Build") {
   jsTask {
     checkout scm
     docker.build("nguyenvietquoc2569/node-betaschool-reborn-monorepo:latest", ". -f cicd/base/Dockerfile-node-base")
-    sh "docker login -u nguyenvietquoc2569 -p Nvqlovepaq0708/"
-    sh 'docker push nguyenvietquoc2569/node-betaschool-reborn-monorepo:latest'
   }
 }
 
