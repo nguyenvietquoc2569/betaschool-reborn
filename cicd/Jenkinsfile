@@ -18,7 +18,7 @@ stage("Build") {
       // sh 'npm install'
       raw = sh(script: "npx nx show projects --affected --type app --base=${baseSha} --target=${target}", returnStdout: true)
       sh "echo ${raw.split(',')}"
-      projects = raw
+      projects = raw.trim()
       sh "echo ${projects}"
       projects.eachWithIndex { project, i ->
         if (fileExists("apps/${project}")) {
