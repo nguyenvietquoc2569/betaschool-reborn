@@ -3,7 +3,7 @@ def version = '4.0.0'
 def projects = [:]
 def raw
 def baseSha = 'last-success-build'
-def target = 'origin/develop'
+def target = 'origin/main'
 def configProjects = ['dns-vn', 'dns-us']
 
 stage("Build") {
@@ -16,8 +16,8 @@ stage("Build") {
       sh 'yarn install --frozen-lockfile'
       // sh ''
       // sh 'npm install'
-      raw = sh(script: "npx nx print-affected --base=${baseSha} --target=${target}", returnStdout: true)
-      projects = readJSON(text: raw)['projects']
+      raw = sh(script: "npx nx show projects --affected --type app --base=${baseSha} --target=${target}", returnStdout: true)
+      projects = raw.split(',')
       sh "echo ${projects}"
       projects.eachWithIndex { project, i ->
         if (fileExists("apps/${project}")) {
