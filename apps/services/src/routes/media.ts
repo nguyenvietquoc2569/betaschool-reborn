@@ -9,5 +9,7 @@ router.post('/uploadb2media', uploadMulter, uploadB2MiddleGenerate('user-data'),
   res.json({
     success: true,
     code: 200,
-    files: res.locals.url})
+    files: res.locals.url,
+    meta: res.locals.metas
+  })
 })

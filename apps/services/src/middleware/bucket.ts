@@ -35,6 +35,7 @@ export const uploadB2MiddleGenerate = (folder: string) => {
     const { downloadUrl } = authResponse.data
   
     const urls = []
+    const metas = []
     const uploadPromises = req.files.map(async (file: Express.Multer.File) => {
       // 3. b2.getUploaderUrl( {bucketId} )
       const response = await b2.getUploadUrl({ bucketId: process.env.BUCKET_ID_BACKBLAZE })
@@ -54,9 +55,15 @@ export const uploadB2MiddleGenerate = (folder: string) => {
       urls.push(
         `${process.env.BUCKET_CDN_BUNNY_NET ||downloadUrl}/file/${process.env.BACKBLAZE_BUCKET}/${fileInfo.data.fileName}`
       )
+      metas.push({
+        encoding: file.encoding,
+        mimetype: file.mimetype,
+        size: file.size
+      })
     })
     await Promise.all(uploadPromises)
     res.locals.url = urls
+    res.locals.metas = metas
     next()
   }
   return uploadB2
