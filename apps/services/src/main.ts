@@ -94,6 +94,9 @@ app.use("/api/v1/feedback", passport.authenticate('user-token', { session : fals
 import { router as dotBApi} from './routes/dotb'
 app.use("/api/v1/dotB", dotBApi)
 
+import { router as marketingApi} from './routes/marketing'
+app.use("/api/v1/marketing", marketingApi)
+
 //----------- APP API
 
 import { router as applogin } from './routes-app/login'
