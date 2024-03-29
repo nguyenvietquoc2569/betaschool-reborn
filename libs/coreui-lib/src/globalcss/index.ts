@@ -1,0 +1,6 @@
+import 'perfect-scrollbar/css/perfect-scrollbar.css'
+import 'tippy.js/dist/tippy.css'
+import './CDataTable.css'
+import './CToast.css'
+import './scrollbar.css'
+import './CIcon.css'
