@@ -2,7 +2,7 @@
 # production environment
 # FROM nginx:stable-alpine
 # FROM node:14
-FROM nguyenvietquoc2569/node-betaschool-monorepo:latest
+FROM nguyenvietquoc2569/node-betaschool-reborn-monorepo:latest
 WORKDIR /usr/src/app
 EXPOSE 3000
 
