@@ -1,4 +1,5 @@
 /* eslint react/prop-types: 0 */
+// @ts-nocheck
 import React from 'react'
 import CLink from '../link/CLink'
 

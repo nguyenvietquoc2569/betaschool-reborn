@@ -7,7 +7,7 @@ import React, {
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import CFade from '../fade/CFade'
-import { omitByKeys } from '@betaschool/coreui-lib/utils/src'
+import { omitByKeys } from '../_utils/src'
 import { CFadeProps } from '../utils/helper.js'
 
 import { Context } from './CTabs.tsx'

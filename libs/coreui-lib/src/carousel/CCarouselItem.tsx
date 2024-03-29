@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React, { useState, useContext, useEffect, useRef } from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'

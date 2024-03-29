@@ -1,7 +1,8 @@
 import Cookies from 'cookies'
 import {sp, getIdpByDomain} from '../../middleware/idp'
+import { NextApiRequest, NextApiResponse } from 'next'
 
-export default function handler(req, res) {
+export default function handler(req: NextApiRequest, res: NextApiResponse) {
   const cookies = new Cookies(req, res)
   const {body} = req
   
@@ -22,8 +23,8 @@ export default function handler(req, res) {
   }
 
   getIdpByDomain(username.split('@')[1].toLowerCase()).parseLoginRequest(sp, 'post', req)
-  .then(parseResult => {
-    let domain = username.split('@')[1]
+  .then((parseResult: any) => {
+    const domain = username.split('@')[1]
     cookies.set('domain', domain.toLowerCase(), {
       httpOnly: false
     })

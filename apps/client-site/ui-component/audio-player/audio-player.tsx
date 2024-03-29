@@ -1,6 +1,7 @@
+// @ts-nocheck
 import { CButton } from '@betaschool-reborn/coreui-lib';
 import React, { useEffect, useState } from 'react';
-const useMultiAudio = urls => {
+const useMultiAudio = (urls: Array<string>) => {
   const [sources, setSource] = useState(
     urls.map(url => {
       return {
@@ -19,7 +20,7 @@ const useMultiAudio = urls => {
     }),
   )
 
-  const toggle = targetIndex => () => {
+  const toggle = (targetIndex:any) => () => {
     const newPlayers = [...players]
     const currentIndex = players.findIndex(p => p.playing === true)
     if (currentIndex !== -1 && currentIndex !== targetIndex) {
@@ -61,7 +62,7 @@ const useMultiAudio = urls => {
   return [players, toggle]
 }
 
-export const MultiPlayer = ({ urls }) => {
+export const MultiPlayer = ({ urls }: {urls: Array<string>}) => {
   const [sources, setSource] = useState<Array<any>>([])
   const [players, setPlayers] = useState<Array<any>>([])
 
@@ -80,7 +81,7 @@ export const MultiPlayer = ({ urls }) => {
     }))
   }, [urls])
 
-  const toggle = targetIndex => () => {
+  const toggle = (targetIndex:any) => () => {
     const newPlayers = [...players]
     const currentIndex = players.findIndex(p => p.playing === true)
     if (currentIndex !== -1 && currentIndex !== targetIndex) {
@@ -128,7 +129,7 @@ export const MultiPlayer = ({ urls }) => {
   )
 }
 
-const Player = ({ player, toggle, key, id }) => (
+const Player = ({ player, toggle, key, id }: { player: any, toggle: any, key: any, id: any }) => (
   <div>
     Recording {id}: 
     <CButton color={player.playing? "success":"secondary"} onClick={toggle}>{player.playing ? 'Pause' : 'Play'}</CButton>

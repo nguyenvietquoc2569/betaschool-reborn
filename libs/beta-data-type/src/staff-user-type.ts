@@ -20,5 +20,5 @@ export const defaultStaffUser: IStaffUser = {
   emailid: '',
   permissions: [],
   active: true,
-  linkPeople: null
+  linkPeople: undefined
 }

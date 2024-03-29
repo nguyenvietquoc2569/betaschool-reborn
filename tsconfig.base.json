@@ -16,7 +16,7 @@
     "baseUrl": ".",
     "paths": {
       "@betaschool-reborn/beta-data-type": ["libs/beta-data-type/src/index.ts"],
-      "@betaschool-reborn/coreui-lib": ["libs/coreui-lib/src/index.ts"],
+      "@betaschool-reborn/coreui-lib": ["libs/coreui-lib/src/index.tsx"],
       "@betaschool-reborn/database-model": ["libs/database-model/src/index.ts"],
       "@betaschool-reborn/database-model/*": ["libs/database-model/src/*"],
       "@betaschool-reborn/things-pub-sub": ["libs/things-pub-sub/src/index.ts"]

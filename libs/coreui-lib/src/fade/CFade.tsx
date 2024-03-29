@@ -1,7 +1,7 @@
 import React, { useRef } from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
-import { pickByKeys, omitByKeys } from '@betaschool/coreui-lib/utils/src'
+import { pickByKeys, omitByKeys } from '../_utils/src'
 import { TransitionPropTypeKeys, tagPropType } from '../utils/helper.js'
 import { Transition } from 'react-transition-group'
 

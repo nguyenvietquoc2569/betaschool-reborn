@@ -1,7 +1,7 @@
 import React from 'react'
 import Head from 'next/head'
 import {CertificateModel, serializeDoc} from '@betaschool-reborn/database-model/index'
-import { InferGetServerSidePropsType } from 'next'
+import { GetServerSideProps, InferGetServerSidePropsType } from 'next'
 import { ECertificateType } from '@betaschool-reborn/beta-data-type'
 import { connectDB } from '../../middleware/connect'
 import { CertSwitch } from '../../ui-component/certificate/cert-switch/cert-switch'
@@ -37,9 +37,9 @@ export const Certificate = (props: InferGetServerSidePropsType<typeof getServerS
 
 export default Certificate
 
-export const getServerSideProps = async (context) => {
+export const getServerSideProps: GetServerSideProps = async (context) => {
   await connectDB()
-  let curs = await (CertificateModel.findOne({certNumber: (context.params.code as string).toUpperCase(), signedBy: {$ne: null}, active: true})
+  const curs = await (CertificateModel.findOne({certNumber: (context?.params?.code as string).toUpperCase(), signedBy: {$ne: null}, active: true})
     .populate('requestBy'))
     .populate({
       path:'sourceTest',
@@ -53,12 +53,12 @@ export const getServerSideProps = async (context) => {
       props: {
         cert: serializeDoc(curs),
         error: 'Không tìm thấy chứng chỉ trong cơ sở dữ liệu',
-        code: context.params.code
+        code: context?.params?.code
       },
     };
   } else {
     if (curs.certType===ECertificateType.testResult && !curs.thumbnail) {
-      let link = genLinkThumbnail(`${getAbsoluteBase()}/certificate/${curs.certNumber}`)
+      const link = genLinkThumbnail(`${getAbsoluteBase()}/certificate/${curs.certNumber}`)
       curs.thumbnail = link
       await curs.updateOne(curs)
       try {
@@ -73,7 +73,7 @@ export const getServerSideProps = async (context) => {
     props: {
       cert: serializeDoc(curs),
       error: '',
-      code: context.params.code
+      code: context?.params?.code
     },
   };
 }

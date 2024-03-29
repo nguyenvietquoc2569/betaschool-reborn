@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React, { useEffect, useState } from 'react';
 import 'antd/dist/reset.css'
 import Image from 'next/image'

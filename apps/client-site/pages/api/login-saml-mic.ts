@@ -3,25 +3,25 @@ import { PeopleModel, StaffModel } from "@betaschool-reborn/database-model/model
 import { connectDB } from "../../middleware/connect"
 import axios from 'axios';
 import {sp, getIdpByDomain} from '../../middleware/idp'
-import bcrypt from 'bcrypt'
 import { Constants } from 'samlify'
+import { NextApiRequest, NextApiResponse } from 'next';
+const bcrypt = require('bcrypt')
 
 
-
-export default async function handler(req, res) {
+export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   await connectDB()
-  let { emailid, password, parseResult, domain } = req.body
+  const { emailid, password, parseResult, domain } = req.body
 
-  let idp = getIdpByDomain(domain.toLowerCase())
+  const idp = getIdpByDomain(domain.toLowerCase())
   if (!idp) {
     res.json({code: 201, error: 'Sai Domain, vui lòng liên hệ với tổng đài, code 8352'})
     return
   }
 
-  let account: IPeople = null
+  let account: IPeople | null = null
   try {
     account = await getAccount(emailid, password)
-  } catch (e) {
+  } catch (e: any) {
     res.json({code: 201, error: e.error})
   }
   if (!account) {
@@ -78,10 +78,10 @@ export default async function handler(req, res) {
   };
   // console.log('quoc', parseResult)
   try {
-    idp.createLoginResponse(sp, parseResult, 'post', {}, (value) => ({context: replaceTagsByValue(value, tvalue)})).then((response) =>{
+    idp.createLoginResponse(sp, parseResult, 'post', {}, (value: string) => ({context: replaceTagsByValue(value, tvalue)})).then((response: any) =>{
       res.json({code: 200, data: response})
     })
-  } catch (e) {
+  } catch (e: any) {
     res.json({code: 201, error: e.error})
   }
 
@@ -89,7 +89,7 @@ export default async function handler(req, res) {
 
 }
 
-async function getAccount (emailid, password) {
+async function getAccount (emailid: string, password: string) {
   console.log(emailid)
   return new Promise<IPeople>((done, reject) => {
     StaffModel.findOne({
@@ -101,37 +101,21 @@ async function getAccount (emailid, password) {
     }).populate('linkPeople').then(function (user) {
       if (!user) {
         // TODO user from center online
-        checkAccountExist(emailid.trim().toLowerCase(), password).then(correct => {
-          if (!correct) {
-            reject({error: 'Sai Username/ Password , code 2334'});
-            return
-          } else {
-            PeopleModel.findOne({
-              username: new RegExp("^" + emailid.trim().toLowerCase() + "$", "i")
-            })
-            .then(function (people) {
-              if (!people) {
-                reject({error: 'Tài khoản bạn chưa được cập nhật vào database của hệ thống, vui lòng thử lại sau 15 phút , code 3452'});
-              } else {
-                done(people.toObject());
-              }
-            }).catch(err => {
-              if (err) {
-                reject({error: 'Lỗi cơ sở dữ liệu, vui lòng thử lại , code 3459'});
-              }
-            })
-          }
-        })
+        reject({error: 'Sai Username/ Password , code 2334'});
       }
       else {
-        bcrypt.compare(password, user.password).then(function (res) {
-          if (res) {
-            done(user.linkPeople)
-          }
-          else {
-            reject({error: 'Sai username/mật khẩu, code: 8976'});
-          }
-        });
+        if (!user.linkPeople) {
+          reject({error: 'account chưa được kết nối, code: 89736'});
+        } else {
+          bcrypt.compare(password, user.password).then(function (res: any) {
+            if (res) {
+              done(user.linkPeople as IPeople)
+            }
+            else {
+              reject({error: 'Sai username/mật khẩu, code: 42522'});
+            }
+          });
+        }
       }
     }).catch(err => {
       if (err) {
@@ -141,67 +125,9 @@ async function getAccount (emailid, password) {
   })
 }
 
-async function checkAccountExist (username, password) {
-  await _getCOToken()
-  return new Promise<boolean>((resolve, reject) => {
-    axios({
-      method: 'post',
-      url: `https://api.center.edu.vn/api/v3/manager/check_exist_account?tenant_code=beta&username=${encodeURI(username)}&password=${encodeURI(password)}&token=${_cotoken}`,
-      headers: {
-        'Content-Type': 'application/json', 
-        'content-language': 'vi', 
-        'device-type': '0'
-      }
-    })
-    .then(function (response) {
-      resolve(response.data ? true : false)
-      // console.log(JSON.stringify(response.data.data));
-    })
-    .catch(function (error) {
-      resolve(false)
-      // console.log('Loi', error);
-      console.log('Loi - mac dinh = 0 ', `https://api.center.edu.vn/api/v3/manager/check_exist_account?tenant_code=beta&username=${encodeURI(username)}&password=${encodeURI(password)}&token=${_cotoken}`);
-    });
-  })
-}
-
-let _cotoken = ''
-
-const credential = {
-  username: 'beta',
-  password: '123@123'
-}
-
-export const getClassPerDate = async (req, res, next) => {
-  
-}
-
-export const _getCOToken = (async function() {
-  if (_cotoken) return _cotoken
-  return new Promise((resolve, reject) => {
-    axios({
-      method: 'post',
-      url: `http://api.center.edu.vn/api/v3/manager/login?tenant_code=beta&username=${credential.username}&password=${credential.password}`,
-      headers: { 
-        'Content-Type': 'application/json', 
-        'content-language': 'vi', 
-        'device-type': '0'
-      }
-    })
-    .then(function (response) {
-      _cotoken = response.data.data.token
-      resolve(_cotoken)
-    })
-    .catch(function (error) {
-      console.log(error);
-      reject(error)
-    });  
-  })
-})
-
-function get(obj, path, defaultValue) {
+function get(obj: any, path: any, defaultValue: any) {
   return path.split('.')
-  .reduce((a, c) => (a && a[c] ? a[c] : (defaultValue || null)), obj);
+  .reduce((a: any, c: any) => (a && a[c] ? a[c] : (defaultValue || null)), obj);
 }
 function replaceTagsByValue(rawXML: string, tagValues: any): string {
   Object.keys(tagValues).forEach(t => {

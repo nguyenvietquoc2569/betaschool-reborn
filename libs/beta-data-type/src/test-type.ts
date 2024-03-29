@@ -44,19 +44,19 @@ export interface IBetaTest {
   certificate?: ICertificate
 }
 
-export let defaultBetaTest: IBetaTest = {
+export const defaultBetaTest: IBetaTest = {
   studenInfo: {
     name: '',
     phone: '',
     dateOfBirth: '',
     coID: '',
   },
-  exam: null,
+  exam: undefined,
   status: eBetaTestStatus.JUSTCREATED,
 
   speakingProblems: [],
   scoreSpeaking: [],
-  speakingTestedBy: null,
+  speakingTestedBy: undefined,
   speakingRecords: [],
   speakingComments: ''
 }

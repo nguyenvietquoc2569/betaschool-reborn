@@ -7,7 +7,7 @@ import React, {
 } from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
-import CIcon from '@betaschool/coreui-lib/icons-react/src/index'
+import CIcon from '../icons-react/src/index'
 import { useLocation } from 'react-router-dom'
 
 import { Context } from './CSidebar'

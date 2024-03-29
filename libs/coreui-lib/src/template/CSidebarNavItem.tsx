@@ -2,7 +2,7 @@ import React, { isValidElement, useContext } from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import { CLink, CBadge } from '../index'
-import CIcon from '@betaschool/coreui-lib/icons-react/src/index'
+import CIcon from '../icons-react/src/index'
 import { iconProps } from './CSidebarNavDropdown'
 
 import { DropdownContext } from './CSidebarNavDropdown'

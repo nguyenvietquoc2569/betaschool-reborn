@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React from 'react'
 import css from './cert.module.css'
 import { useRouter } from 'next/router'

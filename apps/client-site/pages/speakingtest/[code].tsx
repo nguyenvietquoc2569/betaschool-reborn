@@ -1,9 +1,9 @@
-import { useRouter } from 'next/router'
+// @ts-nocheck
 import React, { useEffect, useState } from 'react'
 import { CCard, CCardBody, CCardHeader, CTextarea, CCol, CContainer, CForm, CImg, CInput, CInputGroup, CInputGroupPrepend, CInputGroupText, CRow, CSpinner, CButton, CBadge } from '@betaschool-reborn/coreui-lib'
 import Head from 'next/head'
 import {CertificateModel, serializeDoc} from '@betaschool-reborn/database-model/index'
-import { InferGetServerSidePropsType } from 'next'
+import { GetServerSideProps, InferGetServerSidePropsType } from 'next'
 import { ECertificateType } from '@betaschool-reborn/beta-data-type'
 import { connectDB } from '../../middleware/connect'
 import { Page404 } from '../../ui-component/certificate/error-page/page-error'
@@ -102,8 +102,8 @@ export const TestResult = (props: InferGetServerSidePropsType<typeof getServerSi
                         {
                           props.cert.sourceTest.speakingRecords && props.cert.sourceTest.speakingRecords.length > 0 &&
                           <>
-                          {props.cert.sourceTest.speakingRecords.map((url) => {
-                            return <CRow>
+                          {props.cert.sourceTest.speakingRecords.map((url, id) => {
+                            return <CRow key={id}>
                               <CCol>
                                 <audio controls src={url}>
                                   {/* <source src={url} type="audio/webm"></source> */}
@@ -139,9 +139,9 @@ export const TestResult = (props: InferGetServerSidePropsType<typeof getServerSi
 
 export default TestResult
 
-export const getServerSideProps = async (context) => {
+export const getServerSideProps: GetServerSideProps = async (context) => {
   await connectDB()
-  let curs = await (CertificateModel.findOne({certNumber: (context.params.code as string).toUpperCase(), signedBy: {$ne: null}, active: true})
+  const curs = await (CertificateModel.findOne({certNumber: (context?.params?.code as string).toUpperCase(), signedBy: {$ne: null}, active: true})
     .populate('requestBy'))
     .populate({
       path:'sourceTest',
@@ -157,17 +157,17 @@ export const getServerSideProps = async (context) => {
     })
     .populate('signedBy')
 
-  if (!curs || !(curs.sourceTest.speakingProblems && (curs.sourceTest.speakingProblems.length > 0))) {
+  if (!curs || !(curs?.sourceTest?.speakingProblems && (curs.sourceTest.speakingProblems.length > 0))) {
     return {
       props: {
         cert: serializeDoc(curs),
         error: 'Không tìm thấy speaking test trong cơ sở dữ liệu',
-        code: context.params.code
+        code: context?.params?.code
       },
     };
   } else {
     if (curs.certType===ECertificateType.testResult && !curs.thumbnailSpeaking) {
-      let link = genLinkThumbnailSpeakingTestPage(`${getAbsoluteBase()}/speakingtest/${curs.certNumber}`)
+      const link = genLinkThumbnailSpeakingTestPage(`${getAbsoluteBase()}/speakingtest/${curs.certNumber}`)
       curs.thumbnailSpeaking = link
       await curs.updateOne(curs)
       try {
@@ -181,7 +181,7 @@ export const getServerSideProps = async (context) => {
     props: {
       cert: serializeDoc(curs),
       error: '',
-      code: context.params.code
+      code: context?.params?.code
     },
   };
 }
