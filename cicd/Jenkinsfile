@@ -4,7 +4,7 @@ def projects = [:]
 def raw
 def baseSha = 'last-success-build'
 def target = 'origin/main'
-def configProjects = ['dns-vn', 'dns-us']
+def configProjects = ['dnsserver', 'dns-us']
 
 stage("Build") {
   jsTask {
