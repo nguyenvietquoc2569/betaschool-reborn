@@ -34,6 +34,6 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
     cookies.set('RelayState', RelayState, {
       httpOnly: false
     })
-    res.redirect(307, `/samllogin`)
+    res.redirect(302, `/samllogin`)
   })
 }
