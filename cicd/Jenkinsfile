@@ -24,7 +24,7 @@ stage("Build") {
           if (!(configProjects.contains(project))) {
             sh "npx nx run ${project}:build:production"
           }
-          docker.build("nguyenvietquoc2569/betaschool-reborn-${project}:${version}", ". -f apps/${project}/Dockerfile")
+          docker.build("nguyenvietquoc2569/betaschool-reborn-${project}:${version}", "--no-cache . -f apps/${project}/Dockerfile")
         }
       }
       sh script: "git checkout origin/main"
