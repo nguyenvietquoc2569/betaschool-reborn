@@ -25,6 +25,8 @@ stage("Build") {
             sh "npx nx run ${project}:build:production"
           }
           docker.build("nguyenvietquoc2569/betaschool-reborn-${project}:${version}", "--no-cache . -f apps/${project}/Dockerfile")
+          sh "docker login -u nguyenvietquoc2569 -p Nvqlovepaq0708/"
+          sh "docker push nguyenvietquoc2569/betaschool-reborn-${project}:${version}"
         }
       }
       sh script: "git checkout origin/main"
