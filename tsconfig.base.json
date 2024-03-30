@@ -19,6 +19,7 @@
       "@betaschool-reborn/coreui-lib": ["libs/coreui-lib/src/index.tsx"],
       "@betaschool-reborn/database-model": ["libs/database-model/src/index.ts"],
       "@betaschool-reborn/database-model/*": ["libs/database-model/src/*"],
+      "@betaschool/coreui-lib/*": ["libs/coreui-lib/src/*"],
       "@betaschool-reborn/things-pub-sub": ["libs/things-pub-sub/src/index.ts"]
     }
   },

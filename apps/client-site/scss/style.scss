@@ -1,0 +1,16 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200;0,300;0,400;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,600;1,700;1,800;1,900&display=swap');
+// If you want to override variables do it here
+@import "variables";
+
+// Import CoreUI styles
+@import "~@betaschool/coreui-lib/coreui-pro/scss/coreui.scss";
+@import 'perfect-scrollbar/css/perfect-scrollbar.css';
+@import 'tippy.js/dist/tippy.css';
+@import '~@betaschool/coreui-lib/globalcss/CDataTable.css';
+@import '~@betaschool/coreui-lib/globalcss/CToast.css';
+@import '~@betaschool/coreui-lib/globalcss/scrollbar.css';
+@import '~@betaschool/coreui-lib/globalcss/CIcon.css';
+
+// If you want to add something do it here
+@import "custom";
+
