@@ -27,7 +27,7 @@ RUN unlink /var/log/nginx/access.log \
 RUN chown nginx /var/log/amplify-agent/ /var/log/amplify-agent/agent.log
 
 # Copy nginx stub_status config
-COPY ./conf.d/stub_status.conf /etc/nginx/conf.d
+# COPY ./conf.d/stub_status.conf /etc/nginx/conf.d
 
 # API_KEY is required for configuring the NGINX Amplify Agent.
 # It could be your real API key for NGINX Amplify here if you wanted
@@ -50,8 +50,9 @@ COPY ./conf.d/stub_status.conf /etc/nginx/conf.d
 # The /entrypoint.sh script will launch nginx and the Amplify Agent.
 # The script honors API_KEY and AMPLIFY_IMAGENAME environment
 # variables, and updates /etc/amplify-agent/agent.conf accordingly.
+COPY apps/dnsserver/nginx /etc/nginx
 
-COPY ./entrypoint.sh /entrypoint.sh
+COPY apps/dnsserver/entrypoint.sh /entrypoint.sh
 
 # To set/override API_KEY and AMPLIFY_IMAGENAME when starting an instance:
 # docker run --name my-nginx1 -e API_KEY='..effc' -e AMPLIFY_IMAGENAME="service-name" -d nginx-amplify
