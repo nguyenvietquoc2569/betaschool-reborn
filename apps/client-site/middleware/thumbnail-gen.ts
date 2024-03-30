@@ -1,4 +1,4 @@
-import thum from 'thum.io'
+import * as thum from 'thum.io'
 //https://www.thum.io/ quocnv@betaschool.edu.vn
 export function genLinkThumbnail (url: string) {  
   const thumURL = thum.getThumURL({
