@@ -10,29 +10,31 @@ stage("Build") {
   jsTask {
     // cleanWs()nx run services:build:production 
     withCredentials([usernamePassword(credentialsId: "nguyenvietquoc2569", usernameVariable: "gitUsername", passwordVariable: "gitPassword")]){
-      checkout scm
-      sh script: "git pull https://${gitUsername}:${gitPassword}@github.com/nguyenvietquoc2569/betaschool-reborn.git --tags"
-      
-      sh 'yarn install --frozen-lockfile'
-      // sh ''
-      // sh 'npm install'
-      raw = sh(script: "npx nx show projects --affected --type app --base=${baseSha} --target=${target}", returnStdout: true)
-      projects = raw.split('\n')
-      sh "echo ${projects}"
-      projects.eachWithIndex { project, i ->
-        if (fileExists("apps/${project}")) {
-          if (!(configProjects.contains(project))) {
-            sh "npx nx run ${project}:build:production"
+      withCredentials([usernamePassword(credentialsId: "dockerhub", usernameVariable: "docUsername", passwordVariable: "docPassword")]){
+        checkout scm
+        sh script: "git pull https://${gitUsername}:${gitPassword}@github.com/nguyenvietquoc2569/betaschool-reborn.git --tags"
+        
+        sh 'yarn install --frozen-lockfile'
+        // sh ''
+        // sh 'npm install'
+        raw = sh(script: "npx nx show projects --affected --type app --base=${baseSha} --target=${target}", returnStdout: true)
+        projects = raw.split('\n')
+        sh "echo ${projects}"
+        projects.eachWithIndex { project, i ->
+          if (fileExists("apps/${project}")) {
+            if (!(configProjects.contains(project))) {
+              sh "npx nx run ${project}:build:production"
+            }
+            docker.build("nguyenvietquoc2569/betaschool-reborn-${project}:${version}", "--no-cache . -f apps/${project}/Dockerfile")
+            sh "docker login -u ${docUsername} -p ${docPassword}"
+            sh "docker push nguyenvietquoc2569/betaschool-reborn-${project}:${version}"
           }
-          docker.build("nguyenvietquoc2569/betaschool-reborn-${project}:${version}", "--no-cache . -f apps/${project}/Dockerfile")
-          sh "docker login -u nguyenvietquoc2569 -p Nvqlovepaq0708/"
-          sh "docker push nguyenvietquoc2569/betaschool-reborn-${project}:${version}"
         }
+        sh script: "git checkout origin/main"
+        sh script: "git tag -f last-success-build"
+        // sh script: "git remote add origin https://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@github.com/nguyenvietquoc2569/betaschool.git"
+        sh script: "git push https://${gitUsername}:${gitPassword}@github.com/nguyenvietquoc2569/betaschool-reborn.git --tags --force"
       }
-      sh script: "git checkout origin/main"
-      sh script: "git tag -f last-success-build"
-      // sh script: "git remote add origin https://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@github.com/nguyenvietquoc2569/betaschool.git"
-      sh script: "git push https://${gitUsername}:${gitPassword}@github.com/nguyenvietquoc2569/betaschool-reborn.git --tags --force"
     }
     // sh 'npx nx run api:build --prod'
     // sh 'npx nx run betaschool:build --prod'
