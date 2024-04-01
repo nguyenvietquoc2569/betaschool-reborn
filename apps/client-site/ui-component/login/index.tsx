@@ -1,6 +1,6 @@
 // @ts-nocheck
 import React, { useEffect, useState } from 'react';
-import 'antd/dist/reset.css'
+import 'antd/dist/antd.css'
 import Image from 'next/image'
 import { Space, Input, Button, Card, Switch, Radio, Alert, Spin } from 'antd'
 // import NoSSR from 'react-no-ssr'
@@ -12,7 +12,6 @@ import { IntlActions } from 'react-redux-multilingual'
 import { translations } from './translations'
 import { createStore, combineReducers } from 'redux'
 import { Provider, useDispatch } from 'react-redux'
-import { fetcher } from './fetchJson';
 import axios from 'axios'
 const reducers = combineReducers(Object.assign({}, { Intl }))
 const store = createStore(reducers)

@@ -1,5 +1,5 @@
 def distributedTasks = [:]
-def version = '2.4.1'
+def version = '3.0.0'
 def projects = [:]
 def raw
 def baseSha = 'last-success-build'
@@ -20,6 +20,7 @@ stage("Build") {
         raw = sh(script: "npx nx show projects --affected --type app --base=${baseSha} --target=${target}", returnStdout: true)
         projects = raw.split('\n')
         sh "echo ${projects}"
+        sh 'npx nx reset'
         projects.eachWithIndex { project, i ->
           if (fileExists("apps/${project}")) {
             if (!(configProjects.contains(project))) {
