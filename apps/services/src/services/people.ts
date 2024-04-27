@@ -1,7 +1,97 @@
-import { IFaceImage, IPeople } from '@betaschool-reborn/beta-data-type'
+import { EPeopleType, IFaceImage, IPeople } from '@betaschool-reborn/beta-data-type'
 import { ObjectId } from 'mongodb'
 import { FaceImageModel, PeopleModel, TagPeopleModel } from '@betaschool-reborn/database-model/models/index'
+import axios from 'axios'
+
 const EPSILON = 0.9
+
+export async function updateWithDatabase (co, type: EPeopleType) {
+  const people = new PeopleModel({fullname: co.fullname, type: [type]})
+  if (co.full_name) people.fullname = co.full_name
+  if (co.id) people.code = co.id
+  // people.code = co.code
+  if (co.user_name) people.username = co.user_name
+  if (co.dob) people.dob = co.dob
+  if (co.primary_center_name) people.center = co.primary_center_name
+  if (co.email_address) people.email = co.email_address
+  if (co.phone_mobile) people.phone = co.phone_mobile
+  if (!people.type.includes(type)) people.type.push(type)
+  if (co.address) people.address = co.address || ''
+  await people.save()
+}
+
+
+export const linkPeopleToDotB = async (req, res, next) => {
+  const { email, username } = req.body
+  try {
+    const person = await PeopleModel.findOne({email: email, username: username})
+    
+    if (person) {
+      res.json({
+        code: 200,
+        data: person
+      })
+      return
+    }
+
+    console.log('không tìm thấy ', email, username, 'fetch từ dotb')
+
+    const response = await axios({
+      method: 'post',
+      url: `https://beta.dotb.cloud/rest/v11_3/v1/search_object`,
+      headers: { 
+        'Content-Type': 'application/json', 
+        'content-language': 'vi', 
+        'device-type': '0'
+      },
+      data: {
+        access_token: process.env.dotBtoken, // eslint-disable-line
+        keyword: username
+      }
+    })
+    const data = response.data.data.find(d => { return d.email_address.trim().toLowerCase() === email.trim().toLowerCase() && d.user_name === username.trim().toLowerCase() })
+    if(!data) {
+      res.json({
+        code: 404,
+        error: 'Không tìm thấy username và email khớp với danh sách nhân viên trong DotB'
+      })
+      return
+    }
+    
+    // check if email exist in database:
+    const personEmailCheck = await PeopleModel.findOne({$or: [{email: email}, {username: username}]})
+    if (personEmailCheck) {
+      if(!data) {
+        res.json({
+          code: 404,
+          error: 'username hoặc email đã được sử dụng bởi một người khác, vui lòng thay đổi email trong dotb sau đó thay đổi trong User Management rồi liên kết lại'
+        })
+        return
+      }
+    }
+
+    await updateWithDatabase(data, EPeopleType.staff)
+    const person1 = await PeopleModel.findOne({email: email, username: username})
+    
+    if (person1) {
+      res.json({
+        code: 200,
+        data: person1
+      })
+      return
+    }
+    res.json({
+      code: 404,
+      error: 'Không tìm thấy username và email khớp với danh sách nhân viên trong DotB, không tạo được nhân viên'
+    })
+    return
+  } catch (e) {
+    res.json({
+      code: 404,
+      error: e.toString()
+    })
+  }
+}
 
 export const searchAPeople = async (req, res, next) => {
   const { people } = req.body
