@@ -1,5 +1,5 @@
 import * as express from "express";
-import { searchAPeople, newTag, searchParent, deleteTag, fetchAPeople, fetchATag, linkPeopleToDotB } from '../services/people'
+import { searchAPeople, newTag, searchParent, deleteTag, fetchAPeople, fetchATag, linkPeopleToDotB, createAccMicrosoftForStaff } from '../services/people'
 export const router = express.Router();
 
 router.post('/searchapeople', searchAPeople)
@@ -9,3 +9,4 @@ router.post('/deleteTag', deleteTag)
 router.post('/fetchAPeople', fetchAPeople)
 router.post('/fetchATag', fetchATag)
 router.post('/linkPeopleToDotb',linkPeopleToDotB)
+router.post('/createAccMicrosoftForStaff', createAccMicrosoftForStaff)

@@ -4,6 +4,7 @@ import * as qs from "qs";
 import axios from "axios"
 import "isomorphic-fetch";
 import { Client, ClientOptions } from "@microsoft/microsoft-graph-client";
+import { EPeopleType, IMicrosoftAccount } from '@betaschool-reborn/beta-data-type';
 
 
 let _client:  Client = null
@@ -74,7 +75,108 @@ export async function createClassRoom ({subject,
     .post(onlineMeeting);
 }
 
+export const getMicrosoftUser = async (id) => {
+  try {
+    const client = createAuthenticatedClient();
+    const response = await client.api('/users/'+id)
+      .get()
+    if (response.error) {
+      return null
+    } else {
+      return response as IMicrosoftAccount
+    }
+  } catch (e) {
+    return null
+  }
+}
 
+export async function findMicsoftAccout(email) {
+  const acc = await getMicrosoftUser(email)
+  if (acc) {
+    return acc
+  }
+  return null
+}
+
+export async function createAccountForStaff(doc, email: string, onPremisesImmutableIdPrefix: string) {
+  // let currentMicrosoftAccount = await getAllAccounts()
+  const acc = await getMicrosoftUser(email)
+  
+  if (acc) {
+    console.log('khong the tao, account da ton tai:', acc)
+    return false
+  } else {
+    const password = password_generator(10)
+    const response = await createAccount({
+      displayName: doc.fullname,
+      mailNickname: email.split('@')[0],
+      userPrincipalName: email,
+      password: password,
+      jobTitle: doc.type.includes(EPeopleType.staff) ? EPeopleType.staff : (
+        doc.type.includes(EPeopleType.teacher) ? EPeopleType.teacher : (
+          doc.type.includes(EPeopleType.student) ? EPeopleType.student : ''
+        )
+      ),
+      onPremisesImmutableId: (onPremisesImmutableIdPrefix || '') + doc._id.toString()
+    })
+    if (response) {
+      response.password = password
+    }
+    return response
+  }
+}
+
+export const createAccount = async ({displayName, mailNickname, userPrincipalName, password,jobTitle, onPremisesImmutableId}) => {
+  try {
+    const client = createAuthenticatedClient();
+    const user = {
+      accountEnabled: true,
+      displayName: displayName,
+      mailNickname: mailNickname,
+      userPrincipalName: userPrincipalName,
+      onPremisesImmutableId: onPremisesImmutableId,
+      passwordProfile: {
+        forceChangePasswordNextSignIn: false,
+        password: password
+      },
+      jobTitle
+    };
+    const response = await client.api('/users')
+      .post(user)
+    return response
+  } catch (e) {
+    console.log('can not create account', displayName, userPrincipalName, e)
+    return false
+  }
+}
+
+export async function _assignClientToGroup (doc, id) {
+  assignClientToGroup({
+    id: id,
+    group: doc.type.includes(EPeopleType.staff) ? process.env.msfFacultyLicenseGroup : (
+      doc.type.includes(EPeopleType.teacher) ? process.env.msfFacultyLicenseGroup : (
+        doc.type.includes(EPeopleType.student) ? process.env.msfStudentLicenseGroup : ''
+      )
+    )
+  })
+}
+
+export const assignClientToGroup = async ({id, group}) => {
+  try {
+    const client = createAuthenticatedClient();
+    const directoryObject = {
+      '@odata.id': `https://graph.microsoft.com/v1.0/directoryObjects/${id}`
+    };
+    
+    
+    const response = await client.api(`/groups/${group}/members/$ref`)
+      .post(directoryObject);
+    return response
+  } catch (e) {
+    console.log('can not assign to group', e)
+    return false
+  }
+}
 
 // async function getUsers(): Promise<any> {
 
@@ -109,3 +211,26 @@ export async function createClassRoom ({subject,
 // }
 
 // createUsers();
+
+function password_generator( len ) {
+  const length = (len)?(len):(10);
+  const string = "abcdefghijklmnopqrstuvwxyz"; //to upper 
+  const numeric = '0123456789';
+  const punctuation = '!@#$%^&*()_+~|}{[]\:;?><,./-=';
+  let password = "";
+  let character = "";
+  while( password.length<length ) {
+    const entity1 = Math.ceil(string.length * Math.random()*Math.random());
+    const entity2 = Math.ceil(numeric.length * Math.random()*Math.random());
+    const entity3 = Math.ceil(punctuation.length * Math.random()*Math.random());
+    let hold = string.charAt( entity1 );
+      hold = (password.length%2==0)?(hold.toUpperCase()):(hold);
+      character += hold;
+      character += numeric.charAt( entity2 );
+      character += punctuation.charAt( entity3 );
+      password = character;
+  }
+  //password=password.split('').sort(function(){return 0.5-Math.random()}).join('');
+  return password.substr(0,len);
+}
+

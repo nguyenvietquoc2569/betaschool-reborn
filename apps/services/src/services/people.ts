@@ -2,8 +2,82 @@ import { EPeopleType, IFaceImage, IPeople } from '@betaschool-reborn/beta-data-t
 import { ObjectId } from 'mongodb'
 import { FaceImageModel, PeopleModel, TagPeopleModel } from '@betaschool-reborn/database-model/models/index'
 import axios from 'axios'
+import { _assignClientToGroup, createAccountForStaff, findMicsoftAccout } from './lib-microsoft-api'
 
 const EPSILON = 0.9
+
+const isMicrosoftEmail = (_email: string) => {
+  const email = (_email || '').toLowerCase()
+  if (email !== '' && email.toUpperCase().indexOf('@'+process.env.betaDomain.toUpperCase()) !== -1) {
+    return true
+  }
+  return false
+}
+
+export const createAccMicrosoftForStaff = async (req, res, next) => {
+  console.log('checkpoint0')
+  try {
+    const { username } = req.body
+    const person = await PeopleModel.findOne({username: username})
+    let updated = false
+    if(!person) {
+      res.json({
+        code: 404,
+        error: 'không tìm thấy user trong database People'
+      })
+      return
+    }
+
+    if (!isMicrosoftEmail(person.email)) {
+      res.json({
+        code: 404,
+        error: 'Email không phải email beta, không thể tạo email'
+      })
+      return
+    }
+
+    console.log('checkpoint1')
+    let acc = await findMicsoftAccout(person.email.toLowerCase().trim())
+    console.log('checkpoint2')
+    const prefixId = 'beta-id-' + Math.floor(Math.random() * 100) + '-';
+
+    if (acc) {
+      updated = true
+      person.betaEmail = person.email
+      person.microsoftAccount = acc
+    } else {
+      console.log('tao account ', person, ' ', person.email)
+      const newacc = await createAccountForStaff(person, person.email, prefixId)
+      if (newacc) {
+        _assignClientToGroup(person, newacc.id)
+        person.betaEmailInitPassword = newacc.password
+        acc = await findMicsoftAccout(person.email.toLowerCase().trim())
+      }
+      if (acc) {
+        updated = true
+        person.betaEmail = person.email
+        person.microsoftImmutableId = prefixId + person._id.toString()
+        person.microsoftAccount = acc
+      }
+    }
+
+    if (updated) {
+      console.log(person.toString())
+      await person.updateOne(person)
+    }
+    
+    res.json({
+      code: 200,
+      data: person
+    })
+  } catch (e) {
+    res.json({
+      code: 404,
+      error: e.toString()
+    })
+  }
+
+}
 
 export async function updateWithDatabase (co, type: EPeopleType) {
   const people = new PeopleModel({fullname: co.fullname, type: [type]})
@@ -23,6 +97,13 @@ export async function updateWithDatabase (co, type: EPeopleType) {
 
 export const linkPeopleToDotB = async (req, res, next) => {
   const { email, username } = req.body
+  if (!isMicrosoftEmail(email)) {
+    res.json({
+      code: 404,
+      error: 'Email không phải email beta, không thể tạo email'
+    })
+    return
+  }
   try {
     const person = await PeopleModel.findOne({email: email, username: username})
     
