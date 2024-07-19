@@ -4,7 +4,7 @@
   "license": "MIT",
   "scripts": {
     "nx": "nx",
-    "start": "nx serve  --host 0.0.0.0 --configuration=dev",
+    "start": "nx serve",
     "build": "nx build",
     "test": "nx test",
     "lint": "nx workspace-lint && nx lint",
@@ -34,6 +34,9 @@
     "@ant-design/pro-layout": "^6.15.3",
     "@ant-design/pro-table": "^2.30.8",
     "@coreui/icons": "^3.0.1",
+    "@kyndryl-design-system/shidoka-applications": "^1.27.8",
+    "@kyndryl-design-system/shidoka-foundation": "^1.7.1",
+    "@lit/react": "^1.0.5",
     "@microsoft/microsoft-graph-client": "^3.0.7",
     "@popperjs/core": "^2.11.8",
     "@types/cookies": "^0.9.0",
@@ -61,6 +64,7 @@
     "isomorphic-fetch": "^3.0.0",
     "jsdom": "^24.0.0",
     "libphonenumber-js": "^1.10.57",
+    "lit": "^3.1.4",
     "lodash.clonedeep": "^4.5.0",
     "md5": "^2.3.0",
     "mongoose": "8.2.0",
@@ -108,8 +112,12 @@
     "@nx/next": "17.1.1",
     "@nx/node": "18.0.6",
     "@nx/react": "17.1.1",
+    "@nx/webpack": "17.1.1",
     "@nx/workspace": "18.0.6",
+    "@pmmmwh/react-refresh-webpack-plugin": "^0.5.7",
+    "@svgr/webpack": "^8.0.1",
     "@swc-node/register": "~1.8.0",
+    "@swc/cli": "~0.1.62",
     "@swc/core": "~1.3.85",
     "@swc/helpers": "~0.5.2",
     "@testing-library/react": "14.0.0",
@@ -134,8 +142,10 @@
     "jest-environment-node": "^29.4.1",
     "nx": "18.0.6",
     "prettier": "^2.6.2",
+    "react-refresh": "^0.10.0",
     "ts-jest": "^29.1.0",
     "ts-node": "10.9.1",
-    "typescript": "~5.3.2"
+    "typescript": "~5.3.2",
+    "url-loader": "^4.1.1"
   }
 }

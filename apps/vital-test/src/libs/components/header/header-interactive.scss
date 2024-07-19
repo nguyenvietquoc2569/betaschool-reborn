@@ -1,0 +1,185 @@
+@use '~@kyndryl-design-system/shidoka-foundation/scss/mixins/typography.scss';
+
+.interactive {
+  border: none;
+  cursor: pointer;
+  border-radius: 4px;
+  font: inherit;
+  transition: background-color 150ms ease-out, color 150ms ease-out,
+    outline-color 150ms ease-out;
+  background: transparent;
+  color: inherit;
+  outline: 2px solid transparent;
+  outline-offset: -2px;
+
+  &:hover {
+    background-color: var(--kd-color-background-primary-hover);
+    color: var(--kd-color-text-inversed);
+  }
+
+  &:focus {
+    outline-color: var(--kd-color-border-focus);
+    background-color: var(--kd-color-background-ui-soft);
+    color: var(--kd-color-text-tertiary);
+  }
+
+  &:active {
+    background-color: var(--kd-color-background-primary-pressed);
+    color: var(--kd-color-text-inversed);
+  }
+
+  &[disabled] {
+    background-color: var(--kd-color-background-disabled) !important;
+    color: var(--kd-color-text-disabled) !important;
+    cursor: not-allowed !important;
+  }
+}
+
+@media (min-width: 42rem) {
+  .overlay {
+    position: fixed;
+    top: var(--kd-header-height);
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: -2;
+    transition: background-color 300ms ease-out, visibility 300ms ease-out;
+    background: transparent;
+    visibility: hidden;
+
+    .open + & {
+      background: var(--kd-color-dark-opacity-40);
+      visibility: visible;
+    }
+  }
+}
+
+.divider {
+  box-shadow: 0 1px 0 var(--kd-color-border-light);
+  margin-bottom: 1px;
+}
+
+.menu {
+  position: relative;
+
+  .interactive {
+    position: relative;
+    cursor: pointer;
+  }
+
+  &__content {
+    position: fixed;
+    top: calc(var(--kd-header-height));
+    right: 0;
+    left: 0;
+    bottom: 0;
+    overflow-y: auto;
+    overflow-x: hidden;
+    background: var(--kd-color-background-accent-subtle);
+    border-bottom: 4px solid var(--kd-color-border-accent-spruce-light);
+    transition: visibility 300ms, opacity 300ms ease-in-out,
+      transform 300ms ease-in-out;
+    transform: translateY(-20px);
+    visibility: hidden;
+    opacity: 0;
+    z-index: -1;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+
+    &.slotted {
+      padding: 8px;
+    }
+
+    @media (min-width: 42rem) {
+      position: absolute;
+      top: calc(100% + 10px);
+      right: -12px;
+      bottom: auto;
+      left: auto;
+      border-top: none;
+      background: var(--kd-color-background-ui-soft);
+      box-shadow: 0px 2px 8px 0px rgba(61, 60, 60, 0.25);
+      max-height: calc(100vh - var(--kd-header-height));
+
+      &.left {
+        left: -12px;
+        right: auto;
+      }
+    }
+
+    strong {
+      font-weight: 500;
+    }
+
+    &--left {
+      right: auto;
+      left: 0;
+    }
+  }
+
+  &.open {
+    .interactive {
+      color: var(--kd-color-text-inversed);
+      background-color: var(--kd-color-background-primary);
+
+      &:hover {
+        background-color: var(--kd-color-background-primary-hover);
+      }
+
+      &:active {
+        background-color: var(--kd-color-background-primary-pressed);
+      }
+    }
+  }
+
+  &.open {
+    .menu__content {
+      visibility: visible;
+      opacity: 1;
+      transform: none;
+      z-index: initial;
+    }
+  }
+}
+
+.go-back {
+  @include typography.type-ui-02;
+  display: flex;
+  position: relative;
+  align-items: center;
+  padding: 8px 8px 8px 12px;
+  cursor: pointer;
+  background: none;
+  border: none;
+  margin: 0;
+  border-radius: 4px;
+  width: 100%;
+  transition: background-color 150ms ease-out, color 150ms ease-out,
+    outline-color 150ms ease-out;
+  outline: 2px solid transparent;
+  outline-offset: -2px;
+  color: var(--kd-color-text-secondary);
+
+  kd-icon {
+    margin-right: 16px;
+  }
+
+  &:hover {
+    background: var(--kd-color-background-primary);
+    color: var(--kd-color-text-inversed);
+  }
+
+  &:active {
+    background: var(--kd-color-background-primary-pressed);
+    color: var(--kd-color-text-inversed);
+  }
+
+  &:focus {
+    outline-color: var(--kd-color-border-focus);
+  }
+
+  @media (min-width: 42rem) {
+    display: none;
+  }
+}

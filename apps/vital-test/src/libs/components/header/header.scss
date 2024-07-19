@@ -1,0 +1,87 @@
+@use '@kyndryl-design-system/shidoka-applications/common/scss/scss/global.scss';
+// node_modules/@kyndryl-design-system/shidoka-applications/common/scss/scss/global.scss
+@use './header-interactive.scss';
+@use '~@kyndryl-design-system/shidoka-foundation/scss/mixins/typography.scss';
+
+.header {
+  display: flex;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  height: var(--kd-header-height);
+  background: var(--kd-color-neutral-webgray);
+  box-shadow: 0px 3px 3px 0px rgba(0, 0, 0, 0.1);
+  padding: 4px 12px 4px 16px;
+  transition: z-index 150ms ease-out;
+  z-index: var(--kd-z-header);
+
+  &.child-open {
+    z-index: calc(var(--kd-z-header) + 20);
+  }
+
+  // @media screen and (min-width: 42rem) {
+  //   padding: 4px 12px;
+  // }
+
+  &.left-slotted {
+    padding-left: 12px;
+  }
+
+  &__right {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    margin-left: auto;
+  }
+}
+
+.logo-link {
+  display: flex;
+  align-items: center;
+  margin-left: 16px;
+  // color: var(--kd-color-text-link);
+  text-decoration: none;
+
+  &:hover {
+    color: var(--kd-color-text-link-hover);
+    background: none;
+  }
+
+  &:active {
+    color: var(--kd-color-text-pressed);
+    background: none;
+  }
+
+  svg {
+    width: auto;
+    height: 20px;
+  }
+
+  img {
+    height: 40px;
+    width: auto;
+  }
+}
+
+.title {
+  @include typography.type-ui-01;
+  font-weight: 300;
+  display: none;
+  margin-top: -2px;
+  margin-left: 16px;
+  padding-left: 16px;
+  border-left: 1px solid var(--kd-color-border-light);
+
+  @media (min-width: 42rem) {
+    display: inline;
+  }
+}
+
+.menu-button {
+  height: 100%;
+  background: none;
+  padding: 0 8px;
+  margin: 0 2px;
+}
