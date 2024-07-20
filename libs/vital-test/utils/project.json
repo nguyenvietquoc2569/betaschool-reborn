@@ -1,0 +1,16 @@
+{
+  "name": "vital-test/utils",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/vital-test/utils/src",
+  "projectType": "library",
+  "tags": [],
+  "targets": {
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["libs/vital-test/utils/**/*.{ts,tsx,js,jsx}"]
+      }
+    }
+  }
+}

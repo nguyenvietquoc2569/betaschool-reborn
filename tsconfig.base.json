@@ -20,6 +20,12 @@
       "@betaschool-reborn/database-model": ["libs/database-model/src/index.ts"],
       "@betaschool-reborn/database-model/*": ["libs/database-model/src/*"],
       "@betaschool-reborn/things-pub-sub": ["libs/things-pub-sub/src/index.ts"],
+      "@betaschool-reborn/vital-test/redux": [
+        "libs/vital-test/redux/src/index.ts"
+      ],
+      "@betaschool-reborn/vital-test/utils": [
+        "libs/vital-test/utils/src/index.ts"
+      ],
       "@betaschool/coreui-lib/*": ["libs/coreui-lib/src/*"]
     }
   },
