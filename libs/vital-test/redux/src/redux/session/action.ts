@@ -6,6 +6,7 @@ export const reduxSessionActionLogin = (dispatchFunc: any, u:string, p:string) =
   let auth = new AuthService()
   reduxSessionActionEnableLoading(dispatchFunc)
   auth.LoginAuth(u, p).then((response: any)=>{
+    reduxSessionActionDisableLoading(dispatchFunc)
     if(response.data.success){
         dispatchFunc({
           type: ReduxSessionActionType.LOGIN,
@@ -14,7 +15,7 @@ export const reduxSessionActionLogin = (dispatchFunc: any, u:string, p:string) =
         auth.storeToken(response.data.token);
     }
     else{
-        // return Alert('error','Error!',response.data.message);
+        console.log(response.data)
         reduxCommonActionShowNotification(dispatchFunc, {
           ...reduxCommonInitialModalState,
           text: response.data.message,
@@ -22,16 +23,16 @@ export const reduxSessionActionLogin = (dispatchFunc: any, u:string, p:string) =
           type: 'danger',
         })
     }
-    reduxSessionActionDisableLoading(dispatchFunc)
+    
   }, (e: any) => {
-    console.log(e)
+    reduxSessionActionDisableLoading(dispatchFunc)
     reduxCommonActionShowNotification(dispatchFunc, {
       ...reduxCommonInitialModalState,
       text: e.message,
       title: 'Login error',
       type: 'danger',
     })
-    reduxSessionActionDisableLoading(dispatchFunc)
+    
   })
 }
 
@@ -52,17 +53,14 @@ export const reduxSessionActionWakeUp = (dispatchFunc: any) => {
   var t = auth.retriveToken() || null;
 
   if(t && t!=='undefined'){
-    reduxSessionActionEnableLoading(dispatchFunc)
     auth.FetchAuth(t).then((res: any)=>{
         // console.log(`Wakeup success ${res}`)
-        reduxSessionActionDisableLoading(dispatchFunc)
         dispatchFunc({
             type : ReduxSessionActionType.LOGIN,
             payload:res.data.user
         })
     }).catch((err: any)=>{
         console.log(`Wakeup error ${err}`)
-        reduxSessionActionDisableLoading(dispatchFunc)
         if(err){
           dispatchFunc({
             type : ReduxSessionActionType.LOGOUT,
@@ -71,7 +69,6 @@ export const reduxSessionActionWakeUp = (dispatchFunc: any) => {
         }
     })
   } else if (!t || t === 'undefined') {
-    reduxSessionActionDisableLoading(dispatchFunc)
     dispatchFunc({
       type : ReduxSessionActionType.LOGOUT,
       payload1 : 'unAuth'

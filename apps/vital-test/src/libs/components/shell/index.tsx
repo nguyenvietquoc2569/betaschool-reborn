@@ -1,6 +1,6 @@
 import React, { ReactNode } from 'react'
-import { KDFooter, KDShell } from '../react-lit'
 import { Header } from '../header/header'
+import { KDFooter, KDShell } from '@betaschool-reborn/vital-test/lit-components'
 
 export const BTShell: React.FC<{children: ReactNode}> = ({children}
 ) => {
