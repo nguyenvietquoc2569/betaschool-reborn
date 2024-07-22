@@ -3,15 +3,18 @@ import { useDispatch } from 'react-redux';
 import { BTShell } from '../libs/components/shell';
 import './app.css';
 import { Route, Routes, Link } from 'react-router-dom';
-import { reduxSessionActionWakeUp, useTypedSelector } from '@betaschool-reborn/vital-test/redux';
+import { reduxCommonActionHideNotification, reduxSessionActionWakeUp, useTypedSelector } from '@betaschool-reborn/vital-test/redux';
 import { LoadingScreen } from '../libs/components/loading/loading';
 import { LoginPage } from '@betaschool-reborn/vital-test/pages/login-page';
+import { ModalBox } from '@betaschool-reborn/vital-test/lit-components';
+import { ReactNode } from 'react';
 
 export function App() {
   const isLogin = useTypedSelector(state => state.session.isLoggedIn)
   const isLoading = useTypedSelector(state => state.session.isLoading)
   return (<>
     <WakeUp />
+    <NotificationModal></NotificationModal>
     { 
       isLogin !== undefined && <>
         {
@@ -68,4 +71,21 @@ const WakeUp: React.FC<any> = (props) => {
     reduxSessionActionWakeUp(dispatch)
   }
   return <></>
+}
+
+export const NotificationModal: React.FC<any> = () => {
+  const modal = useTypedSelector((state) => state.common.modal);
+  
+  const dispatch = useDispatch()
+  const close = () => {
+    reduxCommonActionHideNotification(dispatch)
+  }
+  return <>
+      <ModalBox
+        open={modal.shown}
+        onClose={close}
+        titleText={(modal.title || '') as string}
+        okText='OK'
+      >{modal.text as ReactNode}</ModalBox>
+    </>
 }

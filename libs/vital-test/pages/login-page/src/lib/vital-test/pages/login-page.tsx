@@ -59,7 +59,7 @@ export function LoginPage(props: LoginPageProps) {
           <KDButton style={{
               marginTop: '10px'
             }}
-            onClick={loginAction} disabled={!isValid || isLoading}
+            onClick={loginAction} disabled={isLoading}
           >Login</KDButton>
         </CustomCard>
       </div>

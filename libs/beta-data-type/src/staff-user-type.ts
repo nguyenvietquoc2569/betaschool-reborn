@@ -9,7 +9,8 @@ export interface IStaffUser {
   permissions: Array<string>,
   active: boolean,
   title?: string,
-  linkPeople?: IPeople
+  linkPeople?: IPeople,
+  avatar?: string
 }
 
 export const defaultStaffUser: IStaffUser = {

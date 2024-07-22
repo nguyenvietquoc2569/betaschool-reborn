@@ -20,7 +20,10 @@ import { Link } from '@kyndryl-design-system/shidoka-foundation/components/link/
 import { Tooltip } from '@kyndryl-design-system/shidoka-applications/components/reusable/tooltip/index';
 import { Footer } from '@kyndryl-design-system/shidoka-applications/components/global/footer/index'
 import { UiShell } from '@kyndryl-design-system/shidoka-applications/components/global/uiShell/index'
-// import { Header } from '@kyndryl-design-system/shidoka-applications/components/global/header/index'
+import { HeaderFlyouts } from '@kyndryl-design-system/shidoka-applications/components/global/header/headerFlyouts'
+import { HeaderFlyout } from '@kyndryl-design-system/shidoka-applications/components/global/header/headerFlyout'
+import { HeaderUserProfile } from '@kyndryl-design-system/shidoka-applications/components/global/header/headerUserProfile'
+import { HeaderLink } from '@kyndryl-design-system/shidoka-applications/components/global/header/headerLink'
 
 export const KDFooter = createComponent({
   tagName: 'kyn-footer',
@@ -214,3 +217,30 @@ export const KDLink = createComponent({
   elementClass: Link,
   react: React
 });
+
+export const KDHeaderFlyouts = createComponent({
+  tagName: 'kyn-header-flyouts',
+  elementClass: HeaderFlyouts,
+  react: React
+})
+
+export const KDHeaderFlyout = createComponent({
+  tagName: 'kyn-header-flyout',
+  elementClass: HeaderFlyout,
+  react: React
+})
+
+export const KDHeaderUserProfile = createComponent({
+  tagName: 'kyn-header-user-profile',
+  elementClass: HeaderUserProfile,
+  react: React
+})
+
+export const KDHeaderLink = createComponent({
+  tagName: 'kyn-header-link',
+  elementClass: HeaderLink,
+  react: React,
+  events: {
+    onClick: 'on-click'
+  }
+})
