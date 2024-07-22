@@ -3,8 +3,9 @@ import styles from './login-page.module.scss';
 import '@kyndryl-design-system/shidoka-foundation/components/card'
 import { useDispatch } from 'react-redux'
 import { useState } from 'react'
-import { redirect } from 'react-router-dom'
-import { reduxSessionActionLogin, reduxSessionActionWakeUp, useTypedSelector } from '@betaschool-reborn/vital-test/redux'
+import { reduxSessionActionLogin, useTypedSelector } from '@betaschool-reborn/vital-test/redux'
+import { useNavigate } from "react-router-dom"
+import { useSearchParams} from "react-router-dom"
 
 /* eslint-disable-next-line */
 export interface LoginPageProps {}
@@ -15,6 +16,9 @@ export function LoginPage(props: LoginPageProps) {
   const [isValid, setIsValid] = useState(false)
   const isLoading = useTypedSelector((state) => state.session.isLoading)
   const isLogin = useTypedSelector(state => state.session.isLoggedIn)
+  let navigate = useNavigate()
+  const [searchParams] = useSearchParams()
+
 
   const checkIsValid = (u: string, p: string) => {
     if (u.length > 0 && p.length>0) {
@@ -42,8 +46,12 @@ export function LoginPage(props: LoginPageProps) {
   }
 
   if (isLogin) {
-    // console.log('redirecting')
-    // redirect('/')
+    const urlEncoded = (searchParams.get('RETURNURL'))
+    if (urlEncoded) {
+      navigate(decodeURI(urlEncoded))
+    } else {
+      navigate("/")
+    }
   }
 
   return (
