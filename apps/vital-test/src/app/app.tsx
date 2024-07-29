@@ -8,11 +8,13 @@ import { LoadingScreen } from '../libs/components/loading/loading';
 import { LoginPage } from '@betaschool-reborn/vital-test/pages/login-page';
 import { ModalBox } from '@betaschool-reborn/vital-test/lit-components';
 import { ReactNode } from 'react';
+import { QuestionManagement } from '@betaschool-reborn/vital-test/pages/vital/question-management';
+import { LanguageProvider } from '@betaschool-reborn/vital-test/multiple-language';
 
 export function App() {
   const isLogin = useTypedSelector(state => state.session.isLoggedIn)
   const isLoading = useTypedSelector(state => state.session.isLoading)
-  return (<>
+  return (<LanguageProvider>
     <WakeUp />
     <NotificationModal></NotificationModal>
     { 
@@ -22,6 +24,15 @@ export function App() {
           <BTShell>
             <Routes>
               <Route
+                path="/login"
+                element={<LoginPage></LoginPage>}
+              />
+              <Route
+                path="/vital-test/question-manage"
+                element={<QuestionManagement></QuestionManagement>}
+              />
+
+              <Route
                 path="/"
                 element={
                   <div>
@@ -30,10 +41,7 @@ export function App() {
                   </div>
                 }
               />
-              <Route
-                path="/login"
-                element={<LoginPage></LoginPage>}
-              />
+              
               <Route
                 path="/page-2/44"
                 element={
@@ -56,7 +64,7 @@ export function App() {
     }
 
 
-    </>
+    </LanguageProvider>
   );
 }
 

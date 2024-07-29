@@ -48,7 +48,7 @@ export function LoginPage(props: LoginPageProps) {
   if (isLogin) {
     const urlEncoded = (searchParams.get('RETURNURL'))
     if (urlEncoded) {
-      navigate(decodeURI(urlEncoded))
+      window.location.href = decodeURIComponent(urlEncoded)
     } else {
       navigate("/")
     }

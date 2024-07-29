@@ -1,5 +1,7 @@
 export enum EUserPermissions {
   GLOBAL = 'Global',
+  VITALTESTEDITOR = 'Vital Test Editor',
+  VITALTESTRUNNER = 'Vital Test Runner',
   EXAMMANAGER = 'Exam Manager',
   RUNTEST = 'Run Entrance Test',
   FACEMANAGEMENT = 'Face Management',

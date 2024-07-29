@@ -1,0 +1,18 @@
+{
+  "name": "vital-test/multiple-language",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/vital-test/multiple-language/src",
+  "projectType": "library",
+  "tags": [],
+  "targets": {
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": [
+          "libs/vital-test/multiple-language/**/*.{ts,tsx,js,jsx}"
+        ]
+      }
+    }
+  }
+}

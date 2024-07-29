@@ -5,14 +5,23 @@ import userAvatarIcon from '@carbon/icons/es/user--avatar/24';
 import logoutIcon from '@kyndryl-design-system/shidoka-foundation/assets/svg/logout.svg';
 import { useDispatch } from 'react-redux'
 import { BUTTON_SIZES } from '@kyndryl-design-system/shidoka-foundation/components/button/defs';
+import { useNavigate } from 'react-router-dom';
+import { ELanguage, useLangContext } from '@betaschool-reborn/vital-test/multiple-language';
 
 export const Header = () => {
   const isLogin = useTypedSelector(state => state.session.isLoggedIn)
   const isLoading = useTypedSelector(state => state.session.isLoading)
   const user = useTypedSelector(state => state.session.userDetails)
   const dispatch = useDispatch()
+  let navigate = useNavigate()
+  const {ttt, current, changeLanguage} = useLangContext()
+
   const logoutAction = () => {
     reduxSessionActionLogout(dispatch)
+  }
+
+  const loginButtonClick = () => {
+    navigate(`/login?RETURNURL=${encodeURIComponent(window.location.href)}`)
   }
 
   return <header className='header left-slotted child-open'>
@@ -22,17 +31,49 @@ export const Header = () => {
   >
     <img src={'https://betaschool.edu.vn/_next/image?url=%2Fimages%2Flogo-1.png&w=96&q=75'} alt={"logo"}/> 
 
-    <span className="title">BetaSchool Management System</span>
+    <span className="title">{ttt('Hệ Thống Quản Trị BetaSchool','BetaSchool Management System')}</span>
   </a>
 
   <div className="header__right">
     
   </div>
+
+
+
   {
-    user === null && <KDButton size={BUTTON_SIZES.SMALL} href='/login'>Login</KDButton>
+    user === null && <KDButton size={BUTTON_SIZES.SMALL} href='' onClick={loginButtonClick}>Login</KDButton>
   }
-  { user!==null &&
+
+  
     <KDHeaderFlyouts>
+      <KDHeaderFlyout>
+        <img
+          slot='button'
+          alt={'language'}
+          src={current === ELanguage.VI ? '/assets/icons/flags/ic_flag_vn.svg' : '/assets/icons/flags/ic_flag_us.svg'}
+        />
+        <KDHeaderLink
+          onClick={() => changeLanguage(ELanguage.VI)}
+          href='#'
+        >
+          <img
+            alt={'language'}
+            src={'/assets/icons/flags/ic_flag_vn.svg'}
+          />
+          Tiếng Việt
+        </KDHeaderLink>
+        <KDHeaderLink
+          onClick={() => changeLanguage(ELanguage.EN)}
+          href='#'
+        >
+          <img
+            alt={'language'}
+            src={'/assets/icons/flags/ic_flag_us.svg'}
+          />
+          English
+        </KDHeaderLink>
+      </KDHeaderFlyout>
+    { user!==null &&
       <KDHeaderFlyout>
         <KDIcon slot='button' icon={userAvatarIcon}></KDIcon>
         <KDHeaderUserProfile
@@ -45,11 +86,12 @@ export const Header = () => {
         </KDHeaderUserProfile>
         <KDHeaderLink onClick={logoutAction} href='#'>
           <img src={logoutIcon}></img>
-          Logout
+          {ttt('Đăng xuất', 'Logout')}
         </KDHeaderLink>
       </KDHeaderFlyout>
+       }
     </KDHeaderFlyouts>
-  }
+ 
 
 </header>
 }

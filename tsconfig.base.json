@@ -23,8 +23,17 @@
       "@betaschool-reborn/vital-test/lit-components": [
         "libs/vital-test/lit-components/src/index.ts"
       ],
+      "@betaschool-reborn/vital-test/multiple-language": [
+        "libs/vital-test/multiple-language/src/index.ts"
+      ],
       "@betaschool-reborn/vital-test/pages/login-page": [
         "libs/vital-test/pages/login-page/src/index.ts"
+      ],
+      "@betaschool-reborn/vital-test/pages/vital/question-management": [
+        "libs/vital-test/pages/vital/question-management/src/index.ts"
+      ],
+      "@betaschool-reborn/vital-test/permission-guard": [
+        "libs/vital-test/permission-guard/src/index.ts"
       ],
       "@betaschool-reborn/vital-test/redux": [
         "libs/vital-test/redux/src/index.ts"
