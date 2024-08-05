@@ -28,9 +28,14 @@ export function App() {
                 element={<LoginPage></LoginPage>}
               />
               <Route
-                path="/vital-test/question-manage"
+                path="/vital-test/question-manage/browser"
                 element={<QuestionManagement></QuestionManagement>}
               />
+              <Route
+                path="/vital-test/question-manage/add"
+                element={<QuestionManagement></QuestionManagement>}
+              />
+
 
               <Route
                 path="/"

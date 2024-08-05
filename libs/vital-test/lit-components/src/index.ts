@@ -6,12 +6,10 @@ import { Icon } from '@kyndryl-design-system/shidoka-foundation/components/icon/
 import { Button } from '@kyndryl-design-system/shidoka-foundation/components/button/index'
 import { Modal } from '@kyndryl-design-system/shidoka-applications/components/reusable/modal'
 import { Tabs, Tab, TabPanel } from '@kyndryl-design-system/shidoka-applications/components/reusable/tabs/index'
-import { Checkbox, CheckboxGroup } from '@kyndryl-design-system/shidoka-applications/components/reusable/checkbox/index'
 import { TextArea } from '@kyndryl-design-system/shidoka-applications/components/reusable/textArea'
 import { DateRangePicker } from '@kyndryl-design-system/shidoka-applications/components/reusable/daterangepicker'
 import { SideDrawer } from '@kyndryl-design-system/shidoka-applications/components/reusable/sideDrawer'
 import { PageTitle } from '@kyndryl-design-system/shidoka-applications/components/reusable/pagetitle'
-import { Tag, TagGroup } from '@kyndryl-design-system/shidoka-applications/components/reusable/tag'
 import { GlobalFilter } from '@kyndryl-design-system/shidoka-applications/components/reusable/globalFilter'
 import { TextInput } from '@kyndryl-design-system/shidoka-applications/components/reusable/textInput'
 import { DatePicker } from '@kyndryl-design-system/shidoka-applications/components/reusable/datePicker'
@@ -24,6 +22,114 @@ import { HeaderFlyouts } from '@kyndryl-design-system/shidoka-applications/compo
 import { HeaderFlyout } from '@kyndryl-design-system/shidoka-applications/components/global/header/headerFlyout'
 import { HeaderUserProfile } from '@kyndryl-design-system/shidoka-applications/components/global/header/headerUserProfile'
 import { HeaderLink } from '@kyndryl-design-system/shidoka-applications/components/global/header/headerLink'
+import { Table, TableBody, TableCell, TableContainer, TableFooter, TableHead, TableHeader, TableLegend, TableLegendItem, TableRow } from '@kyndryl-design-system/shidoka-applications/components/reusable/table'
+import { Pagination } from '@kyndryl-design-system/shidoka-applications/components/reusable/pagination'
+import { TagGroup } from '@kyndryl-design-system/shidoka-applications/components/reusable/tag/tagGroup'
+import { Tag } from '@kyndryl-design-system/shidoka-applications/components/reusable/tag/tag'
+import {Accordion, AccordionItem} from '@kyndryl-design-system/shidoka-foundation/components/accordion'
+import { Checkbox, CheckboxGroup } from '@kyndryl-design-system/shidoka-applications/components/reusable/checkbox'
+
+export const KDTagGroups = createComponent({
+  tagName: 'kyn-tag-group',
+  elementClass: TagGroup,
+  react: React
+})
+
+export const KDAccordion = createComponent({
+  tagName: 'kd-accordion',
+  elementClass: Accordion,
+  react: React
+})
+
+export const KDAccordionItem = createComponent({
+  tagName: 'kd-accordion-item',
+  elementClass: AccordionItem,
+  react: React
+})
+
+export const KDCheckboxGroup = createComponent({
+  tagName: 'kyn-checkbox-group',
+  elementClass: CheckboxGroup,
+  react: React,
+  events: {
+    'onChange': 'on-checkbox-group-change'
+  }
+})
+
+export const KDCheckbox = createComponent({
+  tagName: 'kyn-checkbox',
+  elementClass: Checkbox,
+  react: React,
+  events: {
+    'onChange': 'on-checkbox-group-change'
+  }
+})
+
+export const KDTableContainer = createComponent({
+  tagName: 'kyn-table-container',
+  elementClass: TableContainer,
+  react: React
+})
+
+export const KDTable = createComponent({
+  tagName: 'kyn-table',
+  elementClass: Table,
+  react: React
+})
+
+export const KDTHeader = createComponent({
+  tagName: 'kyn-thead',
+  elementClass: TableHead,
+  react: React
+})
+
+export const KDTTr = createComponent({
+  tagName: 'kyn-tr',
+  elementClass: TableRow,
+  react: React
+})
+
+export const KDTTh = createComponent({
+  tagName: 'kyn-th',
+  elementClass: TableHeader,
+  react: React
+})
+
+export const KDTBody = createComponent({
+  tagName: 'kyn-tbody',
+  elementClass: TableBody,
+  react: React
+})
+
+export const KDTTd = createComponent({
+  tagName: 'kyn-td',
+  elementClass: TableCell,
+  react: React
+})
+
+export const KDTFooter = createComponent({
+  tagName: 'kyn-table-footer',
+  elementClass: TableFooter,
+  react: React
+})
+
+export const KDTLegend = createComponent({
+  tagName: 'kyn-table-legend',
+  elementClass: TableLegend,
+  react: React
+})
+
+export const KDTLegendItem = createComponent({
+  tagName: 'kyn-table-legend-item',
+  elementClass: TableLegendItem,
+  react: React
+})
+
+export const KDPagination = createComponent({
+  tagName: 'kyn-pagination',
+  elementClass: Pagination,
+  react: React
+})
 
 export const KDFooter = createComponent({
   tagName: 'kyn-footer',

@@ -97,6 +97,9 @@ app.use("/api/v1/dotB", dotBApi)
 import { router as marketingApi} from './routes/marketing'
 app.use("/api/v1/marketing", marketingApi)
 
+import { router as vitalTestApi} from './routes/vt-test'
+app.use("/api/v1/vital-test", vitalTestApi)
+
 //----------- APP API
 
 import { router as applogin } from './routes-app/login'

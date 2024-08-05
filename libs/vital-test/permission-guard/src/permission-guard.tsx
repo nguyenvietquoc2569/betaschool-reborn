@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom'
 import KError from './KError'
 
 interface Props {
-  children: ReactNode
+  children?: ReactNode
   permissions: EUserPermissions[]
 }
 export const PermissionGuard = ({
