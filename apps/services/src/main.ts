@@ -98,7 +98,7 @@ import { router as marketingApi} from './routes/marketing'
 app.use("/api/v1/marketing", marketingApi)
 
 import { router as vitalTestApi} from './routes/vt-test'
-app.use("/api/v1/vital-test", vitalTestApi)
+app.use("/api/v1/vital-test", passport.authenticate('user-token', { session : false }), vitalTestApi)
 
 //----------- APP API
 

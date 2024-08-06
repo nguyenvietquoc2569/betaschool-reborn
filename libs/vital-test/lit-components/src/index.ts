@@ -28,6 +28,40 @@ import { TagGroup } from '@kyndryl-design-system/shidoka-applications/components
 import { Tag } from '@kyndryl-design-system/shidoka-applications/components/reusable/tag/tag'
 import {Accordion, AccordionItem} from '@kyndryl-design-system/shidoka-foundation/components/accordion'
 import { Checkbox, CheckboxGroup } from '@kyndryl-design-system/shidoka-applications/components/reusable/checkbox'
+import {RadioButton, RadioButtonGroup} from '@kyndryl-design-system/shidoka-applications/components/reusable/radioButton'
+import { Dropdown } from '@kyndryl-design-system/shidoka-applications/components/reusable/dropdown/dropdown'
+import { DropdownOption } from '@kyndryl-design-system/shidoka-applications/components/reusable/dropdown/dropdownOption'
+
+export const KDDropDown = createComponent({
+  tagName: 'kyn-dropdown',
+  elementClass: Dropdown,
+  react: React,
+  events: {
+    onChange: 'on-change'
+  }
+})
+
+export const KDDropDownOption = createComponent({
+  tagName: 'kyn-dropdown-option',
+  elementClass: DropdownOption,
+  react: React
+})
+
+export const KDRadioButtonGroup = createComponent({
+  tagName: 'kyn-radio-button-group',
+  elementClass: RadioButtonGroup,
+  react: React
+})
+
+export const KDRadioButton = createComponent({
+  tagName: 'kyn-radio-button',
+  elementClass: RadioButton,
+  react: React,
+  events: {
+    onChange: 'on-radio-change'
+  }
+})
+
 
 export const KDTagGroups = createComponent({
   tagName: 'kyn-tag-group',

@@ -8,7 +8,7 @@ import { LoadingScreen } from '../libs/components/loading/loading';
 import { LoginPage } from '@betaschool-reborn/vital-test/pages/login-page';
 import { ModalBox } from '@betaschool-reborn/vital-test/lit-components';
 import { ReactNode } from 'react';
-import { QuestionManagement } from '@betaschool-reborn/vital-test/pages/vital/question-management';
+import { QuestionAdd, QuestionManagement } from '@betaschool-reborn/vital-test/pages/vital/question-management';
 import { LanguageProvider } from '@betaschool-reborn/vital-test/multiple-language';
 
 export function App() {
@@ -33,7 +33,7 @@ export function App() {
               />
               <Route
                 path="/vital-test/question-manage/add"
-                element={<QuestionManagement></QuestionManagement>}
+                element={<QuestionAdd></QuestionAdd>}
               />
 
 
