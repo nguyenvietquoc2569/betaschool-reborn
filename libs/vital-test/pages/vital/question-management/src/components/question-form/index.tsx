@@ -24,7 +24,7 @@ export function ProblemEditor({question = defaultVTProblem, isNew, onChange, onS
   const getTheTags = () => {
     // setTagLoading(true)
     SecurePost(getBaseUrlForServiceFromFrontend(), {
-      url: '/api/v1/problem/getTags',
+      url: '/api/v1/vt-test/getTags',
     }).then(data => {
       // setTagLoading(false)
       if (data.status === 200) {

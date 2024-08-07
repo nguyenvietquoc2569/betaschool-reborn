@@ -1,0 +1,17 @@
+.circle {
+  height: 6px;
+  width: 6px;
+  border-radius: 50%;
+  background-color: #CC1800;
+  position: absolute;
+  left: 18px;
+  top: 5px;
+  border: 1px solid #E4F4F1;
+  box-sizing: content-box;
+  z-index: 500;
+}
+
+.buttonWrapper {
+  position: relative;
+  display: flex;
+}

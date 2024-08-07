@@ -51,3 +51,57 @@ export const defaultVTProblem: IVTProblem = {
   approveStatus: EVTApproveStatus.UNAPPROVED,
   isActive: false
 }
+
+export type IVTTagModal = Array<{
+  title: Array<string>,
+  id: number,
+  data: Array<
+    {
+      query: any,
+      tag: string
+      lang: Array<string>
+    }
+  >
+}>
+
+
+export const extraTags: IVTTagModal = [
+  {
+    title: ['Hoạt động', 'Active'],
+    id: 1,
+    data: [
+      {
+        query: { isActive: true },
+        tag: '::isActivate',
+        lang: ['Đang kích hoạt', 'Active'],
+      },
+      {
+        query: { isActive: false },
+        tag: '::isDeactive',
+        lang: ['Ngưng sử dụng', 'Deactive'],
+      },
+    ]
+  },
+  {
+    title: ['Trạng Thái Duyệt', 'Progress'],
+    id: 2,
+    data: [
+      {
+        query: { approveStatus: EVTApproveStatus.APPROVED },
+        tag: '::Approved',
+        lang: ['Đã Duyệt', 'Approved'],
+      },
+      {
+        query: { approveStatus: EVTApproveStatus.UNAPPROVED },
+        tag: '::Unapproved',
+        lang: ['Chờ Duyệt', 'Unapproved'],
+      },
+      {
+        query: { approveStatus: EVTApproveStatus.NEEDWORK },
+        tag: '::NeedWork',
+        lang: ['Yêu Cầu Thay Đổi', 'Need work'],
+      },
+    ]
+  }
+]
+

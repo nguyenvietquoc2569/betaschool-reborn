@@ -1,4 +1,4 @@
-import { EVTApproveStatus, IVTProblem } from '@betaschool-reborn/beta-data-type'
+import { EVTApproveStatus, extraTags, IVTProblem } from '@betaschool-reborn/beta-data-type'
 import { VTProblemModel } from '@betaschool-reborn/database-model'
 import { ObjectId } from 'mongodb'
 
@@ -24,10 +24,10 @@ export const getListVTProblem = async (req, res) => {
     .skip(perPage * page)
     .limit(perPage)
 
-    if (result.values) {
+    if (result) {
       res.send({
         code: 200,
-        data: result.values,
+        data: result,
         pagination: {
           count: count
         }
@@ -95,6 +95,34 @@ export const editVTProblem = async (req, res) => {
     res.send({
       code: 404,
       error: e.message()
+    })
+  }
+}
+
+
+
+export const getTheTagsList = async (req, res, next) => {
+  if (!shouldRefreshTheTag) {
+    res.send({
+      code: 200,
+      data: tagsTemp,
+      extraTags: extraTags
+    })
+    return
+  }
+  try {
+    let tags = await VTProblemModel.distinct('tags')
+    shouldRefreshTheTag = false
+    tags = [...new Set(tags)]
+    tagsTemp = tags
+    res.send({
+      code: 200,
+      data: tags
+    })
+  } catch (e) {
+    res.send({
+      code: 404,
+      error: e
     })
   }
 }

@@ -15,10 +15,8 @@ enum EScreen {
   LOADING,
   COMPLITED
 }
-interface Props {
-}
 
-export const QuestionAdd = (props: Props) => {
+export const QuestionAdd = () => {
   const {ttt} = useLangContext()
   const [screen, setScreen] = useState<EScreen>(EScreen.EDITTING)
   const dispatch = useDispatch()
