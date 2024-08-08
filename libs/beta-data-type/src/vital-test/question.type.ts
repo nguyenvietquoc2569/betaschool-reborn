@@ -57,7 +57,7 @@ export type IVTTagModal = Array<{
   id: number,
   data: Array<
     {
-      query: any,
+      query?: any,
       tag: string
       lang: Array<string>,
     }

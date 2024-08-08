@@ -1,7 +1,7 @@
 import { PermissionGuard } from '@betaschool-reborn/vital-test/permission-guard';
 import styles from './question-management.module.scss';
 
-import { EUserPermissions, EVTApproveStatus, IVTProblem } from '@betaschool-reborn/beta-data-type';
+import { EUserPermissions, EVTApproveStatus, IVTProblem, IVTTagModal } from '@betaschool-reborn/beta-data-type';
 import { useLangContext } from '@betaschool-reborn/vital-test/multiple-language';
 import { Fragment, useEffect, useState } from 'react';
 import { getBaseUrlForServiceFromFrontend, LoadingScreen, SecurePost, useDebounce, useSearchFiltersBaseUrlHook } from '@betaschool-reborn/vital-test/utils';
@@ -29,6 +29,8 @@ export function QuestionManagement(props: QuestionManagementProps) {
     search,
     setFilter
   } = useSearchFiltersBaseUrlHook()
+
+  const [extraTags, setExtraTags] = useState<IVTTagModal>([])
 
   const [searchText, setSearchText] = useState<string>(search)
   const [questions, setQuestion] = useState<Array<IVTProblem>>([])
@@ -121,6 +123,57 @@ export function QuestionManagement(props: QuestionManagementProps) {
     })
   }, [pagination])
 
+  useEffect(() => {
+    SecurePost(getBaseUrlForServiceFromFrontend(), {
+      url: '/api/v1/vital-test/getTags',
+    }).then(data => {
+      // setTagLoading(false)
+      if (data.status === 200) {
+        if (data.data.code === 200) {
+          const customTags: Array<string> = data.data.data
+          setExtraTags([
+            {
+              title: ['Tag tuỷ chỉnh', 'Custom tag'],
+              id: 0,
+              data: customTags.map(t => ({
+                tag: t,
+                lang: [t, t]
+              }))
+            },
+            ...data.data.extraTags
+          ])
+        }
+        if (data.data.code === 404) {
+          setExtraTags([])
+          reduxCommonActionShowNotification(dispatch, {
+            ...{
+              text: '',
+              title: '',
+              type: 'success',
+              shown: false
+            },
+            text: data.data.error,
+            title: 'getTheTags error',
+            type: 'danger',
+          })
+        }
+      }
+    }).catch((e) => {
+      // setTagLoading(false)
+      setExtraTags([])
+      reduxCommonActionShowNotification(dispatch, {
+        ...{
+          text: '',
+          title: '',
+          type: 'success',
+          shown: false
+        },
+        text: e.toString(),
+        title: 'getTheTags error',
+        type: 'danger',
+      })
+    })
+  }, [])
 
   return (
     <PermissionGuard permissions={[EUserPermissions.VITALTESTEDITOR]}>
@@ -146,7 +199,7 @@ export function QuestionManagement(props: QuestionManagementProps) {
               {ttt('Tìm kiếm', 'Search')}
             </Textbox>
 
-            <FilterModalV2 onChange={onFilterChange} defaultFilter={filters}></FilterModalV2>
+            <FilterModalV2 onChange={onFilterChange} defaultFilter={filters} tags={extraTags} ></FilterModalV2>
 
             <KDButton
               kind={BUTTON_KINDS.TERTIARY}

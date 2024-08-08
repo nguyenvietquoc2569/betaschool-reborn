@@ -1,19 +1,18 @@
-import React, {useCallback, useEffect, useState} from 'react'
+import {useCallback, useEffect, useState} from 'react'
 import filterIcon from '@carbon/icons/es/filter/20'
 
 
 import styles from './filter-modalV2.module.css'
 import { KDAccordion, KDAccordionItem, KDCheckboxGroup, KDCheckbox, ModalBox, KDButton, KDIcon, KDRadioButtonGroup, KDRadioButton } from '@betaschool-reborn/vital-test/lit-components'
 import { BUTTON_ICON_POSITION, BUTTON_KINDS, BUTTON_SIZES } from '@kyndryl-design-system/shidoka-foundation/components/button/defs'
-import { getBaseUrlForServiceFromFrontend, SecurePost, useSearchFiltersBaseUrlHook } from '@betaschool-reborn/vital-test/utils'
 import { useLangContext } from '@betaschool-reborn/vital-test/multiple-language'
 import { useDispatch } from 'react-redux'
-import { reduxCommonActionShowNotification } from '@betaschool-reborn/vital-test/redux'
 import { IVTTagModal } from '@betaschool-reborn/beta-data-type'
 
-export const FilterModalV2 = ({onChange, defaultFilter}: {
+export const FilterModalV2 = ({onChange, defaultFilter, tags}: {
   onChange: (newFilters: Array<string>) => void,
-  defaultFilter: Array<string>
+  defaultFilter: Array<string>,
+  tags: IVTTagModal
 }) => {
 
   const dispatch = useDispatch()
@@ -21,50 +20,6 @@ export const FilterModalV2 = ({onChange, defaultFilter}: {
   const [checkedOptions, setCheckedOptions] = useState<Array<string>>(defaultFilter)
   const [renderInit, setRenderInit] = useState<number>(0)
   const {ttt} = useLangContext()
-  const [tags, setTags] = useState<Array<string>>([])
-  const [extraTags, setExtraTags] = useState<IVTTagModal>([])
-
-  useEffect(() => {
-    SecurePost(getBaseUrlForServiceFromFrontend(), {
-      url: '/api/v1/vital-test/getTags',
-    }).then(data => {
-      // setTagLoading(false)
-      if (data.status === 200) {
-        if (data.data.code === 200) {
-          setTags(data.data.data)
-          setExtraTags(data.data.extraTags)
-        }
-        if (data.data.code === 404) {
-          setTags([])
-          reduxCommonActionShowNotification(dispatch, {
-            ...{
-              text: '',
-              title: '',
-              type: 'success',
-              shown: false
-            },
-            text: data.data.error,
-            title: 'getTheTags error',
-            type: 'danger',
-          })
-        }
-      }
-    }).catch((e) => {
-      // setTagLoading(false)
-      setTags([])
-      reduxCommonActionShowNotification(dispatch, {
-        ...{
-          text: '',
-          title: '',
-          type: 'success',
-          shown: false
-        },
-        text: e.toString(),
-        title: 'getTheTags error',
-        type: 'danger',
-      })
-    })
-  }, [])
 
   useEffect(() => {
     setCheckedOptions(defaultFilter)
@@ -120,40 +75,8 @@ export const FilterModalV2 = ({onChange, defaultFilter}: {
         collapseLabel={ttt('Đóng Thẻ','Collapse')}
         filledHeaders 
         compact key={'catalog_' + renderInit}>
-          <KDAccordionItem
-          >
-            <span slot='title'>
-                Tags
-            </span>
-            <div slot='body'>
-              <KDCheckboxGroup
-                name={'tags'}
-                hideLegend
-                selectAll
-                filterable
-                value={checkedOptions}
-                onChange={(e: any) => onCheckBoxClick(e, tags)}
-
-                textStrings={{
-                  selectAll:ttt('Chọn tất cả', 'Select All'),
-                  showMore: ttt('Hiện thêm', 'Show more'),
-                  showLess:  ttt('Ẩn bớt', 'Show less'),
-                  search:  ttt('Tìm kiếm', 'search'),
-                }}
-              >
-                <span slot='label'>Tags</span>
-                {
-                  tags.map((option) => {
-                    return <KDCheckbox value={option} key={option}>
-                      {option}
-                    </KDCheckbox>
-                  })
-                }
-              </KDCheckboxGroup>
-            </div>
-          </KDAccordionItem>
           {
-            (extraTags).map(tagList => <KDAccordionItem
+            (tags).map(tagList => <KDAccordionItem
             >
               <span slot='title'>
                 {ttt(...tagList.title)}
