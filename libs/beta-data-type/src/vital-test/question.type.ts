@@ -82,6 +82,7 @@ export const extraTags: IVTTagModal = [
         lang: ['Ngưng sử dụng', 'Deactive'],
       },
     ],
+    isSingleChoice: true
   },
   {
     title: ['Catalog', 'Catalog'],
@@ -112,7 +113,8 @@ export const extraTags: IVTTagModal = [
         tag: '::NeedWork',
         lang: ['Yêu Cầu Thay Đổi', 'Need work'],
       },
-    ]
+    ],
+    isSingleChoice: true,
   }
 ]
 

@@ -11,14 +11,14 @@ import { useDispatch } from 'react-redux'
 import { reduxCommonActionShowNotification } from '@betaschool-reborn/vital-test/redux'
 import { IVTTagModal } from '@betaschool-reborn/beta-data-type'
 
-export const FilterModalV2 = () => {
-  const {
-    filters,
-    setFilter
-  } = useSearchFiltersBaseUrlHook()
+export const FilterModalV2 = ({onChange, defaultFilter}: {
+  onChange: (newFilters: Array<string>) => void,
+  defaultFilter: Array<string>
+}) => {
+
   const dispatch = useDispatch()
 
-  const [checkedOptions, setCheckedOptions] = useState<Array<string>>(filters)
+  const [checkedOptions, setCheckedOptions] = useState<Array<string>>(defaultFilter)
   const [renderInit, setRenderInit] = useState<number>(0)
   const {ttt} = useLangContext()
   const [tags, setTags] = useState<Array<string>>([])
@@ -67,21 +67,19 @@ export const FilterModalV2 = () => {
   }, [])
 
   useEffect(() => {
-    setCheckedOptions(filters)
-  }, [filters])
+    setCheckedOptions(defaultFilter)
+  }, [defaultFilter])
 
 
   const onModalClose = useCallback((e: any) => {
     const isOk = (e as  {detail: {returnValue: 'ok' | 'cancel'}}).detail.returnValue === 'ok'
     setRenderInit(renderInit + 1) // force rerender the Accodion
     if (isOk) {
-      setFilter(checkedOptions)
+      onChange(checkedOptions)
     } else {
-      setFilter(filters) // cancel
-      // setFilter([]) // clear all
-      setCheckedOptions(filters)
+      setCheckedOptions([... new Set(defaultFilter)])
     }
-  }, [filters, renderInit, checkedOptions, setFilter])
+  }, [renderInit, checkedOptions, defaultFilter, onChange])
 
   const onCheckBoxClick = (e: any, tagsExcluded: Array<string>) => {
     setCheckedOptions([...checkedOptions.filter(t => !tagsExcluded.includes(t)), ...[...new Set<string>(e.detail.value)]])
@@ -114,7 +112,7 @@ export const FilterModalV2 = () => {
             icon={filterIcon}
           ></KDIcon>
         </KDButton>
-        { !!filters.length && <div className={styles.circle} />}
+        { !!defaultFilter.length && <div className={styles.circle} />}
       </div>
 
       <KDAccordion

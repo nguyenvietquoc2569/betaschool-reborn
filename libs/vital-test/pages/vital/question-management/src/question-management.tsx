@@ -26,7 +26,8 @@ export function QuestionManagement(props: QuestionManagementProps) {
     toggleFilter,
     setQuery,
     filters,
-    search
+    search,
+    setFilter
   } = useSearchFiltersBaseUrlHook()
 
   const [searchText, setSearchText] = useState<string>(search)
@@ -40,6 +41,9 @@ export function QuestionManagement(props: QuestionManagementProps) {
     count: 0
   })
 
+  const onFilterChange = (newFilters: Array<string>) => {
+    setFilter([...new Set(newFilters)])
+  }
 
   useDebounce(() => {
     setQuery(searchText, filters)
@@ -117,6 +121,7 @@ export function QuestionManagement(props: QuestionManagementProps) {
     })
   }, [pagination])
 
+
   return (
     <PermissionGuard permissions={[EUserPermissions.VITALTESTEDITOR]}>
       <h1>{ttt('Quản lý câu hỏi', 'Question Management')}</h1>
@@ -140,7 +145,8 @@ export function QuestionManagement(props: QuestionManagementProps) {
               <KDIcon slot='icon' icon={searchIcon}></KDIcon>
               {ttt('Tìm kiếm', 'Search')}
             </Textbox>
-            <FilterModalV2></FilterModalV2>
+
+            <FilterModalV2 onChange={onFilterChange} defaultFilter={filters}></FilterModalV2>
 
             <KDButton
               kind={BUTTON_KINDS.TERTIARY}
