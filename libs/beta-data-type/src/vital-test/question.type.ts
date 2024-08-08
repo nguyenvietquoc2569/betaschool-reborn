@@ -83,8 +83,17 @@ export const extraTags: IVTTagModal = [
     ]
   },
   {
+    title: ['Catalog', 'Catalog'],
+    id: 3,
+    data: VTProblemCategoryList.map(c => ({
+      query: { category: c },
+      tag: '::catalog'+c,
+      lang: [String(c), String(c)],
+    }))
+  },
+  {
     title: ['Trạng Thái Duyệt', 'Progress'],
-    id: 2,
+    id: 4,
     data: [
       {
         query: { approveStatus: EVTApproveStatus.APPROVED },

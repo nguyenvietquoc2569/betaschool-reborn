@@ -46,7 +46,6 @@ export function QuestionManagement(props: QuestionManagementProps) {
   }, [searchText], 1000)
 
   useEffect(() => {
-    console.log('hello')
     setPagination({
       page: 0,
       count: 0
@@ -55,7 +54,6 @@ export function QuestionManagement(props: QuestionManagementProps) {
 
 
   useEffect(() => {
-    console.log('alo')
     if (pagination.count!==0) {
       return
     }
@@ -65,7 +63,9 @@ export function QuestionManagement(props: QuestionManagementProps) {
       url: '/api/v1/vital-test/get-problem',
       data: {
         page: 0,
-        perPage
+        perPage,
+        text: search,
+        tags: filters
       }
     }).then(data => {
       setLoading(false)

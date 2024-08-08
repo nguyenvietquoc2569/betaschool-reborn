@@ -9,6 +9,7 @@ import { getBaseUrlForServiceFromFrontend, SecurePost, useSearchFiltersBaseUrlHo
 import { useLangContext } from '@betaschool-reborn/vital-test/multiple-language'
 import { useDispatch } from 'react-redux'
 import { reduxCommonActionShowNotification } from '@betaschool-reborn/vital-test/redux'
+import { IVTTagModal } from '@betaschool-reborn/beta-data-type'
 
 export const FilterModalV2 = () => {
   const {
@@ -21,6 +22,7 @@ export const FilterModalV2 = () => {
   const [renderInit, setRenderInit] = useState<number>(0)
   const {ttt} = useLangContext()
   const [tags, setTags] = useState<Array<string>>([])
+  const [extraTags, setExtraTags] = useState<IVTTagModal>([])
 
   useEffect(() => {
     SecurePost(getBaseUrlForServiceFromFrontend(), {
@@ -30,6 +32,7 @@ export const FilterModalV2 = () => {
       if (data.status === 200) {
         if (data.data.code === 200) {
           setTags(data.data.data)
+          setExtraTags(data.data.extraTags)
         }
         if (data.data.code === 404) {
           setTags([])
@@ -80,8 +83,8 @@ export const FilterModalV2 = () => {
     }
   }, [filters, renderInit, checkedOptions, setFilter])
 
-  const onCheckBoxClick = (e: any) => {
-    setCheckedOptions([...e.detail.value])
+  const onCheckBoxClick = (e: any, tagsExcluded: Array<string>) => {
+    setCheckedOptions([...checkedOptions.filter(t => !tagsExcluded.includes(t)), ...[...new Set<string>(e.detail.value)]])
   }
 
   return <ModalBox
@@ -115,20 +118,53 @@ export const FilterModalV2 = () => {
         collapseLabel={ttt('Đóng Thẻ','Collapse')}
         filledHeaders 
         compact key={'catalog_' + renderInit}>
+          <KDAccordionItem
+          >
+            <span slot='title'>
+                Tags
+            </span>
+            <div slot='body'>
+              <KDCheckboxGroup
+                name={'tags'}
+                hideLegend
+                selectAll
+                filterable
+                value={checkedOptions}
+                onChange={(e: any) => onCheckBoxClick(e, tags)}
 
-            <KDAccordionItem
+                textStrings={{
+                  selectAll:ttt('Chọn tất cả', 'Select All'),
+                  showMore: ttt('Hiện thêm', 'Show more'),
+                  showLess:  ttt('Ẩn bớt', 'Show less'),
+                  search:  ttt('Tìm kiếm', 'search'),
+                }}
+              >
+                <span slot='label'>Tags</span>
+                {
+                  tags.map((option) => {
+                    return <KDCheckbox value={option} key={option}>
+                      {option}
+                    </KDCheckbox>
+                  })
+                }
+              </KDCheckboxGroup>
+            </div>
+          </KDAccordionItem>
+          {
+            (extraTags).map(tagList => <KDAccordionItem
             >
               <span slot='title'>
-                 Tags
+                {ttt(...tagList.title)}
               </span>
               <div slot='body'>
+
                 <KDCheckboxGroup
                   name={'tags'}
                   hideLegend
                   selectAll
                   filterable
-                  value={checkedOptions}
-                  onChange={(e: any) => onCheckBoxClick(e)}
+                  value={checkedOptions.filter(t => tagList.data.map(x => x.tag).includes(t))}
+                  onChange={(e: any) => onCheckBoxClick(e, tagList.data.map(x => x.tag))}
 
                   textStrings={{
                     selectAll:ttt('Chọn tất cả', 'Select All'),
@@ -139,16 +175,19 @@ export const FilterModalV2 = () => {
                 >
                   <span slot='label'>Tags</span>
                   {
-                    tags.map((option) => {
-                      return <KDCheckbox value={option} key={option}>
-                        {option}
+                    tagList.data.map((option) => {
+                      return <KDCheckbox value={option.tag} key={option.tag}>
+                        {ttt(...option.lang)}
                       </KDCheckbox>
                     })
                   }
                 </KDCheckboxGroup>
+
               </div>
-            </KDAccordionItem>
+            </KDAccordionItem>)
+          }
       </KDAccordion>
+      
 
     </ModalBox>
 }

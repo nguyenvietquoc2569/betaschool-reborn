@@ -6,7 +6,26 @@ let shouldRefreshTheTag = true
 let tagsTemp = []
 
 export const getListVTProblem = async (req, res) => {
-  const { page, perPage} = req.body
+  const { page, perPage, text, tags} = req.body
+  
+  const normalTags = (tags || []).filter((t:string) => !t.includes('::'))
+  const specTags = (tags || []).filter((t:string) => t.includes('::'))
+
+  let query: any = (text) ? { $text: { $search: text } } : {}
+  for (const t of specTags) {
+    for (const extraTag of extraTags) {
+      for (const d of extraTag.data) {
+        if (t === d.tag) {
+          query = { ...query, ...d.query}
+        }
+      }
+    }
+  }
+
+  if (normalTags.length > 0) {
+    query.tags = { $all: normalTags}
+  }
+
   if (page=== undefined || perPage === undefined ){
     res.send({
       code: 405,
@@ -15,9 +34,9 @@ export const getListVTProblem = async (req, res) => {
     return
   }
   try {
-    const count = await VTProblemModel.countDocuments({})
+    const count = await VTProblemModel.countDocuments(query)
 
-    const result = await VTProblemModel.find({})
+    const result = await VTProblemModel.find(query)
     .populate({path: 'editor'})
     .populate({path: 'approvedBy'})
     .populate({path: 'activeOrDeBy'})
@@ -27,7 +46,7 @@ export const getListVTProblem = async (req, res) => {
     if (result) {
       res.send({
         code: 200,
-        data: result,
+        data: result || [],
         pagination: {
           count: count
         }
@@ -117,7 +136,8 @@ export const getTheTagsList = async (req, res, next) => {
     tagsTemp = tags
     res.send({
       code: 200,
-      data: tags
+      data: tags,
+      extraTags: extraTags
     })
   } catch (e) {
     res.send({
