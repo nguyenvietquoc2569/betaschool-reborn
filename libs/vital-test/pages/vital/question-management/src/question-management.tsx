@@ -169,8 +169,9 @@ export function QuestionManagement(props: QuestionManagementProps) {
                   return <Fragment key={filter}>
                    
                     <KDTag
+                      noTruncation={true}
                       key={filter}
-                      tagColor='spruce'
+                      tagColor={!filter.includes('::') ? 'spruce' : 'cat03'}
                       data-testid='tag'
                       onClick={() => toggleFilter(filter)}
                       label={filter}
@@ -219,13 +220,13 @@ export function QuestionManagement(props: QuestionManagementProps) {
                         {q.category}
                       </KDTTd>
                       <KDTTd>
-                        {q.tags.map(t => <KDTag label={t} style={{marginRight: '4px'}}></KDTag>)}
+                        {q.tags.map(t => <KDTag noTruncation={true} label={t} style={{marginRight: '4px'}}></KDTag>)}
                       </KDTTd>
                       <KDTTd>
-                        {q.isActive ? <KDTag label='active' tagColor='cat02' shade='dark' style={{marginRight: '4px'}}></KDTag> : <KDTag label='deactive' tagColor='cat03' shade='dark' style={{marginRight: '4px'}}></KDTag>}
-                        {q.approveStatus === EVTApproveStatus.APPROVED && <KDTag label={ttt('Đã Duyệt', 'Approved')} tagColor='passed' shade='dark' style={{marginRight: '4px'}}></KDTag>}
-                        {q.approveStatus === EVTApproveStatus.UNAPPROVED && <KDTag label={ttt('Chờ Duyệt', 'Waiting Approving')} tagColor='warning' shade='dark' style={{marginRight: '4px'}}></KDTag>}
-                        {q.approveStatus === EVTApproveStatus.NEEDWORK && <KDTag label={ttt('Yêu cầu chỉnh sửa', 'Need work')} tagColor='failed' shade='dark' style={{marginRight: '4px'}}></KDTag>}
+                        {q.isActive ? <KDTag noTruncation={true} label='active' tagColor='cat02' shade='dark' style={{marginRight: '4px'}}></KDTag> : <KDTag noTruncation={true} label='deactive' tagColor='cat03' shade='dark' style={{marginRight: '4px'}}></KDTag>}
+                        {q.approveStatus === EVTApproveStatus.APPROVED && <KDTag noTruncation={true} label={ttt('Đã Duyệt', 'Approved')} tagColor='passed' shade='dark' style={{marginRight: '4px'}}></KDTag>}
+                        {q.approveStatus === EVTApproveStatus.UNAPPROVED && <KDTag noTruncation={true} label={ttt('Chờ Duyệt', 'Waiting Approving')} tagColor='warning' shade='dark' style={{marginRight: '4px'}}></KDTag>}
+                        {q.approveStatus === EVTApproveStatus.NEEDWORK && <KDTag noTruncation={true} label={ttt('Yêu cầu chỉnh sửa', 'Need work')} tagColor='failed' shade='dark' style={{marginRight: '4px'}}></KDTag>}
                       </KDTTd>
                       <KDTTd></KDTTd>
                     </KDTTr>)

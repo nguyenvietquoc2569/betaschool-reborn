@@ -3,7 +3,7 @@ import filterIcon from '@carbon/icons/es/filter/20'
 
 
 import styles from './filter-modalV2.module.css'
-import { KDAccordion, KDAccordionItem, KDCheckboxGroup, KDCheckbox, ModalBox, KDButton, KDIcon } from '@betaschool-reborn/vital-test/lit-components'
+import { KDAccordion, KDAccordionItem, KDCheckboxGroup, KDCheckbox, ModalBox, KDButton, KDIcon, KDRadioButtonGroup, KDRadioButton } from '@betaschool-reborn/vital-test/lit-components'
 import { BUTTON_ICON_POSITION, BUTTON_KINDS, BUTTON_SIZES } from '@kyndryl-design-system/shidoka-foundation/components/button/defs'
 import { getBaseUrlForServiceFromFrontend, SecurePost, useSearchFiltersBaseUrlHook } from '@betaschool-reborn/vital-test/utils'
 import { useLangContext } from '@betaschool-reborn/vital-test/multiple-language'
@@ -87,6 +87,10 @@ export const FilterModalV2 = () => {
     setCheckedOptions([...checkedOptions.filter(t => !tagsExcluded.includes(t)), ...[...new Set<string>(e.detail.value)]])
   }
 
+  const onRadioClick = (e: any, tagsExcluded: Array<string>) => {
+    setCheckedOptions([...checkedOptions.filter(t => !tagsExcluded.includes(t)), ...[e.detail.value]])
+  }
+
   return <ModalBox
       size='lg'
       titleText={ttt('Tags', 'Tags')}
@@ -158,7 +162,7 @@ export const FilterModalV2 = () => {
               </span>
               <div slot='body'>
 
-                <KDCheckboxGroup
+                { !tagList.isSingleChoice &&  <KDCheckboxGroup
                   name={'tags'}
                   hideLegend
                   selectAll
@@ -181,7 +185,22 @@ export const FilterModalV2 = () => {
                       </KDCheckbox>
                     })
                   }
-                </KDCheckboxGroup>
+                </KDCheckboxGroup>}
+
+                { tagList.isSingleChoice && 
+                  <KDRadioButtonGroup
+                    value={checkedOptions.filter(t => tagList.data.map(x => x.tag).includes(t))[0] || ''}
+                    onChange={(e: any) => onRadioClick(e, tagList.data.map(x => x.tag))}>
+                    
+                    {
+                    tagList.data.map((option) => {
+                      return <KDRadioButton value={option.tag} key={option.tag}>
+                        {ttt(...option.lang)}
+                      </KDRadioButton>
+                    })
+                  }
+                  </KDRadioButtonGroup>
+                }
 
               </div>
             </KDAccordionItem>)

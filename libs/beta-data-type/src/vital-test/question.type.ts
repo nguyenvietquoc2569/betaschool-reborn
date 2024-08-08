@@ -59,9 +59,10 @@ export type IVTTagModal = Array<{
     {
       query: any,
       tag: string
-      lang: Array<string>
+      lang: Array<string>,
     }
-  >
+  >,
+  isSingleChoice?: boolean
 }>
 
 
@@ -80,7 +81,7 @@ export const extraTags: IVTTagModal = [
         tag: '::isDeactive',
         lang: ['Ngưng sử dụng', 'Deactive'],
       },
-    ]
+    ],
   },
   {
     title: ['Catalog', 'Catalog'],
@@ -89,7 +90,8 @@ export const extraTags: IVTTagModal = [
       query: { category: c },
       tag: '::catalog'+c,
       lang: [String(c), String(c)],
-    }))
+    })),
+    isSingleChoice: true,
   },
   {
     title: ['Trạng Thái Duyệt', 'Progress'],

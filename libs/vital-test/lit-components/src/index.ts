@@ -50,7 +50,10 @@ export const KDDropDownOption = createComponent({
 export const KDRadioButtonGroup = createComponent({
   tagName: 'kyn-radio-button-group',
   elementClass: RadioButtonGroup,
-  react: React
+  react: React,
+  events: {
+    onChange: 'on-radio-group-change'
+  }
 })
 
 export const KDRadioButton = createComponent({
