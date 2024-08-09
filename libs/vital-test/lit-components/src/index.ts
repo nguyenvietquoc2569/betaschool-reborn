@@ -31,6 +31,25 @@ import { Checkbox, CheckboxGroup } from '@kyndryl-design-system/shidoka-applicat
 import {RadioButton, RadioButtonGroup} from '@kyndryl-design-system/shidoka-applications/components/reusable/radioButton'
 import { Dropdown } from '@kyndryl-design-system/shidoka-applications/components/reusable/dropdown/dropdown'
 import { DropdownOption } from '@kyndryl-design-system/shidoka-applications/components/reusable/dropdown/dropdownOption'
+import { OverflowMenu, OverflowMenuItem } from '@kyndryl-design-system/shidoka-applications/components/reusable/overflowMenu/index'
+
+export const KDOverflowMenu = createComponent({
+  tagName: 'kyn-overflow-menu',
+  elementClass: OverflowMenu,
+  react: React,
+  events: {
+    onChange: 'on-change'
+  }
+})
+
+export const KDOverflowMenuItem = createComponent({
+  tagName: 'kyn-overflow-menu-item',
+  elementClass: OverflowMenuItem,
+  react: React,
+  events: {
+    onChange: 'on-change'
+  }
+})
 
 export const KDDropDown = createComponent({
   tagName: 'kyn-dropdown',

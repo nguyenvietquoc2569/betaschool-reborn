@@ -5,7 +5,7 @@ import { EUserPermissions, EVTApproveStatus, IVTProblem, IVTTagModal } from '@be
 import { useLangContext } from '@betaschool-reborn/vital-test/multiple-language';
 import { Fragment, useEffect, useState } from 'react';
 import { getBaseUrlForServiceFromFrontend, LoadingScreen, SecurePost, useDebounce, useSearchFiltersBaseUrlHook } from '@betaschool-reborn/vital-test/utils';
-import { FilterBox, KDButton, KDIcon, KDPagination, KDTable, KDTableContainer, KDTag, KDTagGroups, KDTBody, KDTFooter, KDTHeader, KDTTd, KDTTh, KDTTr, Textbox } from '@betaschool-reborn/vital-test/lit-components';
+import { FilterBox, KDButton, KDIcon, KDOverflowMenu, KDOverflowMenuItem, KDPagination, KDTable, KDTableContainer, KDTag, KDTagGroups, KDTBody, KDTFooter, KDTHeader, KDTTd, KDTTh, KDTTr, Textbox } from '@betaschool-reborn/vital-test/lit-components';
 import searchIcon from '@carbon/icons/es/search/24'
 import addIcon from '@carbon/icons/es/add--large/24'
 import { BUTTON_ICON_POSITION, BUTTON_KINDS, BUTTON_SIZES } from '@kyndryl-design-system/shidoka-foundation/components/button/defs'
@@ -252,8 +252,10 @@ export function QuestionManagement(props: QuestionManagementProps) {
           <br />
           {
             !isLoading && <>
-              <KDTableContainer>
-                <KDTable>
+              <KDTableContainer style={{
+                overflowX: 'unset'
+              }}>
+                <KDTable >
                   <KDTHeader>
                     <KDTTr>
                       <KDTTh>ID</KDTTh>
@@ -285,7 +287,19 @@ export function QuestionManagement(props: QuestionManagementProps) {
                           {q.approveStatus === EVTApproveStatus.UNAPPROVED && <KDTag noTruncation={true} label={ttt('Chờ Duyệt', 'Waiting Approving')} tagColor='warning' shade='dark' style={{marginRight: '4px'}}></KDTag>}
                           {q.approveStatus === EVTApproveStatus.NEEDWORK && <KDTag noTruncation={true} label={ttt('Yêu cầu chỉnh sửa', 'Need work')} tagColor='failed' shade='dark' style={{marginRight: '4px'}}></KDTag>}
                         </KDTTd>
-                        <KDTTd></KDTTd>
+                        <KDTTd>
+                          <KDOverflowMenu
+                            anchorRight
+                            assistiveText="Actions"
+                          >
+                            <KDOverflowMenuItem>
+                              hello
+                            </KDOverflowMenuItem>
+                            <KDOverflowMenuItem>
+                              Test
+                            </KDOverflowMenuItem>
+                          </KDOverflowMenu>
+                        </KDTTd>
                       </KDTTr>)
                     }
                   </KDTBody>
@@ -319,7 +333,6 @@ export function QuestionManagement(props: QuestionManagementProps) {
 
                 />
               </KDTFooter>
-              {perPage} - {pagination.count} - {pagination.page}
             </>
           }
 
