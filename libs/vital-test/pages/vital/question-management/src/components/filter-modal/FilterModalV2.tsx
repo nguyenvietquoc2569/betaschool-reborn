@@ -1,4 +1,4 @@
-import {useCallback, useEffect, useState} from 'react'
+import {ReactNode, useCallback, useEffect, useState} from 'react'
 import filterIcon from '@carbon/icons/es/filter/20'
 
 
@@ -6,16 +6,14 @@ import styles from './filter-modalV2.module.css'
 import { KDAccordion, KDAccordionItem, KDCheckboxGroup, KDCheckbox, ModalBox, KDButton, KDIcon, KDRadioButtonGroup, KDRadioButton } from '@betaschool-reborn/vital-test/lit-components'
 import { BUTTON_ICON_POSITION, BUTTON_KINDS, BUTTON_SIZES } from '@kyndryl-design-system/shidoka-foundation/components/button/defs'
 import { useLangContext } from '@betaschool-reborn/vital-test/multiple-language'
-import { useDispatch } from 'react-redux'
 import { IVTTagModal } from '@betaschool-reborn/beta-data-type'
 
-export const FilterModalV2 = ({onChange, defaultFilter, tags}: {
+export const FilterModalV2 = ({onChange, defaultFilter, tags, label}: {
   onChange: (newFilters: Array<string>) => void,
   defaultFilter: Array<string>,
-  tags: IVTTagModal
+  tags: IVTTagModal,
+  label?: ReactNode
 }) => {
-
-  const dispatch = useDispatch()
 
   const [checkedOptions, setCheckedOptions] = useState<Array<string>>(defaultFilter)
   const [renderInit, setRenderInit] = useState<number>(0)
@@ -30,7 +28,7 @@ export const FilterModalV2 = ({onChange, defaultFilter, tags}: {
     const isOk = (e as  {detail: {returnValue: 'ok' | 'cancel'}}).detail.returnValue === 'ok'
     setRenderInit(renderInit + 1) // force rerender the Accodion
     if (isOk) {
-      onChange(checkedOptions)
+      onChange([... new Set(checkedOptions)])
     } else {
       setCheckedOptions([... new Set(defaultFilter)])
     }
@@ -61,13 +59,16 @@ export const FilterModalV2 = ({onChange, defaultFilter, tags}: {
           iconPosition={BUTTON_ICON_POSITION.LEFT}
           data-testid='button-filter-modal'
         >
-          {ttt('Bộ Lọc', 'Filter')}
-          <KDIcon
-            slot='icon'
-            icon={filterIcon}
-          ></KDIcon>
+          {label ? label : <>
+            {ttt('Bộ Lọc', 'Filter')}
+            <KDIcon
+              slot='icon'
+              icon={filterIcon}
+            ></KDIcon>
+          </>
+          }
         </KDButton>
-        { !!defaultFilter.length && <div className={styles.circle} />}
+        { !!defaultFilter.length && !label && <div className={styles.circle} />}
       </div>
 
       <KDAccordion
@@ -127,7 +128,5 @@ export const FilterModalV2 = ({onChange, defaultFilter, tags}: {
             </KDAccordionItem>)
           }
       </KDAccordion>
-      
-
     </ModalBox>
 }

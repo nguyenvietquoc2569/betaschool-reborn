@@ -1,13 +1,14 @@
-import { defaultVTProblem, EVTProblemCategory, IVTProblem, VTProblemCategoryList } from '@betaschool-reborn/beta-data-type';
+import { defaultVTProblem, EVTProblemCategory, IVTProblem, IVTTagModal, VTProblemCategoryList } from '@betaschool-reborn/beta-data-type';
 import { KDButton, KDDropDown, KDDropDownOption, KDRadioButton, KDRadioButtonGroup, KDTextArea, Textbox } from '@betaschool-reborn/vital-test/lit-components';
 import { useLangContext } from '@betaschool-reborn/vital-test/multiple-language';
 import { ProblemQuilEditor } from '../problem-editor/qill-editor-for-problem';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { getBaseUrlForServiceFromFrontend, SecurePost } from '@betaschool-reborn/vital-test/utils';
 import { reduxCommonActionShowNotification } from '@betaschool-reborn/vital-test/redux';
 import { useDispatch } from 'react-redux';
 import CreatableSelect from 'react-select/creatable'
 import { BUTTON_ICON_POSITION, BUTTON_KINDS } from '@kyndryl-design-system/shidoka-foundation/components/button/defs';
+import { FilterModalV2 } from '../filter-modal/FilterModalV2';
 
 export interface QuestionEditorProps {
   question: IVTProblem,
@@ -19,17 +20,18 @@ export interface QuestionEditorProps {
 export function ProblemEditor({question = defaultVTProblem, isNew, onChange, onSubmit}: QuestionEditorProps) {
   const {ttt} = useLangContext()
   const [tags, setTags] = useState<Array<string>>([])
+  const [suggestTags, setSuggestTags] = useState<IVTTagModal>([])
+
   const dispatch = useDispatch()
 
   const getTheTags = () => {
-    // setTagLoading(true)
     SecurePost(getBaseUrlForServiceFromFrontend(), {
-      url: '/api/v1/vt-test/getTags',
+      url: '/api/v1/vital-test/getTags',
     }).then(data => {
-      // setTagLoading(false)
       if (data.status === 200) {
         if (data.data.code === 200) {
           setTags(data.data.data)
+          setSuggestTags(data.data.suggestTags)
         }
         if (data.data.code === 404) {
           setTags([])
@@ -47,7 +49,6 @@ export function ProblemEditor({question = defaultVTProblem, isNew, onChange, onS
         }
       }
     }).catch((e) => {
-      // setTagLoading(false)
       setTags([])
       reduxCommonActionShowNotification(dispatch, {
         ...{
@@ -56,12 +57,16 @@ export function ProblemEditor({question = defaultVTProblem, isNew, onChange, onS
           type: 'success',
           shown: false
         },
-        text: e.message(),
+        text: e.toString(),
         title: 'getTheTags error',
         type: 'danger',
       })
     })
   }
+
+  useEffect(() => {
+    getTheTags()
+  }, [])
 
   return <>
     <h1>{isNew ? ttt('Thêm một câu hỏi mới','Add New Question'): ttt('Sửa một câu hỏi','Edit New Question')}</h1>
@@ -78,6 +83,22 @@ export function ProblemEditor({question = defaultVTProblem, isNew, onChange, onS
       value={question.tags.map(v => ({ value: v, label: v }))}
     />
     <br></br>
+    <FilterModalV2
+      onChange={(newTags) => {
+        onChange({
+          ...question,
+          tags: newTags
+        })
+      }}
+      defaultFilter={question.tags}
+      tags={[{
+        id: 0,
+        title: ['Tuỳ chọn', 'Custom Tags'],
+        data: (tags).map(t => ({tag: t, lang: [t,t]}))
+      },...suggestTags]}
+      label={ttt('Hỗ trợ tag', 'Tag wizards')}
+    ></FilterModalV2>
+    <br/><br/>
     <KDDropDown
       value={question.category}
       onChange={(e: any)=> onChange({

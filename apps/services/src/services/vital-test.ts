@@ -1,4 +1,4 @@
-import { EVTApproveStatus, extraTags, IVTProblem } from '@betaschool-reborn/beta-data-type'
+import { EVTApproveStatus, extraTags, IVTProblem, suggestTags } from '@betaschool-reborn/beta-data-type'
 import { VTProblemModel } from '@betaschool-reborn/database-model'
 import { ObjectId } from 'mongodb'
 
@@ -125,7 +125,8 @@ export const getTheTagsList = async (req, res, next) => {
     res.send({
       code: 200,
       data: tagsTemp,
-      extraTags: extraTags
+      extraTags: extraTags,
+      suggestTags: suggestTags
     })
     return
   }

@@ -118,3 +118,28 @@ export const extraTags: IVTTagModal = [
   }
 ]
 
+export const suggestTags: IVTTagModal = [
+  {
+    title: ['Lớp', 'Class'],
+    id: 0,
+    data: Array(12).fill(0).map((_, index) => {
+      return {
+        tag: 'Class' + (index + 1),
+        lang: ['Lớp ' + (index + 1), 'Class ' + (index + 1)],
+      }
+    }),
+    isSingleChoice: true
+  },
+  {
+    title: ['Bài học', 'Unit'],
+    id: 0,
+    data: Array(20).fill(0).map((_, index) => {
+      return {
+        tag: 'Unit' + (index + 1),
+        lang: ['Đơn Vị Bài Học ' + (index + 1), 'Unit ' + (index + 1)],
+      }
+    }),
+    isSingleChoice: true
+  },
+
+]
