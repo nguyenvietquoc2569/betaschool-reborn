@@ -5,7 +5,7 @@ import { EUserPermissions, EVTApproveStatus, IVTProblem, IVTTagModal } from '@be
 import { useLangContext } from '@betaschool-reborn/vital-test/multiple-language';
 import { Fragment, useEffect, useState } from 'react';
 import { getBaseUrlForServiceFromFrontend, LoadingScreen, SecurePost, useDebounce, useSearchFiltersBaseUrlHook } from '@betaschool-reborn/vital-test/utils';
-import { FilterBox, KDButton, KDIcon, KDTable, KDTableContainer, KDTag, KDTagGroups, KDTBody, KDTHeader, KDTTd, KDTTh, KDTTr, Textbox } from '@betaschool-reborn/vital-test/lit-components';
+import { FilterBox, KDButton, KDIcon, KDPagination, KDTable, KDTableContainer, KDTag, KDTagGroups, KDTBody, KDTFooter, KDTHeader, KDTTd, KDTTh, KDTTr, Textbox } from '@betaschool-reborn/vital-test/lit-components';
 import searchIcon from '@carbon/icons/es/search/24'
 import addIcon from '@carbon/icons/es/add--large/24'
 import { BUTTON_ICON_POSITION, BUTTON_KINDS, BUTTON_SIZES } from '@kyndryl-design-system/shidoka-foundation/components/button/defs'
@@ -31,7 +31,7 @@ export function QuestionManagement(props: QuestionManagementProps) {
   } = useSearchFiltersBaseUrlHook()
 
   const [extraTags, setExtraTags] = useState<IVTTagModal>([])
-
+  const [searchTrigger, setSearchTrigger] = useState<boolean>(true)
   const [searchText, setSearchText] = useState<string>(search)
   const [questions, setQuestion] = useState<Array<IVTProblem>>([])
   const [perPage, setPerPage] = useState(10)
@@ -56,19 +56,16 @@ export function QuestionManagement(props: QuestionManagementProps) {
       page: 0,
       count: 0
     })
+    setSearchTrigger(!searchTrigger)
   }, [search, filters])
 
 
-  useEffect(() => {
-    if (pagination.count!==0) {
-      return
-    }
-
+  useDebounce(() => {
     setLoading(true)
     SecurePost(getBaseUrlForServiceFromFrontend(), {
       url: '/api/v1/vital-test/get-problem',
       data: {
-        page: 0,
+        page: pagination.page,
         perPage,
         text: search,
         tags: filters
@@ -78,17 +75,17 @@ export function QuestionManagement(props: QuestionManagementProps) {
       if (data.status === 200) {
         if (data.data.code === 200) {
           setQuestion(data.data.data)
-          // setPagination({
-          //   count: data.data.count,
-          //   page: 0
-          // })
+          setPagination({
+            count: data.data.pagination.count,
+            page: pagination.page
+          })
         }
         if (data.data.code === 404) {
           setQuestion([])
-          // setPagination({
-          //   count: 0,
-          //   page: 0
-          // })
+          setPagination({
+            count: 0,
+            page: 0
+          })
           reduxCommonActionShowNotification(dispatch, {
             ...{
               text: '',
@@ -105,10 +102,10 @@ export function QuestionManagement(props: QuestionManagementProps) {
     }).catch((e) => {
       setLoading(false)
       setQuestion([])
-      // setPagination({
-      //   count: 0,
-      //   page: 0
-      // })
+      setPagination({
+        count: 0,
+        page: 0
+      })
       reduxCommonActionShowNotification(dispatch, {
         ...{
           text: '',
@@ -121,7 +118,7 @@ export function QuestionManagement(props: QuestionManagementProps) {
         type: 'danger',
       })
     })
-  }, [pagination])
+  }, [searchTrigger], 300)
 
   useEffect(() => {
     SecurePost(getBaseUrlForServiceFromFrontend(), {
@@ -206,7 +203,7 @@ export function QuestionManagement(props: QuestionManagementProps) {
               size={BUTTON_SIZES.SMALL}
               iconPosition={BUTTON_ICON_POSITION.LEFT}
               slot='actions'
-              href={'/vital-test/question-manage/add?tags=' + encodeURIComponent(filters.join(';'))}
+              href={'/vital-test/question-manage/add?tags=' + encodeURIComponent(filters.filter(t => !t.includes('::')).join(';'))}
             >
               <KDIcon
                 slot='icon'
@@ -254,45 +251,76 @@ export function QuestionManagement(props: QuestionManagementProps) {
           </FilterBox>
           <br />
           {
-            !isLoading && <KDTableContainer>
-              <KDTable>
-                <KDTHeader>
-                  <KDTTr>
-                    <KDTTh>ID</KDTTh>
-                    <KDTTh>Question</KDTTh>
-                    <KDTTh>Phân Loại</KDTTh>
-                    <KDTTh>Tags</KDTTh>
-                    <KDTTh>{ttt('Trạng thái', 'Status')}</KDTTh>
-                    <KDTTh></KDTTh>
-                  </KDTTr>
-                </KDTHeader>
-                <KDTBody>
-                  {
-                    questions.map(q => <KDTTr>
-                      <KDTTd>
-                        {q._id}
-                      </KDTTd>
-                      <KDTTd>
-                        {q.question}
-                      </KDTTd>
-                      <KDTTd>
-                        {q.category}
-                      </KDTTd>
-                      <KDTTd>
-                        {q.tags.map(t => <KDTag noTruncation={true} label={t} style={{marginRight: '4px'}}></KDTag>)}
-                      </KDTTd>
-                      <KDTTd>
-                        {q.isActive ? <KDTag noTruncation={true} label='active' tagColor='cat02' shade='dark' style={{marginRight: '4px'}}></KDTag> : <KDTag noTruncation={true} label='deactive' tagColor='cat03' shade='dark' style={{marginRight: '4px'}}></KDTag>}
-                        {q.approveStatus === EVTApproveStatus.APPROVED && <KDTag noTruncation={true} label={ttt('Đã Duyệt', 'Approved')} tagColor='passed' shade='dark' style={{marginRight: '4px'}}></KDTag>}
-                        {q.approveStatus === EVTApproveStatus.UNAPPROVED && <KDTag noTruncation={true} label={ttt('Chờ Duyệt', 'Waiting Approving')} tagColor='warning' shade='dark' style={{marginRight: '4px'}}></KDTag>}
-                        {q.approveStatus === EVTApproveStatus.NEEDWORK && <KDTag noTruncation={true} label={ttt('Yêu cầu chỉnh sửa', 'Need work')} tagColor='failed' shade='dark' style={{marginRight: '4px'}}></KDTag>}
-                      </KDTTd>
-                      <KDTTd></KDTTd>
-                    </KDTTr>)
-                  }
-                </KDTBody>
-              </KDTable>
-            </KDTableContainer>
+            !isLoading && <>
+              <KDTableContainer>
+                <KDTable>
+                  <KDTHeader>
+                    <KDTTr>
+                      <KDTTh>ID</KDTTh>
+                      <KDTTh>Question</KDTTh>
+                      <KDTTh>Phân Loại</KDTTh>
+                      <KDTTh>Tags</KDTTh>
+                      <KDTTh>{ttt('Trạng thái', 'Status')}</KDTTh>
+                      <KDTTh></KDTTh>
+                    </KDTTr>
+                  </KDTHeader>
+                  <KDTBody>
+                    {
+                      questions.map(q => <KDTTr>
+                        <KDTTd>
+                          {q._id}
+                        </KDTTd>
+                        <KDTTd>
+                          {q.question}
+                        </KDTTd>
+                        <KDTTd>
+                          {q.category}
+                        </KDTTd>
+                        <KDTTd>
+                          {q.tags.map(t => <KDTag noTruncation={true} label={t} style={{marginRight: '4px'}}></KDTag>)}
+                        </KDTTd>
+                        <KDTTd>
+                          {q.isActive ? <KDTag noTruncation={true} label='active' tagColor='cat02' shade='dark' style={{marginRight: '4px'}}></KDTag> : <KDTag noTruncation={true} label='deactive' tagColor='cat03' shade='dark' style={{marginRight: '4px'}}></KDTag>}
+                          {q.approveStatus === EVTApproveStatus.APPROVED && <KDTag noTruncation={true} label={ttt('Đã Duyệt', 'Approved')} tagColor='passed' shade='dark' style={{marginRight: '4px'}}></KDTag>}
+                          {q.approveStatus === EVTApproveStatus.UNAPPROVED && <KDTag noTruncation={true} label={ttt('Chờ Duyệt', 'Waiting Approving')} tagColor='warning' shade='dark' style={{marginRight: '4px'}}></KDTag>}
+                          {q.approveStatus === EVTApproveStatus.NEEDWORK && <KDTag noTruncation={true} label={ttt('Yêu cầu chỉnh sửa', 'Need work')} tagColor='failed' shade='dark' style={{marginRight: '4px'}}></KDTag>}
+                        </KDTTd>
+                        <KDTTd></KDTTd>
+                      </KDTTr>)
+                    }
+                  </KDTBody>
+                  
+                </KDTable>
+              </KDTableContainer>
+              <KDTFooter>
+                <KDPagination
+                  pageSize={perPage}
+                  pageSizeOptions={[3,5,10,15,20,30,40,50]}
+                  count={pagination.count}
+                  pageNumber={pagination.page+1}
+
+                  onPageSizeChange={(e: any) => {
+                    setPerPage(e.detail.value)
+                    setPagination({
+                      page: 0,
+                      count: 0
+                    })
+                    setSearchTrigger(!searchTrigger)
+                  }}
+
+                  onPageNumberChange={(e: any) => {
+                    console.log('onPageNumberChange', e)
+                    setPagination({
+                      page: Number(e.detail.value) - 1,
+                      count: pagination.count
+                    })
+                    setSearchTrigger(!searchTrigger)
+                  }}
+
+                />
+              </KDTFooter>
+              {perPage} - {pagination.count} - {pagination.page}
+            </>
           }
 
         </>

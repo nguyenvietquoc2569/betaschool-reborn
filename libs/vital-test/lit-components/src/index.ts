@@ -165,7 +165,11 @@ export const KDTLegendItem = createComponent({
 export const KDPagination = createComponent({
   tagName: 'kyn-pagination',
   elementClass: Pagination,
-  react: React
+  react: React,
+  events: {
+    'onPageSizeChange': 'on-page-size-change',
+    'onPageNumberChange': 'on-page-number-change'
+  }
 })
 
 export const KDFooter = createComponent({
