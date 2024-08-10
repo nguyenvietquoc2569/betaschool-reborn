@@ -113,6 +113,19 @@ export function ProblemEditor({question = defaultVTProblem, isNew, onChange, onS
     </KDDropDown>
     <br></br>
     <br></br>
+    <h4 slot='label'>{ttt('Link Video Hướng dẫn', 'Guidance Video')}</h4>
+    <Textbox
+      // label={ttt('Link Video Hướng dẫn', 'Guidance Video')}
+      size='md'
+      hideLabel
+      value={question.guidanceVideo}
+      inputChange={(e: any) => { onChange({
+        ...question,
+        guidanceVideo: e.detail.value
+      })}}
+    ></Textbox>
+    <br></br>
+    <br></br>
     <span>{ttt('Câu hỏi', 'Question')}</span>
     <ProblemQuilEditor html={question.question} onChange={(e) => {onChange({
       ...question,
