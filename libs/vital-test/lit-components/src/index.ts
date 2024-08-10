@@ -33,6 +33,35 @@ import { Dropdown } from '@kyndryl-design-system/shidoka-applications/components
 import { DropdownOption } from '@kyndryl-design-system/shidoka-applications/components/reusable/dropdown/dropdownOption'
 import { OverflowMenu, OverflowMenuItem } from '@kyndryl-design-system/shidoka-applications/components/reusable/overflowMenu/index'
 
+import { HeaderCategory, HeaderNav, HeaderDivider } from '@kyndryl-design-system/shidoka-applications/components/global/header'
+
+export const KDHeaderDivider= createComponent({
+  tagName: 'kyn-header-divider',
+  elementClass: HeaderDivider,
+  react: React,
+  events: {
+    onChange: 'on-change'
+  }
+})
+
+export const KDHeaderCategory = createComponent({
+  tagName: 'kyn-header-category',
+  elementClass: HeaderCategory,
+  react: React,
+  events: {
+    onChange: 'on-change'
+  }
+})
+
+export const KDHeaderNav = createComponent({
+  tagName: 'kyn-header-nav',
+  elementClass: HeaderNav,
+  react: React,
+  events: {
+    onChange: 'on-change'
+  }
+})
+
 export const KDOverflowMenu = createComponent({
   tagName: 'kyn-overflow-menu',
   elementClass: OverflowMenu,

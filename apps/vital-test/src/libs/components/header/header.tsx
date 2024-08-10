@@ -1,4 +1,4 @@
-import { KDButton, KDHeaderFlyout, KDHeaderFlyouts, KDHeaderLink, KDHeaderUserProfile, KDIcon } from '@betaschool-reborn/vital-test/lit-components'
+import { KDButton, KDHeaderFlyout, KDHeaderFlyouts, KDHeaderLink, KDHeaderNav, KDHeaderUserProfile, KDIcon } from '@betaschool-reborn/vital-test/lit-components'
 import './header.scss'
 import { reduxSessionActionLogout, useTypedSelector } from '@betaschool-reborn/vital-test/redux'
 import userAvatarIcon from '@carbon/icons/es/user--avatar/24';
@@ -7,13 +7,15 @@ import { useDispatch } from 'react-redux'
 import { BUTTON_SIZES } from '@kyndryl-design-system/shidoka-foundation/components/button/defs';
 import { useNavigate } from 'react-router-dom';
 import { ELanguage, useLangContext } from '@betaschool-reborn/vital-test/multiple-language';
+import { EUserPermissions } from '@betaschool-reborn/beta-data-type';
 
 export const Header = () => {
-  const isLogin = useTypedSelector(state => state.session.isLoggedIn)
-  const isLoading = useTypedSelector(state => state.session.isLoading)
+
+  const session = useTypedSelector(state => state.session)
+
   const user = useTypedSelector(state => state.session.userDetails)
   const dispatch = useDispatch()
-  let navigate = useNavigate()
+  const navigate = useNavigate()
   const {ttt, current, changeLanguage} = useLangContext()
 
   const logoutAction = () => {
@@ -25,6 +27,17 @@ export const Header = () => {
   }
 
   return <header className='header left-slotted child-open'>
+    <KDHeaderNav>
+      <KDHeaderLink href='javascript:void(0)'>
+        {ttt('Bài thi trắc nghiệm', 'Multiple Choice Test')}
+        {
+          (session.userDetails?.permissions.includes(EUserPermissions.GLOBAL) || session.userDetails?.permissions.includes(EUserPermissions.VITALTESTEDITOR)) && 
+          <KDHeaderLink slot="links" href='/vital-test/question-manage/browser?filters='>
+            {ttt('Kho Câu Hỏi', 'Question Management')}
+          </KDHeaderLink>
+        }
+      </KDHeaderLink>
+    </KDHeaderNav>
   <a
     href=""
     className="logo-link interactive"
