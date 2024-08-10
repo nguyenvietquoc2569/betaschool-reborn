@@ -27,7 +27,6 @@ export interface IVTProblem {
   question: string,
   assetCode?: Array<string>,
   pointRef: number,
-  category: EVTProblemCategory,
   guidanceVideo?: string,
 
   approveStatus: EVTApproveStatus,
@@ -46,7 +45,6 @@ export const defaultVTProblem: IVTProblem = {
   assetCode: [],
   question: '<p>this is question</p>',
   pointRef: 1,
-  category: EVTProblemCategory.GRAMMAR,
  
   approveStatus: EVTApproveStatus.UNAPPROVED,
   isActive: false
@@ -89,7 +87,7 @@ export const extraTags: IVTTagModal = [
     id: 3,
     data: VTProblemCategoryList.map(c => ({
       query: { category: c },
-      tag: '::catalog'+c,
+      tag: String(c),
       lang: [String(c), String(c)],
     })),
     isSingleChoice: true,
@@ -115,10 +113,43 @@ export const extraTags: IVTTagModal = [
       },
     ],
     isSingleChoice: true,
-  }
+  },
+  {
+    title: ['Lớp', 'Class'],
+    id: 0,
+    data: Array(12).fill(0).map((_, index) => {
+      return {
+        tag: 'Class' + (index + 1),
+        lang: ['Lớp ' + (index + 1), 'Class ' + (index + 1)],
+      }
+    }),
+    isSingleChoice: true
+  },
+  {
+    title: ['Bài học', 'Unit'],
+    id: 0,
+    data: Array(20).fill(0).map((_, index) => {
+      return {
+        tag: 'Unit' + (index + 1),
+        lang: ['Đơn Vị Bài Học ' + (index + 1), 'Unit ' + (index + 1)],
+      }
+    }),
+    isSingleChoice: true
+  },
+
 ]
 
 export const suggestTags: IVTTagModal = [
+  {
+    title: ['Catalog', 'Catalog'],
+    id: 3,
+    data: VTProblemCategoryList.map(c => ({
+      query: { category: c },
+      tag: String(c),
+      lang: [String(c), String(c)],
+    })),
+    isSingleChoice: true,
+  },
   {
     title: ['Lớp', 'Class'],
     id: 0,

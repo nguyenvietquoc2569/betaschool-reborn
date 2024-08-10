@@ -10,7 +10,6 @@ const VTProblemSchema: Schema = new Schema({
   question: {type: String, required: true},
   assetCode: { type: Array, required: false },
   pointRef: {type: Number, required: true},
-  category: {type: String, required: true},
   guidanceVideo: {type: String, required: false},
 
   approveStatus: {type: String, required: true},

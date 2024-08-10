@@ -14,7 +14,7 @@ export interface QuestionEditorProps {
   question: IVTProblem,
   isNew: boolean,
   onChange: (q: IVTProblem) => void,
-  onSubmit: (p: IVTProblem) => void
+  onSubmit: (p: IVTProblem) => void,
 }
 
 export function ProblemEditor({question = defaultVTProblem, isNew, onChange, onSubmit}: QuestionEditorProps) {
@@ -99,26 +99,12 @@ export function ProblemEditor({question = defaultVTProblem, isNew, onChange, onS
       label={ttt('Hỗ trợ tag', 'Tag wizards')}
     ></FilterModalV2>
     <br/><br/>
-    <KDDropDown
-      value={question.category}
-      onChange={(e: any)=> onChange({
-        ...question,
-        category: e.detail.value
-      })}
-    >
-      <span slot="label">{ttt('Phân loại', 'Category')}</span>
-      {VTProblemCategoryList.map(v => (
-        <KDDropDownOption value={v}>{v}</KDDropDownOption>
-      ))}
-    </KDDropDown>
-    <br></br>
-    <br></br>
     <h4 slot='label'>{ttt('Link Video Hướng dẫn', 'Guidance Video')}</h4>
     <Textbox
       // label={ttt('Link Video Hướng dẫn', 'Guidance Video')}
       size='md'
       hideLabel
-      value={question.guidanceVideo}
+      value={question.guidanceVideo || ''}
       inputChange={(e: any) => { onChange({
         ...question,
         guidanceVideo: e.detail.value
@@ -154,6 +140,7 @@ export function ProblemEditor({question = defaultVTProblem, isNew, onChange, onS
                 width: '100%',
                 marginBottom: '24px'
               }}
+              value={question.anwsers[value] || ''}
               onInput={(e: any) => {
                 const answers = [...question.anwsers]
                 answers[value] = e.detail.value

@@ -8,6 +8,7 @@ import { getBaseUrlForServiceFromFrontend, LoadingScreen, SecurePost, useDebounc
 import { FilterBox, KDButton, KDIcon, KDOverflowMenu, KDOverflowMenuItem, KDPagination, KDTable, KDTableContainer, KDTag, KDTagGroups, KDTBody, KDTFooter, KDTHeader, KDTTd, KDTTh, KDTTr, Textbox } from '@betaschool-reborn/vital-test/lit-components';
 import searchIcon from '@carbon/icons/es/search/24'
 import addIcon from '@carbon/icons/es/add--large/24'
+import redreshIcon from '@carbon/icons/es/renew/24'
 import { BUTTON_ICON_POSITION, BUTTON_KINDS, BUTTON_SIZES } from '@kyndryl-design-system/shidoka-foundation/components/button/defs'
 import filterRemoveIcon from '@carbon/icons/es/close--filled/16'
 import { FilterModalV2 } from './components/filter-modal/FilterModalV2';
@@ -17,6 +18,7 @@ import { ApproveButton } from './components/action-buttons/approve-problem';
 import { NeedWorkButton } from './components/action-buttons/neekwork-problem';
 import { DeactivateButton } from './components/action-buttons/deactivate-problem';
 import { ActivateButton } from './components/action-buttons/activate-problem';
+import { EditButton } from './components/action-buttons/edit-problem';
 
 /* eslint-disable-next-line */
 export interface QuestionManagementProps {}
@@ -207,13 +209,30 @@ export function QuestionManagement(props: QuestionManagementProps) {
               size={BUTTON_SIZES.SMALL}
               iconPosition={BUTTON_ICON_POSITION.LEFT}
               slot='actions'
-              href={'/vital-test/question-manage/add?tags=' + encodeURIComponent(filters.filter(t => !t.includes('::')).join(';'))}
+              onClick={() => {
+                window.open('/vital-test/question-manage/add?tags=' + encodeURIComponent(filters.filter(t => !t.includes('::')).join(';')), '_blank')?.focus();
+              }}
             >
               <KDIcon
                 slot='icon'
                 icon={addIcon}
               ></KDIcon>
               {ttt('Thêm 1 câu hỏi', 'Add new question')}
+            </KDButton>
+            <KDButton
+              kind={BUTTON_KINDS.TERTIARY}
+              size={BUTTON_SIZES.SMALL}
+              iconPosition={BUTTON_ICON_POSITION.LEFT}
+              slot='actions'
+              onClick={() => {
+                setSearchTrigger(!searchTrigger)
+              }}
+            >
+              <KDIcon
+                slot='icon'
+                icon={redreshIcon}
+              ></KDIcon>
+              {ttt('Làm mới', 'Refresh')}
             </KDButton>
             <KDTagGroups
               slot='tags'
@@ -264,7 +283,6 @@ export function QuestionManagement(props: QuestionManagementProps) {
                     <KDTTr>
                       <KDTTh>ID</KDTTh>
                       <KDTTh>Question</KDTTh>
-                      <KDTTh>Phân Loại</KDTTh>
                       <KDTTh>Tags</KDTTh>
                       <KDTTh>{ttt('Trạng thái', 'Status')}</KDTTh>
                       <KDTTh></KDTTh>
@@ -278,9 +296,6 @@ export function QuestionManagement(props: QuestionManagementProps) {
                         </KDTTd>
                         <KDTTd>
                           {q.question}
-                        </KDTTd>
-                        <KDTTd>
-                          {q.category}
                         </KDTTd>
                         <KDTTd>
                           {q.tags.map(t => <KDTag noTruncation={true} label={t} style={{marginRight: '4px'}}></KDTag>)}
@@ -299,6 +314,8 @@ export function QuestionManagement(props: QuestionManagementProps) {
                             
                             {q.approveStatus === EVTApproveStatus.UNAPPROVED && <ApproveButton id={q._id || ''} setLoading={setLoading} done={() => { setSearchTrigger(!searchTrigger)} }></ApproveButton>}
                             {q.approveStatus === EVTApproveStatus.UNAPPROVED && <NeedWorkButton id={q._id || ''} setLoading={setLoading} done={() => { setSearchTrigger(!searchTrigger)} }></NeedWorkButton>}
+
+                            <EditButton id={q._id || ''} setLoading={setLoading} done={() => { setSearchTrigger(!searchTrigger)} }></EditButton>
 
                             {q.isActive && <DeactivateButton id={q._id || ''} setLoading={setLoading} done={() => { setSearchTrigger(!searchTrigger)} }></DeactivateButton>}
                             {!q.isActive && <ActivateButton id={q._id || ''} setLoading={setLoading} done={() => { setSearchTrigger(!searchTrigger)} }></ActivateButton>}

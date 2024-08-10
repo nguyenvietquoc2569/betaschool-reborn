@@ -66,6 +66,28 @@ export const getListVTProblem = async (req, res) => {
   }
 }
 
+export const detailVTProblem = (req, res, next) => {
+  const { id } = req.body
+  try {
+    VTProblemModel.findOne({_id: new ObjectId(id)}).populate({ path: 'editor', select: 'name' }).populate({ path: 'approvedBy', select: 'name' }).then((value) => {
+      res.send({
+        code: 200,
+        data: value
+      })
+    }).catch ((e) => {
+      res.send({
+        code: 404,
+        error: e.toString()
+      })
+    })
+  } catch (e) {
+    res.send({
+      code: 404,
+      error: e.errmsg
+    })
+  }
+}
+
 export const addVTProblem = async (req, res) => {
   const { problem } = req.body
   const tempdata = new VTProblemModel({
@@ -113,7 +135,7 @@ export const editVTProblem = async (req, res) => {
   } catch (e) {
     res.send({
       code: 404,
-      error: e.message()
+      error: e.toString()
     })
   }
 }
