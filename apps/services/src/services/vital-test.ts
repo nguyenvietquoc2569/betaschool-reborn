@@ -1,4 +1,4 @@
-import { EVTApproveStatus, extraTags, IVTProblem, suggestTags } from '@betaschool-reborn/beta-data-type'
+import { EVTApproveStatus, extraTags, IStaffUser, IVTProblem, suggestTags } from '@betaschool-reborn/beta-data-type'
 import { VTProblemModel } from '@betaschool-reborn/database-model'
 import { ObjectId } from 'mongodb'
 
@@ -114,6 +114,79 @@ export const editVTProblem = async (req, res) => {
     res.send({
       code: 404,
       error: e.message()
+    })
+  }
+}
+
+export const approveVTProblem = async (req, res) => {
+  const { id, isNeedWork } = req.body
+
+  try {
+    const value = await VTProblemModel.findOne({_id: new ObjectId(id)})
+    .populate({ path: 'editor', select: ['name', '_id'] })
+    .populate({ path: 'approvedBy', select: ['name', '_id'] })
+    
+    if ((value.editor && ((value.editor as IStaffUser & {_id: string})._id.toString() === req.user._id.toString()))) {
+      res.send({
+        code: 404,
+        error: ['Người soạn thảo và người duyệt không thể cùng 1 người', 'the editor and approver can not same']
+      })
+      return
+    }
+
+    if (isNeedWork) {
+      value.overwrite({
+        ...(value.toObject()),
+        approveStatus: EVTApproveStatus.NEEDWORK,
+        approvedBy: req.user._id,
+      })
+    } else {
+      value.overwrite({
+        ...(value.toObject()),
+        approveStatus: EVTApproveStatus.APPROVED,
+        approvedBy: req.user._id,
+      })
+    }
+    
+
+    await value.save();
+    res.send({
+      code: 200,
+      data: value
+    })
+
+  } catch (e) {
+    res.send({
+      code: 404,
+      error: e.toString()
+    })
+  }
+}
+
+export const activeVTProblem = async (req, res) => {
+  const { id, isActive } = req.body
+
+  try {
+    const value = await VTProblemModel.findOne({_id: new ObjectId(id)})
+    .populate({ path: 'editor', select: ['name', '_id'] })
+    .populate({ path: 'approvedBy', select: ['name', '_id'] })
+
+      value.overwrite({
+        ...(value.toObject()),
+        isActive: isActive,
+        approvedBy: req.user._id,
+      }) 
+
+    await value.save();
+    res.send({
+      code: 200,
+      data: value
+    })
+
+  } catch (e) {
+    res.send({
+      code: 404,
+      error: e.toString()
     })
   }
 }
