@@ -29,12 +29,14 @@ export function LoginPage(props: LoginPageProps) {
   }
 
   const userNameChange = (value: any) => {
+    console.log('userchange  ', value)
     setUsername(value.target.value)
     checkIsValid(value.target.value, password)
   }
 
 
   const passwordChange = (value: any) => {
+    console.log('passchange  ', value)
     setPassword(value.target.value)
     checkIsValid(username, value.target.value)
   }
@@ -42,6 +44,7 @@ export function LoginPage(props: LoginPageProps) {
 
   const dispatch = useDispatch()
   const loginAction = () => {
+    console.log('login ', username, password)
     reduxSessionActionLogin(dispatch, username, password)
   }
 
