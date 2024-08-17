@@ -61,6 +61,6 @@ export const DeactivateButton = ({setLoading, id, done}: {
   }
 
   return <KDOverflowMenuItem destructive={true} onClick={onClick}>
-      {ttt('Dừng sử dụng bài thi', 'Deactivate')}
+      {ttt('Dừng sử dụng kì thi', 'Deactivate')}
     </KDOverflowMenuItem>
 }

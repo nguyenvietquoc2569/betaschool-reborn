@@ -60,6 +60,6 @@ export const ApproveButton = ({setLoading, id, done}: {
   }
 
   return <KDOverflowMenuItem onClick={onClick}>
-      {ttt('Duyệt bài thi', 'Approve')}
+      {ttt('Duyệt kì thi', 'Approve')}
     </KDOverflowMenuItem>
 }

@@ -194,3 +194,53 @@ export const activeVTExam = async (req, res) => {
     })
   }
 }
+
+export const detailVTExam = (req, res, next) => {
+  const { id } = req.body
+  try {
+    VTExamModel.findOne({_id: new ObjectId(id)}).populate({ path: 'editor', select: 'name' }).populate({ path: 'approvedBy', select: 'name' }).then((value) => {
+      res.send({
+        code: 200,
+        data: value
+      })
+    }).catch ((e) => {
+      res.send({
+        code: 404,
+        error: e.toString()
+      })
+    })
+  } catch (e) {
+    res.send({
+      code: 404,
+      error: e.errmsg
+    })
+  }
+}
+
+export const editVTExam = async (req, res) => {
+  const { exam } = req.body
+
+  try {
+    const model = await VTExamModel.findOne({_id: new ObjectId(exam._id)})
+      .populate({ path: 'editor', select: 'name' })
+      .populate({ path: 'approvedBy', select: 'name' })
+
+    model.overwrite({
+      ...exam,
+      approveStatus: EVTApproveStatus.UNAPPROVED,
+      editor: req.user._id
+    })
+
+    await model.save();
+    shouldRefreshTheTag=true
+    res.send({
+      code: 200,
+      data: model.toObject()
+    })
+  } catch (e) {
+    res.send({
+      code: 404,
+      error: e.toString()
+    })
+  }
+}

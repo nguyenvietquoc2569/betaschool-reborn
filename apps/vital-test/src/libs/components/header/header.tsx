@@ -29,7 +29,7 @@ export const Header = () => {
   return <header className='header left-slotted child-open'>
     <KDHeaderNav>
       <KDHeaderLink href='javascript:void(0)'>
-        {ttt('Bài thi trắc nghiệm', 'Multiple Choice Test')}
+        {ttt('Kì thi trắc nghiệm', 'Multiple Choice Test')}
         {
           (session.userDetails?.permissions.includes(EUserPermissions.GLOBAL) || session.userDetails?.permissions.includes(EUserPermissions.VITALTESTEDITOR)) && 
           <KDHeaderLink slot="links" href='/vital-test/question-manage/browser?filters='>
@@ -39,7 +39,7 @@ export const Header = () => {
         {
           (session.userDetails?.permissions.includes(EUserPermissions.GLOBAL) || session.userDetails?.permissions.includes(EUserPermissions.VITALTESTEDITOR)) && 
           <KDHeaderLink slot="links" href='/vital-test/exam-management/browser?filters='>
-            {ttt('Kho bài thi', 'Exam Management')}
+            {ttt('Kho kì thi', 'Exam Management')}
           </KDHeaderLink>
         }
       </KDHeaderLink>

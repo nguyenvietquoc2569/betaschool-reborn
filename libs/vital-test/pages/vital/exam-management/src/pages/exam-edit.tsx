@@ -4,9 +4,9 @@ import { useLangContext } from '@betaschool-reborn/vital-test/multiple-language'
 import { PermissionGuard } from '@betaschool-reborn/vital-test/permission-guard'
 import { getBaseUrlForServiceFromFrontend, LoadingScreen, SecurePost } from '@betaschool-reborn/vital-test/utils'
 import { BUTTON_ICON_POSITION, BUTTON_KINDS } from '@kyndryl-design-system/shidoka-foundation/components/button/defs'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
-import { useSearchParams } from 'react-router-dom'
+import { useParams, useSearchParams } from 'react-router-dom'
 import { ExamEditor } from '../components/exam-editor/exam-editor'
 import { reduxCommonActionShowNotification } from '@betaschool-reborn/vital-test/redux'
 
@@ -16,30 +16,71 @@ enum EScreen {
   COMPLITED
 }
 
-export const ExamAdd = () => {
+export const ExamEdit = () => {
   const {ttt} = useLangContext()
   const [screen, setScreen] = useState<EScreen>(EScreen.EDITTING)
   const dispatch = useDispatch()
-  const [searchParams] = useSearchParams()
+  const { id } = useParams()
 
-  const [exam, setExam] = useState<IVTExam>(()=> {
-    const tags = (searchParams.get('tags') || '').split(';').filter(t => (t!==''))
-    if (tags.length===0) return defaultVTExam
-    else return {
-      ...defaultVTExam,
-      tags
-    }
-  })
+  const [exam, setExam] = useState<IVTExam>(defaultVTExam)
 
   const onChange = (q: IVTExam) => {
     setExam(q)
   }
 
+  useEffect(() => {
+    getExam()
+  }, [])
+
+  const getExam = () => {
+    setScreen(EScreen.LOADING)
+    SecurePost(getBaseUrlForServiceFromFrontend(), {
+      url: '/api/v1/vital-test/exam/detail',
+      data: {
+        id
+      }
+    }).then(data => {
+      if (data.status === 200) {
+        if (data.data.code === 200) {
+          setExam(data.data.data)
+          setScreen(EScreen.EDITTING)
+        }
+        if (data.data.code === 404) {
+          reduxCommonActionShowNotification(dispatch, {
+            ...{
+              text: '',
+              title: '',
+              type: 'success',
+              shown: false
+            },
+            text: data.data.error,
+            title: 'Get Detail Error',
+            type: 'danger',
+          })
+        }
+      }
+    }).catch((e) => {
+      setScreen(EScreen.LOADING)
+      reduxCommonActionShowNotification(dispatch, {
+        ...{
+          text: '',
+          title: '',
+          type: 'success',
+          shown: false
+        },
+        text: e.toString(),
+        title: 'Get Detail Error',
+        type: 'danger',
+      })
+    })
+  }
+
   const onSubmit = (exam: IVTExam) => {
     setScreen(EScreen.LOADING)
     SecurePost(getBaseUrlForServiceFromFrontend(), {
-      url: '/api/v1/vital-test/exam/add',
+      url: '/api/v1/vital-test/exam/edit',
       data: {
+        id: id,
         exam
       }
     }).then(data => {
@@ -80,7 +121,7 @@ export const ExamAdd = () => {
 
   return <PermissionGuard permissions={[EUserPermissions.VITALTESTEDITOR]}>
     {
-      screen === EScreen.EDITTING && <ExamEditor onSubmit={() => {onSubmit(exam)}} isNew exam={exam} onChange={onChange}></ExamEditor>
+      screen === EScreen.EDITTING && <ExamEditor onSubmit={() => {onSubmit(exam)}} isNew={false} exam={exam} onChange={onChange}></ExamEditor>
     }
 
     {
@@ -89,7 +130,7 @@ export const ExamAdd = () => {
     {
       screen === EScreen.COMPLITED && <>
         <h2>
-        {ttt('Bạn đã tạo thành công kì thi cho các tags:', 'You created the exam with tags:')}
+        {ttt('Bạn đã sửa thành công câu hỏi cho các tags:', 'You editted the exam with tags:')}
         </h2>
         <br></br>
         {exam.tags.map(t => <KDTag style={{marginRight: '8px'}} noTruncation tagColor="spruce" label={t} tagSize='lg'></KDTag>)}

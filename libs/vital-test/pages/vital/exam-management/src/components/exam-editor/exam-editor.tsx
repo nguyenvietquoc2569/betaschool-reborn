@@ -118,7 +118,7 @@ export function ExamEditor({exam = defaultVTExam, isNew, onChange, onSubmit}: Ex
   }, [])
 
   return <>
-    <h1>{isNew ? ttt('Thêm một bài thi mới','Add New Exam'): ttt('Sửa một bài thi','Edit a exam')}</h1>
+    <h1>{isNew ? ttt('Thêm một kì thi mới','Add New Exam'): ttt('Sửa một kì thi','Edit a exam')}</h1>
     <br></br>
     <h3>{ttt('Tags', 'Tags')} : <FilterModalV2
       onChange={(newTags) => {
@@ -147,7 +147,7 @@ export function ExamEditor({exam = defaultVTExam, isNew, onChange, onSubmit}: Ex
     />
     <br></br>
 
-    <h4 slot='label'>{ttt('Tên bài thi', 'Exam name')}</h4>
+    <h4 slot='label'>{ttt('Tên kì thi', 'Exam name')}</h4>
     <Textbox
       // label={ttt('Link Video Hướng dẫn', 'Guidance Video')}
       size='md'

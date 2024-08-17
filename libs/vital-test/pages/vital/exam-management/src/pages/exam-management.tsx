@@ -176,7 +176,7 @@ export const ExamManagement = () => {
 
   return (
     <PermissionGuard permissions={[EUserPermissions.VITALTESTEDITOR]}>
-      <h1>{ttt('Quản lý Bài thi', 'Exam Management')}</h1>
+      <h1>{ttt('Quản lý Kì thi', 'Exam Management')}</h1>
       {
         isLoading && <LoadingScreen></LoadingScreen>
       }
@@ -213,7 +213,7 @@ export const ExamManagement = () => {
                 slot='icon'
                 icon={addIcon}
               ></KDIcon>
-              {ttt('Thêm 1 bài thi', 'Add new exam')}
+              {ttt('Thêm 1 kì thi', 'Add new exam')}
             </KDButton>
             <KDButton
               kind={BUTTON_KINDS.TERTIARY}
