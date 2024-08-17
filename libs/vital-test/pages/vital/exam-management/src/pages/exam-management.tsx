@@ -13,6 +13,12 @@ import filterRemoveIcon from '@carbon/icons/es/close--filled/16'
 import { reduxCommonActionShowNotification } from '@betaschool-reborn/vital-test/redux';
 import { useDispatch } from 'react-redux';
 import { FilterModalV2 } from '@betaschool-reborn/vital-test/pages/vital/share';
+import { ApproveButton } from '../components/action-buttons/approve-exam';
+import { NeedWorkButton } from '../components/action-buttons/neekwork-problem';
+import { ExamEditButton } from '../components/action-buttons/edit-exam';
+import { DeactivateButton } from '../components/action-buttons/deactivate-exam';
+import { ExamActivateButton } from '../components/action-buttons/activate-exam';
+
 
 export const ExamManagement = () => {
   const {ttt} = useLangContext()
@@ -304,13 +310,13 @@ export const ExamManagement = () => {
                             assistiveText="Actions"
                           >
                             
-                            {/* {q.approveStatus === EVTApproveStatus.UNAPPROVED && <ApproveButton id={q._id || ''} setLoading={setLoading} done={() => { setSearchTrigger(!searchTrigger)} }></ApproveButton>}
+                            {q.approveStatus === EVTApproveStatus.UNAPPROVED && <ApproveButton id={q._id || ''} setLoading={setLoading} done={() => { setSearchTrigger(!searchTrigger)} }></ApproveButton>}
                             {q.approveStatus === EVTApproveStatus.UNAPPROVED && <NeedWorkButton id={q._id || ''} setLoading={setLoading} done={() => { setSearchTrigger(!searchTrigger)} }></NeedWorkButton>}
 
-                            <EditButton id={q._id || ''} setLoading={setLoading} done={() => { setSearchTrigger(!searchTrigger)} }></EditButton>
+                            <ExamEditButton id={q._id || ''} setLoading={setLoading} done={() => { setSearchTrigger(!searchTrigger)} }></ExamEditButton>
 
                             {q.isActive && <DeactivateButton id={q._id || ''} setLoading={setLoading} done={() => { setSearchTrigger(!searchTrigger)} }></DeactivateButton>}
-                            {!q.isActive && <ActivateButton id={q._id || ''} setLoading={setLoading} done={() => { setSearchTrigger(!searchTrigger)} }></ActivateButton>} */}
+                            {!q.isActive && <ExamActivateButton id={q._id || ''} setLoading={setLoading} done={() => { setSearchTrigger(!searchTrigger)} }></ExamActivateButton>}
 
                           </KDOverflowMenu>
                         </KDTTd>
