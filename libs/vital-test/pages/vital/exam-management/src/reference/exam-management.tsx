@@ -1,5 +1,4 @@
 import { PermissionGuard } from '@betaschool-reborn/vital-test/permission-guard';
-import styles from './question-management.module.scss';
 
 import { EUserPermissions, EVTApproveStatus, IVTProblem, IVTTagModal } from '@betaschool-reborn/beta-data-type';
 import { useLangContext } from '@betaschool-reborn/vital-test/multiple-language';
@@ -13,17 +12,9 @@ import { BUTTON_ICON_POSITION, BUTTON_KINDS, BUTTON_SIZES } from '@kyndryl-desig
 import filterRemoveIcon from '@carbon/icons/es/close--filled/16'
 import { reduxCommonActionShowNotification } from '@betaschool-reborn/vital-test/redux';
 import { useDispatch } from 'react-redux';
-import { ApproveButton } from './components/action-buttons/approve-problem';
-import { NeedWorkButton } from './components/action-buttons/neekwork-problem';
-import { DeactivateButton } from './components/action-buttons/deactivate-problem';
-import { ActivateButton } from './components/action-buttons/activate-problem';
-import { EditButton } from './components/action-buttons/edit-problem';
-import { FilterModalV2 } from '@betaschool-reborn/vital-test/pages/vital/share'
+import { FilterModalV2 } from '@betaschool-reborn/vital-test/pages/vital/share';
 
-/* eslint-disable-next-line */
-export interface QuestionManagementProps {}
-
-export function QuestionManagement(props: QuestionManagementProps) {
+export const TemplateSearchExamManagement = () => {
   const {ttt} = useLangContext()
   const [isLoading, setLoading] = useState(false)
   const dispatch = useDispatch()
@@ -48,7 +39,7 @@ export function QuestionManagement(props: QuestionManagementProps) {
     page: 0,
     count: 0
   })
-
+  
   const onFilterChange = (newFilters: Array<string>) => {
     setFilter([...new Set(newFilters)])
   }
@@ -65,70 +56,9 @@ export function QuestionManagement(props: QuestionManagementProps) {
     setSearchTrigger(!searchTrigger)
   }, [search, filters])
 
-
-  useDebounce(() => {
-    setLoading(true)
-    SecurePost(getBaseUrlForServiceFromFrontend(), {
-      url: '/api/v1/vital-test/get-problem',
-      data: {
-        page: pagination.page,
-        perPage,
-        text: search,
-        tags: filters
-      }
-    }).then(data => {
-      setLoading(false)
-      if (data.status === 200) {
-        if (data.data.code === 200) {
-          setQuestion(data.data.data)
-          setPagination({
-            count: data.data.pagination.count,
-            page: pagination.page
-          })
-        }
-        if (data.data.code === 404) {
-          setQuestion([])
-          setPagination({
-            count: 0,
-            page: 0
-          })
-          reduxCommonActionShowNotification(dispatch, {
-            ...{
-              text: '',
-              title: '',
-              type: 'success',
-              shown: false
-            },
-            text: data.data.error,
-            title: 'Get Question error',
-            type: 'danger',
-          })
-        }
-      }
-    }).catch((e) => {
-      setLoading(false)
-      setQuestion([])
-      setPagination({
-        count: 0,
-        page: 0
-      })
-      reduxCommonActionShowNotification(dispatch, {
-        ...{
-          text: '',
-          title: '',
-          type: 'success',
-          shown: false
-        },
-        text: e.toString(),
-        title: 'Get Question error',
-        type: 'danger',
-      })
-    })
-  }, [searchTrigger], 300)
-
   useEffect(() => {
     SecurePost(getBaseUrlForServiceFromFrontend(), {
-      url: '/api/v1/vital-test/getTags',
+      url: '/api/v1/vital-test/exam/getTags',
     }).then(data => {
       // setTagLoading(false)
       if (data.status === 200) {
@@ -180,7 +110,7 @@ export function QuestionManagement(props: QuestionManagementProps) {
 
   return (
     <PermissionGuard permissions={[EUserPermissions.VITALTESTEDITOR]}>
-      <h1>{ttt('Quản lý câu hỏi', 'Question Management')}</h1>
+      <h1>{ttt('Quản lý Kỳ thi', 'Exam Management')}</h1>
       {
         isLoading && <LoadingScreen></LoadingScreen>
       }
@@ -273,95 +203,8 @@ export function QuestionManagement(props: QuestionManagementProps) {
             </KDButton>
           </FilterBox>
           <br />
-          {
-            !isLoading && <>
-              <KDTableContainer style={{
-                overflowX: 'unset'
-              }}>
-                <KDTable >
-                  <KDTHeader>
-                    <KDTTr>
-                      <KDTTh>ID</KDTTh>
-                      <KDTTh>Question</KDTTh>
-                      <KDTTh>Tags</KDTTh>
-                      <KDTTh>{ttt('Trạng thái', 'Status')}</KDTTh>
-                      <KDTTh></KDTTh>
-                    </KDTTr>
-                  </KDTHeader>
-                  <KDTBody>
-                    {
-                      questions.map(q => <KDTTr>
-                        <KDTTd>
-                          {q._id}
-                        </KDTTd>
-                        <KDTTd>
-                          {q.question}
-                        </KDTTd>
-                        <KDTTd>
-                          {q.tags.map(t => <KDTag noTruncation={true} label={t} style={{marginRight: '4px'}}></KDTag>)}
-                        </KDTTd>
-                        <KDTTd>
-                          {q.isActive ? <KDTag noTruncation={true} label='active' tagColor='cat02' shade='dark' style={{marginRight: '4px'}}></KDTag> : <KDTag noTruncation={true} label='deactive' tagColor='cat03' shade='dark' style={{marginRight: '4px'}}></KDTag>}
-                          {q.approveStatus === EVTApproveStatus.APPROVED && <KDTag noTruncation={true} label={ttt('Đã Duyệt', 'Approved')} tagColor='passed' shade='dark' style={{marginRight: '4px'}}></KDTag>}
-                          {q.approveStatus === EVTApproveStatus.UNAPPROVED && <KDTag noTruncation={true} label={ttt('Chờ Duyệt', 'Waiting Approving')} tagColor='warning' shade='dark' style={{marginRight: '4px'}}></KDTag>}
-                          {q.approveStatus === EVTApproveStatus.NEEDWORK && <KDTag noTruncation={true} label={ttt('Yêu cầu chỉnh sửa', 'Need work')} tagColor='failed' shade='dark' style={{marginRight: '4px'}}></KDTag>}
-                        </KDTTd>
-                        <KDTTd>
-                          <KDOverflowMenu
-                            anchorRight
-                            assistiveText="Actions"
-                          >
-                            
-                            {q.approveStatus === EVTApproveStatus.UNAPPROVED && <ApproveButton id={q._id || ''} setLoading={setLoading} done={() => { setSearchTrigger(!searchTrigger)} }></ApproveButton>}
-                            {q.approveStatus === EVTApproveStatus.UNAPPROVED && <NeedWorkButton id={q._id || ''} setLoading={setLoading} done={() => { setSearchTrigger(!searchTrigger)} }></NeedWorkButton>}
-
-                            <EditButton id={q._id || ''} setLoading={setLoading} done={() => { setSearchTrigger(!searchTrigger)} }></EditButton>
-
-                            {q.isActive && <DeactivateButton id={q._id || ''} setLoading={setLoading} done={() => { setSearchTrigger(!searchTrigger)} }></DeactivateButton>}
-                            {!q.isActive && <ActivateButton id={q._id || ''} setLoading={setLoading} done={() => { setSearchTrigger(!searchTrigger)} }></ActivateButton>}
-
-                          </KDOverflowMenu>
-                        </KDTTd>
-                      </KDTTr>)
-                    }
-                  </KDTBody>
-                  
-                </KDTable>
-              </KDTableContainer>
-              <KDTFooter>
-                <KDPagination
-                  pageSize={perPage}
-                  pageSizeOptions={[3,5,10,15,20,30,40,50]}
-                  count={pagination.count}
-                  pageNumber={pagination.page+1}
-
-                  onPageSizeChange={(e: any) => {
-                    setPerPage(e.detail.value)
-                    setPagination({
-                      page: 0,
-                      count: 0
-                    })
-                    setSearchTrigger(!searchTrigger)
-                  }}
-
-                  onPageNumberChange={(e: any) => {
-                    console.log('onPageNumberChange', e)
-                    setPagination({
-                      page: Number(e.detail.value) - 1,
-                      count: pagination.count
-                    })
-                    setSearchTrigger(!searchTrigger)
-                  }}
-
-                />
-              </KDTFooter>
-            </>
-          }
-
-        </>
+          </>
       }
     </PermissionGuard>
   );
 }
-
-export default QuestionManagement;

@@ -1,7 +1,6 @@
 import { PermissionGuard } from '@betaschool-reborn/vital-test/permission-guard';
-import styles from './question-management.module.scss';
 
-import { EUserPermissions, EVTApproveStatus, IVTProblem, IVTTagModal } from '@betaschool-reborn/beta-data-type';
+import { EUserPermissions, EVTApproveStatus, IVTExam, IVTProblem, IVTTagModal } from '@betaschool-reborn/beta-data-type';
 import { useLangContext } from '@betaschool-reborn/vital-test/multiple-language';
 import { Fragment, useEffect, useState } from 'react';
 import { getBaseUrlForServiceFromFrontend, LoadingScreen, SecurePost, useDebounce, useSearchFiltersBaseUrlHook } from '@betaschool-reborn/vital-test/utils';
@@ -13,17 +12,9 @@ import { BUTTON_ICON_POSITION, BUTTON_KINDS, BUTTON_SIZES } from '@kyndryl-desig
 import filterRemoveIcon from '@carbon/icons/es/close--filled/16'
 import { reduxCommonActionShowNotification } from '@betaschool-reborn/vital-test/redux';
 import { useDispatch } from 'react-redux';
-import { ApproveButton } from './components/action-buttons/approve-problem';
-import { NeedWorkButton } from './components/action-buttons/neekwork-problem';
-import { DeactivateButton } from './components/action-buttons/deactivate-problem';
-import { ActivateButton } from './components/action-buttons/activate-problem';
-import { EditButton } from './components/action-buttons/edit-problem';
-import { FilterModalV2 } from '@betaschool-reborn/vital-test/pages/vital/share'
+import { FilterModalV2 } from '@betaschool-reborn/vital-test/pages/vital/share';
 
-/* eslint-disable-next-line */
-export interface QuestionManagementProps {}
-
-export function QuestionManagement(props: QuestionManagementProps) {
+export const ExamManagement = () => {
   const {ttt} = useLangContext()
   const [isLoading, setLoading] = useState(false)
   const dispatch = useDispatch()
@@ -39,7 +30,7 @@ export function QuestionManagement(props: QuestionManagementProps) {
   const [extraTags, setExtraTags] = useState<IVTTagModal>([])
   const [searchTrigger, setSearchTrigger] = useState<boolean>(true)
   const [searchText, setSearchText] = useState<string>(search)
-  const [questions, setQuestion] = useState<Array<IVTProblem>>([])
+  const [questions, setQuestion] = useState<Array<IVTExam>>([])
   const [perPage, setPerPage] = useState(10)
   const [pagination, setPagination] = useState<{
     page: number,
@@ -48,7 +39,7 @@ export function QuestionManagement(props: QuestionManagementProps) {
     page: 0,
     count: 0
   })
-
+  
   const onFilterChange = (newFilters: Array<string>) => {
     setFilter([...new Set(newFilters)])
   }
@@ -65,11 +56,10 @@ export function QuestionManagement(props: QuestionManagementProps) {
     setSearchTrigger(!searchTrigger)
   }, [search, filters])
 
-
   useDebounce(() => {
     setLoading(true)
     SecurePost(getBaseUrlForServiceFromFrontend(), {
-      url: '/api/v1/vital-test/get-problem',
+      url: '/api/v1/vital-test/exam/get',
       data: {
         page: pagination.page,
         perPage,
@@ -128,7 +118,7 @@ export function QuestionManagement(props: QuestionManagementProps) {
 
   useEffect(() => {
     SecurePost(getBaseUrlForServiceFromFrontend(), {
-      url: '/api/v1/vital-test/getTags',
+      url: '/api/v1/vital-test/exam/getTags',
     }).then(data => {
       // setTagLoading(false)
       if (data.status === 200) {
@@ -143,7 +133,7 @@ export function QuestionManagement(props: QuestionManagementProps) {
                 lang: [t, t]
               }))
             },
-            ...data.data.extraTags
+            ...data.data.extraExamTags
           ])
         }
         if (data.data.code === 404) {
@@ -180,7 +170,7 @@ export function QuestionManagement(props: QuestionManagementProps) {
 
   return (
     <PermissionGuard permissions={[EUserPermissions.VITALTESTEDITOR]}>
-      <h1>{ttt('Quản lý câu hỏi', 'Question Management')}</h1>
+      <h1>{ttt('Quản lý Bài thi', 'Exam Management')}</h1>
       {
         isLoading && <LoadingScreen></LoadingScreen>
       }
@@ -210,14 +200,14 @@ export function QuestionManagement(props: QuestionManagementProps) {
               iconPosition={BUTTON_ICON_POSITION.LEFT}
               slot='actions'
               onClick={() => {
-                window.open('/vital-test/question-manage/add?tags=' + encodeURIComponent(filters.filter(t => !t.includes('::')).join(';')), '_blank')?.focus();
+                window.open('/vital-test/exam-management/add?tags=' + encodeURIComponent(filters.filter(t => !t.includes('::')).join(';')), '_blank')?.focus();
               }}
             >
               <KDIcon
                 slot='icon'
                 icon={addIcon}
               ></KDIcon>
-              {ttt('Thêm 1 câu hỏi', 'Add new question')}
+              {ttt('Thêm 1 bài thi', 'Add new exam')}
             </KDButton>
             <KDButton
               kind={BUTTON_KINDS.TERTIARY}
@@ -273,6 +263,7 @@ export function QuestionManagement(props: QuestionManagementProps) {
             </KDButton>
           </FilterBox>
           <br />
+
           {
             !isLoading && <>
               <KDTableContainer style={{
@@ -282,7 +273,7 @@ export function QuestionManagement(props: QuestionManagementProps) {
                   <KDTHeader>
                     <KDTTr>
                       <KDTTh>ID</KDTTh>
-                      <KDTTh>Question</KDTTh>
+                      <KDTTh>Name</KDTTh>
                       <KDTTh>Tags</KDTTh>
                       <KDTTh>{ttt('Trạng thái', 'Status')}</KDTTh>
                       <KDTTh></KDTTh>
@@ -295,7 +286,8 @@ export function QuestionManagement(props: QuestionManagementProps) {
                           {q._id}
                         </KDTTd>
                         <KDTTd>
-                          {q.question}
+                          {q.name}<br/>
+                          {q.des && <em>{q.des}</em>}
                         </KDTTd>
                         <KDTTd>
                           {q.tags.map(t => <KDTag noTruncation={true} label={t} style={{marginRight: '4px'}}></KDTag>)}
@@ -312,13 +304,13 @@ export function QuestionManagement(props: QuestionManagementProps) {
                             assistiveText="Actions"
                           >
                             
-                            {q.approveStatus === EVTApproveStatus.UNAPPROVED && <ApproveButton id={q._id || ''} setLoading={setLoading} done={() => { setSearchTrigger(!searchTrigger)} }></ApproveButton>}
+                            {/* {q.approveStatus === EVTApproveStatus.UNAPPROVED && <ApproveButton id={q._id || ''} setLoading={setLoading} done={() => { setSearchTrigger(!searchTrigger)} }></ApproveButton>}
                             {q.approveStatus === EVTApproveStatus.UNAPPROVED && <NeedWorkButton id={q._id || ''} setLoading={setLoading} done={() => { setSearchTrigger(!searchTrigger)} }></NeedWorkButton>}
 
                             <EditButton id={q._id || ''} setLoading={setLoading} done={() => { setSearchTrigger(!searchTrigger)} }></EditButton>
 
                             {q.isActive && <DeactivateButton id={q._id || ''} setLoading={setLoading} done={() => { setSearchTrigger(!searchTrigger)} }></DeactivateButton>}
-                            {!q.isActive && <ActivateButton id={q._id || ''} setLoading={setLoading} done={() => { setSearchTrigger(!searchTrigger)} }></ActivateButton>}
+                            {!q.isActive && <ActivateButton id={q._id || ''} setLoading={setLoading} done={() => { setSearchTrigger(!searchTrigger)} }></ActivateButton>} */}
 
                           </KDOverflowMenu>
                         </KDTTd>
@@ -357,11 +349,9 @@ export function QuestionManagement(props: QuestionManagementProps) {
               </KDTFooter>
             </>
           }
-
-        </>
+          
+          </>
       }
     </PermissionGuard>
   );
 }
-
-export default QuestionManagement;

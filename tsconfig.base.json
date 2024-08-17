@@ -29,8 +29,14 @@
       "@betaschool-reborn/vital-test/pages/login-page": [
         "libs/vital-test/pages/login-page/src/index.ts"
       ],
+      "@betaschool-reborn/vital-test/pages/vital/exam-management": [
+        "libs/vital-test/pages/vital/exam-management/src/index.ts"
+      ],
       "@betaschool-reborn/vital-test/pages/vital/question-management": [
         "libs/vital-test/pages/vital/question-management/src/index.ts"
+      ],
+      "@betaschool-reborn/vital-test/pages/vital/share": [
+        "libs/vital-test/pages/vital/share/src/index.ts"
       ],
       "@betaschool-reborn/vital-test/permission-guard": [
         "libs/vital-test/permission-guard/src/index.ts"

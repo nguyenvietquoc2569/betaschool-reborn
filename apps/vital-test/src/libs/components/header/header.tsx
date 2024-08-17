@@ -36,6 +36,12 @@ export const Header = () => {
             {ttt('Kho Câu Hỏi', 'Question Management')}
           </KDHeaderLink>
         }
+        {
+          (session.userDetails?.permissions.includes(EUserPermissions.GLOBAL) || session.userDetails?.permissions.includes(EUserPermissions.VITALTESTEDITOR)) && 
+          <KDHeaderLink slot="links" href='/vital-test/exam-management/browser?filters='>
+            {ttt('Kho bài thi', 'Exam Management')}
+          </KDHeaderLink>
+        }
       </KDHeaderLink>
     </KDHeaderNav>
   <a

@@ -35,6 +35,17 @@ import { OverflowMenu, OverflowMenuItem } from '@kyndryl-design-system/shidoka-a
 
 import { HeaderCategory, HeaderNav, HeaderDivider } from '@kyndryl-design-system/shidoka-applications/components/global/header'
 
+import {NumberInput} from '@kyndryl-design-system/shidoka-applications/components/reusable/numberInput/numberInput'
+
+export const KDNumberInput= createComponent({
+  tagName: 'kyn-number-input',
+  elementClass: NumberInput,
+  react: React,
+  events: {
+    onChange: 'on-input'
+  }
+})
+
 export const KDHeaderDivider= createComponent({
   tagName: 'kyn-header-divider',
   elementClass: HeaderDivider,

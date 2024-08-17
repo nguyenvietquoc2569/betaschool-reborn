@@ -34,7 +34,7 @@
     "@ant-design/pro-layout": "^6.15.3",
     "@ant-design/pro-table": "^2.30.8",
     "@coreui/icons": "^3.0.1",
-    "@kyndryl-design-system/shidoka-applications": "^1.27.8",
+    "@kyndryl-design-system/shidoka-applications": "^1.31.4",
     "@kyndryl-design-system/shidoka-foundation": "^1.7.1",
     "@lit/react": "^1.0.5",
     "@microsoft/microsoft-graph-client": "^3.0.7",

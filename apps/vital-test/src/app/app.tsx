@@ -10,6 +10,7 @@ import { ModalBox } from '@betaschool-reborn/vital-test/lit-components';
 import { ReactNode } from 'react';
 import { QuestionAdd, QuestionEdit, QuestionManagement } from '@betaschool-reborn/vital-test/pages/vital/question-management';
 import { LanguageProvider } from '@betaschool-reborn/vital-test/multiple-language';
+import { ExamAdd, ExamManagement } from '@betaschool-reborn/vital-test/pages/vital/exam-management';
 
 export function App() {
   const isLogin = useTypedSelector(state => state.session.isLoggedIn)
@@ -38,6 +39,16 @@ export function App() {
               <Route
                 path="/vital-test/question-manage/edit/:id"
                 element={<QuestionEdit></QuestionEdit>}
+              />
+
+              <Route
+                path="/vital-test/exam-management/browser"
+                element={<ExamManagement></ExamManagement>}
+              />
+
+              <Route
+                path="/vital-test/exam-management/add"
+                element={<ExamAdd></ExamAdd>}
               />
 
 

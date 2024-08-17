@@ -8,7 +8,7 @@ import { reduxCommonActionShowNotification } from '@betaschool-reborn/vital-test
 import { useDispatch } from 'react-redux';
 import CreatableSelect from 'react-select/creatable'
 import { BUTTON_ICON_POSITION, BUTTON_KINDS } from '@kyndryl-design-system/shidoka-foundation/components/button/defs';
-import { FilterModalV2 } from '../filter-modal/FilterModalV2';
+import { FilterModalV2 } from '@betaschool-reborn/vital-test/pages/vital/share';
 
 export interface QuestionEditorProps {
   question: IVTProblem,

@@ -1,5 +1,6 @@
 import * as express from "express"
-import { activeVTProblem, addVTProblem, approveVTProblem, detailVTProblem, editVTProblem, getListVTProblem, getTheTagsList } from '../services/vital-test'
+import { activeVTProblem, addVTProblem, approveVTProblem, detailVTProblem, editVTProblem, getListVTProblem, getTheTagsList } from '../services/vital-test/vital-test'
+import { addVTExam, getExamTheTagsList, getListVTExam } from '../services/vital-test/vital-test-exam'
 export const router = express.Router()
 
 router.post('/get-problem', getListVTProblem)
@@ -9,3 +10,7 @@ router.post('/detail-problem', detailVTProblem)
 router.post('/approve-problem', approveVTProblem)
 router.post('/activate-problem', activeVTProblem)
 router.post('/getTags', getTheTagsList)
+
+router.post('/exam/getTags', getExamTheTagsList)
+router.post('/exam/add', addVTExam)
+router.post('/exam/get', getListVTExam)

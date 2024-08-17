@@ -216,10 +216,11 @@ export const activeVTProblem = async (req, res) => {
 
 
 export const getTheTagsList = async (req, res, next) => {
+  const officialTags = suggestTags.reduce((pre, c) => ([...pre, ...c.data.map(d => (d.tag))]), [])
   if (!shouldRefreshTheTag) {
     res.send({
       code: 200,
-      data: tagsTemp,
+      data: tagsTemp.filter(t=> (!officialTags.includes(t))),
       extraTags: extraTags,
       suggestTags: suggestTags
     })
@@ -232,8 +233,9 @@ export const getTheTagsList = async (req, res, next) => {
     tagsTemp = tags
     res.send({
       code: 200,
-      data: tags,
-      extraTags: extraTags
+      data: tags.filter(t=> (!officialTags.includes(t))),
+      extraTags: extraTags,
+      suggestTags: suggestTags
     })
   } catch (e) {
     res.send({
