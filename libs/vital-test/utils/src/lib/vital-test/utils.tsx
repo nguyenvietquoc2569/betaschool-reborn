@@ -40,6 +40,11 @@ export class AuthService {
   }
 
   LoginAuth = (u: string, p: string) => {
+    
+    console.log(u, p, {
+      emailid: u,
+      password: p
+    })
     return UnsecurePost(this.base, {
       url: `/api/v1/login/`,
       data: {

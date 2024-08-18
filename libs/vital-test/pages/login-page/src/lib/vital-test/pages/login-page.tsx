@@ -2,7 +2,7 @@ import { CustomCard, KDButton, Textbox } from '@betaschool-reborn/vital-test/lit
 import styles from './login-page.module.scss';
 import '@kyndryl-design-system/shidoka-foundation/components/card'
 import { useDispatch } from 'react-redux'
-import { useState } from 'react'
+import { useCallback, useState } from 'react'
 import { reduxSessionActionLogin, useTypedSelector } from '@betaschool-reborn/vital-test/redux'
 import { useNavigate } from "react-router-dom"
 import { useSearchParams} from "react-router-dom"
@@ -11,8 +11,9 @@ import { useSearchParams} from "react-router-dom"
 export interface LoginPageProps {}
 
 export function LoginPage(props: LoginPageProps) {
-  const [username, setUsername] = useState('')
-  const [password, setPassword] = useState('')
+  const [username, setUsername] = useState<string>(() => '')
+  const [password, setPassword] = useState<string>(() => '')
+  
   const [isValid, setIsValid] = useState(false)
   const isLoading = useTypedSelector((state) => state.session.isLoading)
   const isLogin = useTypedSelector(state => state.session.isLoggedIn)
@@ -35,16 +36,15 @@ export function LoginPage(props: LoginPageProps) {
 
 
   const passwordChange = (value: any) => {
-    console.log('passchange  ', value)
     setPassword(value.target.value)
     checkIsValid(username, value.target.value)
   }
 
 
   const dispatch = useDispatch()
-  const loginAction = () => {
+  const loginAction = useCallback(() => {
     reduxSessionActionLogin(dispatch, username, password)
-  }
+  }, [reduxSessionActionLogin, dispatch, username, password])
 
   if (isLogin) {
     const urlEncoded = (searchParams.get('RETURNURL'))
@@ -62,9 +62,9 @@ export function LoginPage(props: LoginPageProps) {
         <h2>Login</h2>
           <Textbox 
             placeholder="Username"
-            inputChange={userNameChange} value={username}
+            inputChange={(e) => userNameChange(e)} value={username}
           />
-          <Textbox placeholder="Password" type='password' inputChange={passwordChange} value={password} />
+          <Textbox placeholder="Password" type='password' inputChange={(e) => passwordChange(e)} value={password} />
           <KDButton style={{
               marginTop: '10px'
             }}
