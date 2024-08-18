@@ -1,4 +1,4 @@
-import { defaultVTProblem, EVTProblemCategory, IVTProblem, IVTTagModal, VTProblemCategoryList } from '@betaschool-reborn/beta-data-type';
+import { defaultVTProblem, EVTProblemCategory, IVTFormError, IVTProblem, IVTTagModal, validateVTQuestion, VTProblemCategoryList } from '@betaschool-reborn/beta-data-type';
 import { KDButton, KDDropDown, KDDropDownOption, KDRadioButton, KDRadioButtonGroup, KDTextArea, Textbox } from '@betaschool-reborn/vital-test/lit-components';
 import { useLangContext } from '@betaschool-reborn/vital-test/multiple-language';
 import { ProblemQuilEditor } from '../problem-editor/qill-editor-for-problem';
@@ -9,6 +9,7 @@ import { useDispatch } from 'react-redux';
 import CreatableSelect from 'react-select/creatable'
 import { BUTTON_ICON_POSITION, BUTTON_KINDS } from '@kyndryl-design-system/shidoka-foundation/components/button/defs';
 import { FilterModalV2 } from '@betaschool-reborn/vital-test/pages/vital/share';
+import style from './styles.module.css'
 
 export interface QuestionEditorProps {
   question: IVTProblem,
@@ -21,6 +22,16 @@ export function ProblemEditor({question = defaultVTProblem, isNew, onChange, onS
   const {ttt} = useLangContext()
   const [tags, setTags] = useState<Array<string>>([])
   const [suggestTags, setSuggestTags] = useState<IVTTagModal>([])
+  const [errors, setErrors] = useState<IVTFormError>({})
+
+  const submit = () => {
+    const err = validateVTQuestion(question)
+    if (Object.values(err).length) {
+      setErrors(err)
+    } else {
+      onSubmit(question)
+    }
+  }
 
   const dispatch = useDispatch()
 
@@ -82,6 +93,7 @@ export function ProblemEditor({question = defaultVTProblem, isNew, onChange, onS
       }}
       value={question.tags.map(v => ({ value: v, label: v }))}
     />
+    {errors.tags && <span className={style.error}>{ttt(...errors.tags)}</span>}
     <br></br>
     <FilterModalV2
       onChange={(newTags) => {
@@ -117,6 +129,7 @@ export function ProblemEditor({question = defaultVTProblem, isNew, onChange, onS
       ...question,
       question: e
     })}}></ProblemQuilEditor>
+    {errors.question && <span className={style.error}>{ttt(...errors.question)}</span>}
     <br></br>
     <KDRadioButtonGroup
       value={String(question.correctAnswerIndex)}
@@ -149,6 +162,7 @@ export function ProblemEditor({question = defaultVTProblem, isNew, onChange, onS
                   anwsers: answers
                 })
               }}
+              invalidText={!errors[`anwsers[${value}]`] ? '' : ttt(...errors[`anwsers[${value}]`])}
             ></KDTextArea>
           </>
         }) 
@@ -156,7 +170,7 @@ export function ProblemEditor({question = defaultVTProblem, isNew, onChange, onS
       
     </KDRadioButtonGroup>
     <br/>
-    <KDButton onClick={() => {onSubmit(question)}} iconPosition={BUTTON_ICON_POSITION.LEFT}>{isNew ? ttt('Thêm mới', 'Add new') : ttt('Lưu lại', 'Save')}</KDButton>
+    <KDButton onClick={submit} iconPosition={BUTTON_ICON_POSITION.LEFT}>{isNew ? ttt('Thêm mới', 'Add new') : ttt('Lưu lại', 'Save')}</KDButton>
     <KDButton style={{
       marginLeft: '24px'
     }} iconPosition={BUTTON_ICON_POSITION.LEFT} kind={BUTTON_KINDS.TERTIARY} href={

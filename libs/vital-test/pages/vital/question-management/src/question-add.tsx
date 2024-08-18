@@ -24,7 +24,7 @@ export const QuestionAdd = () => {
 
 
   const [question, setQuestion] = useState<IVTProblem>(()=> {
-    const tags = (searchParams.get('tags') || '').split(';')
+    const tags = (searchParams.get('tags') || '').split(';').filter(t => t!=='')
     if (tags.length===0) return defaultVTProblem
     else return {
       ...defaultVTProblem,
