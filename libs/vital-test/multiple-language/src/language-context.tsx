@@ -61,7 +61,15 @@ export const useLangContext = () => useContext<ILanguageContext>(LanguageContext
 
 export const LanguageProvider = ({children}: {children: ReactNode}) => {
 
-  const [current, setCurrent] = useState<ELanguage>(ELanguage.VI)
+  const [current, setCurrent] = useState<ELanguage>(() => {
+    const locale = localStorage.getItem('locale')
+    if (locale && [ELanguage.VI, ELanguage.EN].includes(locale as ELanguage)) {
+      return locale as ELanguage
+    } else {
+      localStorage.setItem('locale', ELanguage.VI)
+      return ELanguage.VI
+    }
+  })
 
   const t = useCallback((c: ILanguageContextContent, p: ILanguageParams) => {
     let str = ''
@@ -95,6 +103,7 @@ export const LanguageProvider = ({children}: {children: ReactNode}) => {
 
   const changeLanguage = useCallback((language: ELanguage) => {
     setCurrent(language)
+    localStorage.setItem('locale', language)
   }, [])
 
   return <LanguageContext.Provider value={

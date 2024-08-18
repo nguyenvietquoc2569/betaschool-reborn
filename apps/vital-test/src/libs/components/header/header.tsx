@@ -70,10 +70,14 @@ export const Header = () => {
           slot='button'
           alt={'language'}
           src={current === ELanguage.VI ? '/assets/icons/flags/ic_flag_vn.svg' : '/assets/icons/flags/ic_flag_us.svg'}
+
         />
         <KDHeaderLink
+          style={{
+            width: 'max-content'
+          }}
+          href='javascript:void(0)'
           onClick={() => changeLanguage(ELanguage.VI)}
-          href='#'
         >
           <img
             alt={'language'}
@@ -82,8 +86,11 @@ export const Header = () => {
           Tiếng Việt
         </KDHeaderLink>
         <KDHeaderLink
+          style={{
+            width: 'max-content'
+          }}
+          href='javascript:void(0)'
           onClick={() => changeLanguage(ELanguage.EN)}
-          href='#'
         >
           <img
             alt={'language'}
