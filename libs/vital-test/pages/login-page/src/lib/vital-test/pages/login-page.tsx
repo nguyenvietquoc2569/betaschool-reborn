@@ -10,10 +10,17 @@ import { useSearchParams} from "react-router-dom"
 /* eslint-disable-next-line */
 export interface LoginPageProps {}
 
-export function LoginPage(props: LoginPageProps) {
+export const LoginPage = (props: LoginPageProps) => {
   const [username, setUsername] = useState<string>(() => '')
   const [password, setPassword] = useState<string>(() => '')
-  
+  const [cre, setCre] = useState<{
+    username: string,
+    password: string
+  }>({
+    username: '',
+    password: ''
+  })
+
   const [isValid, setIsValid] = useState(false)
   const isLoading = useTypedSelector((state) => state.session.isLoading)
   const isLogin = useTypedSelector(state => state.session.isLoggedIn)
@@ -31,19 +38,27 @@ export function LoginPage(props: LoginPageProps) {
 
   const userNameChange = (value: any) => {
     setUsername(value.target.value)
+    setCre({
+      ...cre,
+      username: value.target.value
+    })
     checkIsValid(value.target.value, password)
   }
 
 
   const passwordChange = (value: any) => {
     setPassword(value.target.value)
+    setCre({
+      ...cre,
+      password: value.target.value
+    })
     checkIsValid(username, value.target.value)
   }
 
 
   const dispatch = useDispatch()
   const loginAction = useCallback(() => {
-    reduxSessionActionLogin(dispatch, username, password)
+    reduxSessionActionLogin(dispatch, cre.username, cre.password)
   }, [reduxSessionActionLogin, dispatch, username, password])
 
   if (isLogin) {
