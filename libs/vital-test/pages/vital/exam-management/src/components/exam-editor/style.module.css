@@ -1,0 +1,5 @@
+.error {
+  font-size: var(--kd-font-size-utility-3-xlg);
+  line-height: var(--kd-line-height-utility-3-xlg);
+  color: var(--kd-color-text-error);
+}

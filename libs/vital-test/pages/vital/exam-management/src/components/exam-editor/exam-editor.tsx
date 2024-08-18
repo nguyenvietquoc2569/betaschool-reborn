@@ -1,4 +1,4 @@
-import { defaultVTExam, defaultVTExamPart, IVTExam, IVTTagModal } from '@betaschool-reborn/beta-data-type';
+import { defaultVTExam, defaultVTExamPart, IVTExam, IVTFormError, IVTTagModal, validateVTExam } from '@betaschool-reborn/beta-data-type';
 import { KDButton, KDNumberInput, KDTab, KDTabPanel, KDTabs, KDTextArea, Textbox } from '@betaschool-reborn/vital-test/lit-components';
 import { useLangContext } from '@betaschool-reborn/vital-test/multiple-language';
 import { FilterModalV2 } from '@betaschool-reborn/vital-test/pages/vital/share';
@@ -9,6 +9,7 @@ import CreatableSelect from 'react-select/creatable'
 import Select from 'react-select'
 import { getBaseUrlForServiceFromFrontend, SecurePost } from '@betaschool-reborn/vital-test/utils';
 import { reduxCommonActionShowNotification } from '@betaschool-reborn/vital-test/redux';
+import style from './style.module.css'
 
 export interface ExamEditorProps {
   exam: IVTExam,
@@ -27,6 +28,7 @@ export function ExamEditor({exam = defaultVTExam, isNew, onChange, onSubmit}: Ex
 
   const [problemTags, setProblemTags] = useState<Array<string>>([])
   const [suggestProblemTags, setSuggestProblemTags] = useState<IVTTagModal>([])
+  const [errors, setErrors] = useState<IVTFormError>({})
 
   const dispatch = useDispatch()
   const [tabSelected, setTabSelected] = useState<string>('0')
@@ -117,6 +119,15 @@ export function ExamEditor({exam = defaultVTExam, isNew, onChange, onSubmit}: Ex
     getTheProblemTags()
   }, [])
 
+  const submit = () => {
+    const err = validateVTExam(exam)
+    if (Object.values(err).length) {
+      setErrors(err)
+    } else {
+      onSubmit(exam)
+    }
+  }
+
   return <>
     <h1>{isNew ? ttt('Thêm một kì thi mới','Add New Exam'): ttt('Sửa một kì thi','Edit a exam')}</h1>
     <br></br>
@@ -145,11 +156,12 @@ export function ExamEditor({exam = defaultVTExam, isNew, onChange, onSubmit}: Ex
       }}
       value={exam.tags.map(v => ({ value: v, label: v }))}
     />
+    {errors.tags && <span className={style.error}>{ttt(...errors.tags)}</span>}
+    <br/>
     <br></br>
 
     <h4 slot='label'>{ttt('Tên kì thi', 'Exam name')}</h4>
     <Textbox
-      // label={ttt('Link Video Hướng dẫn', 'Guidance Video')}
       size='md'
       hideLabel
       value={exam.name || ''}
@@ -157,6 +169,7 @@ export function ExamEditor({exam = defaultVTExam, isNew, onChange, onSubmit}: Ex
         ...exam,
         name: e.detail.value
       })}}
+      invalidText={!errors['name'] ? '' : ttt(...errors[`name`])}
     ></Textbox>
     <br></br>
 
@@ -172,6 +185,7 @@ export function ExamEditor({exam = defaultVTExam, isNew, onChange, onSubmit}: Ex
           des: e.detail.value
         })
       }}
+      invalidText={!errors['des'] ? '' : ttt(...errors[`des`])}
     ></KDTextArea>
 
     <br/>
@@ -190,6 +204,7 @@ export function ExamEditor({exam = defaultVTExam, isNew, onChange, onSubmit}: Ex
     <br/>
     <br/>
 
+    {errors.parts && <span className={style.error}>{ttt(...errors.parts)}</span>}
     <KDTabs
       tabSize='md'
       tabStyle='contained'
@@ -211,7 +226,6 @@ export function ExamEditor({exam = defaultVTExam, isNew, onChange, onSubmit}: Ex
           <br/>
           <h4>{ttt('Tên ', 'Name')}</h4>
           <Textbox
-            // label={ttt('Link Video Hướng dẫn', 'Guidance Video')}
             size='md'
             hideLabel
             value={part.name || ''}
@@ -226,6 +240,7 @@ export function ExamEditor({exam = defaultVTExam, isNew, onChange, onSubmit}: Ex
                 } else return ele
               })
             })}}
+            invalidText={!errors[`parts[${index}].name`] ? '' : ttt(...errors[`parts[${index}].name`])}
           ></Textbox>
           <br></br>
           <br></br>
@@ -244,9 +259,11 @@ export function ExamEditor({exam = defaultVTExam, isNew, onChange, onSubmit}: Ex
                   } else return ele
                 })
             })}}
+            invalidText={!errors[`parts[${index}].totalPoint`] ? '' : ttt(...errors[`parts[${index}].totalPoint`])}
           ></KDNumberInput>
           <br></br>
           <br></br>
+          {errors[`parts[${index}].tags`] && <span className={style.error}>{ttt(...errors[`parts[${index}].tags`])}</span>}
           <h3>{ttt('Tags', 'Tags')} : <FilterModalV2
             onChange={(newTags) => {
               onChange({
@@ -309,11 +326,11 @@ export function ExamEditor({exam = defaultVTExam, isNew, onChange, onSubmit}: Ex
     }
     </KDTabs>
     <hr/>
-    <KDButton onClick={() => {onSubmit(exam)}} iconPosition={BUTTON_ICON_POSITION.LEFT}>{isNew ? ttt('Thêm mới', 'Add new') : ttt('Lưu lại', 'Save')}</KDButton>
+    <KDButton onClick={() => {submit()}} iconPosition={BUTTON_ICON_POSITION.LEFT}>{isNew ? ttt('Thêm mới', 'Add new') : ttt('Lưu lại', 'Save')}</KDButton>
     <KDButton style={{
       marginLeft: '24px'
     }} iconPosition={BUTTON_ICON_POSITION.LEFT} kind={BUTTON_KINDS.TERTIARY} href={
       '/vital-test/exam-management/browser?filters=' + encodeURIComponent(exam.tags.join(';'))
-    }>{ttt('Huỷ Bỏ', 'Cancel')}</KDButton>
+    }>{ttt('Quay lại', 'Back to list')}</KDButton>
   </>
 }
