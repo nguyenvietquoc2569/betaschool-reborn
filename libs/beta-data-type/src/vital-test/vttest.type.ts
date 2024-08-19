@@ -9,7 +9,7 @@ export interface IVTPartInTest {
 export interface IVTTest {
   exam: IExam,
   parts: Array<IVTPartInTest>,
-  createdBy: IStaffUser,
+  editor: IStaffUser,
   code: string,
   isActive: boolean
 }
