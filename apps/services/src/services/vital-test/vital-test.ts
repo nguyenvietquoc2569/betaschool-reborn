@@ -244,3 +244,80 @@ export const getTheTagsList = async (req, res, next) => {
     })
   }
 }
+
+export const testAPart = async (req, res, next) => {
+  const { tags, totalPoint }: { tags: Array<string>, totalPoint: number } = req.body
+  if (!tags.length) {
+    res.send({
+      code: 404,
+      error: ['Cần có ít nhất 1 tag', 'Tags is empty, we need at least a tag']
+    })
+  }
+  if (totalPoint <= 0) {
+    res.send({
+      code: 404,
+      error: ['Cần có ít 1 điểm trong bài thi', 'Point is empty, we need at least a point']
+    })
+    return
+  }
+  const problems = await VTProblemModel.find({
+    tags: { $all: tags},
+    isActive: true,
+    approveStatus: EVTApproveStatus.APPROVED
+  })
+
+  let reProblem: Array<IVTProblem> = []
+
+  for(let i = 0; i< 20; i++ ) {
+    shuffleArray(problems)
+    // console.log(problems.map(p => p.totalPoint), part.totalPoint)
+    const kq = pickProblems(problems, totalPoint)
+    if (kq !== null) {
+      reProblem = kq
+    }
+  }
+
+  if (reProblem.length === 0) {
+    res.send({
+      code: 404,
+      error: ['Không thể tạo bộ đề như yêu cầu', 'Can not create the set of question as the query']
+    })
+  } else {
+    res.send({
+      code: 200,
+      data: reProblem
+    })
+  }
+}
+
+function shuffleArray(array) {
+  for (let i = array.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [array[i], array[j]] = [array[j], array[i]];
+  }
+}
+
+function pickProblems(_problems: Array<IVTProblem>, totalPoint) {
+  const problems = [..._problems]
+  const re: Array<IVTProblem> = []
+  let total = 0
+  while (problems.length !== 0) { // eslint-disable-line
+    
+    if (total < totalPoint) {
+      re.push(problems[0])
+      total = total + problems[0].pointRef
+      problems.shift()
+    }
+    else if (total > totalPoint) {
+      total = total - re[re.length - 1].pointRef
+      re.pop()
+    }
+    if (total === totalPoint) {
+      return re
+    } 
+  }
+  if (total === totalPoint) {
+    return re
+  }
+  return null
+}

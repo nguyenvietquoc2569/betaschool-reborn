@@ -310,6 +310,9 @@ export function ExamEditor({exam = defaultVTExam, isNew, onChange, onSubmit}: Ex
           <br></br>
 
           {exam.parts.length !== 1 && <KDButton type={BUTTON_TYPES.BUTTON} kind={BUTTON_KINDS.PRIMARY_APP} destructive={true}
+            style={{
+              marginRight: '8px'
+            }}
             onClick={() => {
               onChange({
                 ...exam,
@@ -319,8 +322,14 @@ export function ExamEditor({exam = defaultVTExam, isNew, onChange, onSubmit}: Ex
           >
             {ttt(`Xoá phần ${part.name || index}`, `Remove part ${part.name|| index}`)}
           </KDButton>}
-          
-
+          <KDButton type={BUTTON_TYPES.BUTTON} kind={BUTTON_KINDS.PRIMARY_APP}
+            onClick={() => {
+              window.open(`/vital-test/exam-management/partcheck?tags=${encodeURIComponent(part.tags.join(';'))}&totalPoint=${part.totalPoint}`, '_blank')?.focus();
+              
+            }}
+          >
+            {ttt('Thử nghiệm', 'Test this part')}
+          </KDButton>
         </KDTabPanel>
       })
     }
