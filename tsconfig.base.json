@@ -38,6 +38,9 @@
       "@betaschool-reborn/vital-test/pages/vital/share": [
         "libs/vital-test/pages/vital/share/src/index.ts"
       ],
+      "@betaschool-reborn/vital-test/pages/vital/test-management": [
+        "libs/vital-test/pages/vital/test-management/src/index.ts"
+      ],
       "@betaschool-reborn/vital-test/permission-guard": [
         "libs/vital-test/permission-guard/src/index.ts"
       ],

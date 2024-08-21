@@ -11,6 +11,7 @@ import { ReactNode } from 'react';
 import { QuestionAdd, QuestionEdit, QuestionManagement } from '@betaschool-reborn/vital-test/pages/vital/question-management';
 import { LanguageProvider } from '@betaschool-reborn/vital-test/multiple-language';
 import { ExamAdd, ExamEdit, ExamManagement, ExamPartTest } from '@betaschool-reborn/vital-test/pages/vital/exam-management';
+import { TestManagement } from '@betaschool-reborn/vital-test/pages/vital/test-management';
 
 export function App() {
   const isLogin = useTypedSelector(state => state.session.isLoggedIn)
@@ -58,6 +59,11 @@ export function App() {
               <Route
                 path="/vital-test/exam-management/partcheck"
                 element={<ExamPartTest></ExamPartTest>}
+              />
+
+              <Route
+                path="/vital-test/test-management/browser"
+                element={<TestManagement></TestManagement>}
               />
 
 

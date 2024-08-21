@@ -1,0 +1,18 @@
+{
+  "name": "vital-test/pages/vital/test-management",
+  "$schema": "../../../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/vital-test/pages/vital/test-management/src",
+  "projectType": "library",
+  "tags": [],
+  "targets": {
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": [
+          "libs/vital-test/pages/vital/test-management/**/*.{ts,tsx,js,jsx}"
+        ]
+      }
+    }
+  }
+}

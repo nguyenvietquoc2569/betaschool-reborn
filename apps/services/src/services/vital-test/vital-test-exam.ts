@@ -6,6 +6,60 @@ import { ObjectId } from 'mongodb'
 let shouldRefreshTheTag = true
 let tagsTemp = []
 
+export const getListWorkingVTExam = async (req, res) => {
+  const { page, perPage, text, tags} = req.body
+  
+  const normalTags = (tags || []).filter((t:string) => !t.includes('::'))
+
+  const query: any = (text) ? { $text: { $search: text } } : {}
+
+  if (normalTags.length > 0) {
+    query.tags = { $all: normalTags}
+  }
+
+  query.isActive = true
+  query.approveStatus = EVTApproveStatus.APPROVED
+
+  if (page=== undefined || perPage === undefined ){
+    res.send({
+      code: 405,
+      error: 'Wrong request, 1536'
+    })
+    return
+  }
+  try {
+    const count = await VTExamModel.countDocuments(query)
+
+    const result = await VTExamModel.find(query)
+    .populate({path: 'editor'})
+    .populate({path: 'approvedBy'})
+    .populate({path: 'activeOrDeBy'})
+    .skip(perPage * page)
+    .limit(perPage)
+
+    if (result) {
+      res.send({
+        code: 200,
+        data: result || [],
+        pagination: {
+          count: count
+        }
+      })
+    }
+    else {
+      res.send({
+        code: 404,
+        error: 'The code is invalid'
+      })
+    }
+  } catch (e) {
+    res.send({
+      code: 404,
+      error: e.toString()
+    })
+  }
+}
+
 export const getListVTExam = async (req, res) => {
   const { page, perPage, text, tags} = req.body
   

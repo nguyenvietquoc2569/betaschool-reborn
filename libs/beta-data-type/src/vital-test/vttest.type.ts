@@ -11,5 +11,6 @@ export interface IVTTest {
   parts: Array<IVTPartInTest>,
   editor: IStaffUser,
   code: string,
-  isActive: boolean
+  isActive: boolean,
+  createdByDay: number
 }

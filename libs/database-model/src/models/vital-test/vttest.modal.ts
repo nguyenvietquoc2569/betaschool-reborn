@@ -15,6 +15,7 @@ const VTTestSchema: Schema = new Schema({
   },
   code: {type: String, required: false},
   isActive: {type: Boolean, required: true},
+  createdByDay: { type: Number, required: true }
 })
 
 export type IVTTestMongoose = IVTTest & Document
