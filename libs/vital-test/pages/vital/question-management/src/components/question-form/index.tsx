@@ -148,22 +148,15 @@ export function ProblemEditor({question = defaultVTProblem, isNew, onChange, onS
             >
               {ttt('Lựa chọn ', 'Option') + String(value)}    
             </KDRadioButton>
-            <KDTextArea style={{
-                maxWidth: '800px',
-                width: '100%',
-                marginBottom: '24px'
-              }}
-              value={question.anwsers[value] || ''}
-              onInput={(e: any) => {
+
+            <ProblemQuilEditor html={question.anwsers[value] || ''} onChange={(e: any) => {
                 const answers = [...question.anwsers]
-                answers[value] = e.detail.value
+                answers[value] = e
                 onChange({
                   ...question,
                   anwsers: answers
                 })
-              }}
-              invalidText={!errors[`anwsers[${value}]`] ? '' : ttt(...errors[`anwsers[${value}]`])}
-            ></KDTextArea>
+              }}></ProblemQuilEditor>
           </>
         }) 
       }
