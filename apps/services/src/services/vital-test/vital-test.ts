@@ -57,8 +57,7 @@ export const getListVTTest = async (req, res) => {
   const { page, perPage, tags, examId, text} = req.body
   
   const specTags = (tags || []).filter((t:string) => t.includes('::'))
-
-  let query: any = {exam: new ObjectId(examId)}
+  let query: any = (text) ? { $text: { $search: text }, exam: new ObjectId(examId) } : {exam: new ObjectId(examId)}
   for (const t of specTags) {
     for (const extraTag of extraTestTags) {
       for (const d of extraTag.data) {
@@ -82,6 +81,7 @@ export const getListVTTest = async (req, res) => {
     const result = await VTTestModel.find(query)
     .populate({path: 'editor'})
     .populate({path: 'activeOrDeBy'})
+    .sort( { createdByDay: -1 } )
     .skip(perPage * page)
     .limit(perPage)
 
