@@ -106,3 +106,5 @@ export const UnsecurePost = (base: string, p: any) => {
     ...p,
   })
 }
+
+export const secureToken = auth.retriveToken()

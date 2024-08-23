@@ -1,7 +1,7 @@
 import { KDOverflowMenuItem } from '@betaschool-reborn/vital-test/lit-components'
 import { useLangContext } from '@betaschool-reborn/vital-test/multiple-language'
 import { reduxCommonActionShowNotification } from '@betaschool-reborn/vital-test/redux'
-import { getBaseUrlForServiceFromFrontend, SecurePost } from '@betaschool-reborn/vital-test/utils'
+import { getBaseUrlForServiceFromFrontend, SecurePost, secureToken } from '@betaschool-reborn/vital-test/utils'
 import { useDispatch } from 'react-redux'
 
 export const DownloadTestButton = ({setLoading, id}: {
@@ -12,32 +12,16 @@ export const DownloadTestButton = ({setLoading, id}: {
   const dispatch = useDispatch()
 
   const onClick = () => {
-    setLoading(true)
-    SecurePost(getBaseUrlForServiceFromFrontend(), {
-      url: '/api/v1/vital-test/test/download',
-      data: {
-        testId: id,
-      }
-    }).then(data => {
-      setLoading(false)
-      if (data.status === 200) {
-        console.log(data.data)
-      }
-    }).catch((e) => {
-      setLoading(false)
-      
-      reduxCommonActionShowNotification(dispatch, {
-        ...{
-          text: '',
-          title: '',
-          type: 'success',
-          shown: false
-        },
-        text: e.toString(),
-        title: 'Download error',
-        type: 'danger',
-      })
-    })
+    const file_path = `${getBaseUrlForServiceFromFrontend()}/api/v1/vital-test/test/download?testId=${id}&Token=${secureToken}`;
+    const a = document.createElement('a');
+    a.href = file_path;
+    a.download = 'test.pdf';
+    a.target='_blank'
+    document.body.appendChild(a);
+
+    a.click();
+    document.body.removeChild(a);
+    // window.open(`${getBaseUrlForServiceFromFrontend()}/api/v1/vital-test/test/download?testId=${id}&Token=${secureToken}`, '_blank');
   }
 
   return <KDOverflowMenuItem onClick={onClick}>
