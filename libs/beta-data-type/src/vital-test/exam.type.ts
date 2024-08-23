@@ -7,6 +7,7 @@ export interface IVTExam {
   des: string,
   tags: Array<string>,
   approveStatus: EVTApproveStatus,
+  code: string,
   editor?: IStaffUser,
   isActive: boolean,
   activeOrDeBy?: IStaffUser,
@@ -29,6 +30,7 @@ export const defaultVTExam: IVTExam = {
   name: '',
   des: '',
   tags: ['Betaschool'],
+  code: '',
   isActive: true,
   approveStatus: EVTApproveStatus.UNAPPROVED,
   parts: [defaultVTExamPart]

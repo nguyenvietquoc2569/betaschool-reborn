@@ -1,6 +1,6 @@
 import { PermissionGuard } from '@betaschool-reborn/vital-test/permission-guard';
 
-import { EUserPermissions, EVTApproveStatus, IVTProblem, IVTTagModal } from '@betaschool-reborn/beta-data-type';
+import { EUserPermissions, EVTApproveStatus, IVTExam, IVTProblem, IVTTagModal, IVTTest } from '@betaschool-reborn/beta-data-type';
 import { useLangContext } from '@betaschool-reborn/vital-test/multiple-language';
 import { Fragment, useEffect, useState } from 'react';
 import { getBaseUrlForServiceFromFrontend, LoadingScreen, SecurePost, useDebounce, useSearchFiltersBaseUrlHook } from '@betaschool-reborn/vital-test/utils';
@@ -13,6 +13,8 @@ import filterRemoveIcon from '@carbon/icons/es/close--filled/16'
 import { reduxCommonActionShowNotification } from '@betaschool-reborn/vital-test/redux';
 import { useDispatch } from 'react-redux';
 import { FilterModalV2 } from '@betaschool-reborn/vital-test/pages/vital/share';
+import { AddNewTestButton } from './components/buttons/add-test';
+import { TestList } from './components/test-list/test-list';
 
 export const TestManagement = () => {
   const {ttt} = useLangContext()
@@ -30,7 +32,7 @@ export const TestManagement = () => {
   const [extraTags, setExtraTags] = useState<IVTTagModal>([])
   const [searchTrigger, setSearchTrigger] = useState<boolean>(true)
   const [searchText, setSearchText] = useState<string>(search)
-  const [questions, setQuestion] = useState<Array<IVTProblem>>([])
+  const [exams, setExam] = useState<Array<IVTExam>>([])
   const [perPage, setPerPage] = useState(10)
   const [pagination, setPagination] = useState<{
     page: number,
@@ -39,6 +41,16 @@ export const TestManagement = () => {
     page: 0,
     count: 0
   })
+
+  const [selectedRow, setSelectedRow] = useState(-1)
+  const [tests, setTests] = useState<Array<IVTTest>>([])
+  useEffect(() => {
+    if (selectedRow===-1) {
+      setTests([])
+    } else {
+
+    }
+  }, [selectedRow])
   
   const onFilterChange = (newFilters: Array<string>) => {
     setFilter([...new Set(newFilters)])
@@ -70,14 +82,14 @@ export const TestManagement = () => {
       setLoading(false)
       if (data.status === 200) {
         if (data.data.code === 200) {
-          setQuestion(data.data.data)
+          setExam(data.data.data)
           setPagination({
             count: data.data.pagination.count,
             page: pagination.page
           })
         }
         if (data.data.code === 404) {
-          setQuestion([])
+          setExam([])
           setPagination({
             count: 0,
             page: 0
@@ -97,7 +109,7 @@ export const TestManagement = () => {
       }
     }).catch((e) => {
       setLoading(false)
-      setQuestion([])
+      setExam([])
       setPagination({
         count: 0,
         page: 0
@@ -178,6 +190,7 @@ export const TestManagement = () => {
       {
         !isLoading && <>
           <h2>{ttt('Danh sách kỳ thi', 'Exam')}</h2>
+          <br></br>
           <FilterBox>
             <Textbox
               placeholder={ttt('Tìm kiếm', 'Search')}
@@ -249,6 +262,95 @@ export const TestManagement = () => {
             </KDButton>
           </FilterBox>
           <br />
+
+          {
+            !isLoading && <>
+              <KDTableContainer style={{
+                overflowX: 'unset'
+              }}>
+                <KDTable>
+                  <KDTHeader>
+                    <KDTTr>
+                      <KDTTh></KDTTh>
+                      <KDTTh>Code</KDTTh>
+                      <KDTTh>Name</KDTTh>
+                      <KDTTh>Tags</KDTTh>
+                      <KDTTh></KDTTh>
+                    </KDTTr>
+                  </KDTHeader>
+                  <KDTBody>
+                    {
+                      exams.map((q, _i) => <KDTTr
+                        checkboxSelection={true}
+                        onSelect={(e: any) => {
+                          console.log(e)
+                          if (e.detail.checked) setSelectedRow(_i)
+                          if (!e.detail.checked) setSelectedRow(-1)
+                        }}
+                        selected={_i === selectedRow}
+                      >
+                        <KDTTd>
+                          {q.code}
+                        </KDTTd>
+                        <KDTTd>
+                          {q.name}<br/>
+                          {q.des && <em>{q.des}</em>}
+                        </KDTTd>
+                        <KDTTd>
+                          {q.tags.map(t => <KDTag noTruncation={true} label={t} style={{marginRight: '4px'}}></KDTag>)}
+                        </KDTTd>
+                        <KDTTd>
+                          <KDOverflowMenu
+                            anchorRight
+                            assistiveText="Actions"
+                          >
+                            <AddNewTestButton
+                              setLoading={setLoading}
+                              done={() => {}}
+                              id={q._id || ''}
+                            ></AddNewTestButton>
+                          </KDOverflowMenu>
+                        </KDTTd>
+                      </KDTTr>)
+                    }
+                  </KDTBody>
+                  
+                </KDTable>
+              </KDTableContainer>
+              <KDTFooter>
+                <KDPagination
+                  pageSize={perPage}
+                  pageSizeOptions={[3,5,10,15,20,30,40,50]}
+                  count={pagination.count}
+                  pageNumber={pagination.page+1}
+
+                  onPageSizeChange={(e: any) => {
+                    setPerPage(e.detail.value)
+                    setPagination({
+                      page: 0,
+                      count: 0
+                    })
+                    setSearchTrigger(!searchTrigger)
+                  }}
+
+                  onPageNumberChange={(e: any) => {
+                    console.log('onPageNumberChange', e)
+                    setPagination({
+                      page: Number(e.detail.value) - 1,
+                      count: pagination.count
+                    })
+                    setSearchTrigger(!searchTrigger)
+                  }}
+
+                />
+              </KDTFooter>
+            </>
+          }
+          <div style={{marginTop: '32px'}}></div>
+          {
+            selectedRow !== -1 &&
+            <TestList examId={exams[selectedRow]._id || ''}></TestList>
+          }
           </>
       }
     </PermissionGuard>

@@ -97,6 +97,8 @@ export const FilterModalV2 = ({onChange, defaultFilter, tags, label}: {
                     showMore: ttt('Hiện thêm', 'Show more'),
                     showLess:  ttt('Ẩn bớt', 'Show less'),
                     search:  ttt('Tìm kiếm', 'search'),
+                    required: ttt('Bắt buộc', 'required'),
+                    error: ttt('Lỗi', 'error'),
                   }}
                 >
                   <span slot='label'>Tags</span>

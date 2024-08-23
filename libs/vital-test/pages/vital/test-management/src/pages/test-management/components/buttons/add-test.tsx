@@ -4,7 +4,7 @@ import { reduxCommonActionShowNotification } from '@betaschool-reborn/vital-test
 import { getBaseUrlForServiceFromFrontend, SecurePost } from '@betaschool-reborn/vital-test/utils'
 import { useDispatch } from 'react-redux'
 
-export const ExamActivateButton = ({setLoading, id, done}: {
+export const AddNewTestButton = ({setLoading, id, done}: {
   id: string,
   setLoading: (isLoading: boolean) => void,
   done: () => void
@@ -15,21 +15,28 @@ export const ExamActivateButton = ({setLoading, id, done}: {
   const onClick = () => {
     setLoading(true)
     SecurePost(getBaseUrlForServiceFromFrontend(), {
-      url: '/api/v1/vital-test/exam/activate',
+      url: '/api/v1/vital-test/test/add',
       data: {
-        id: id,
-        isActive: true
+        examId: id
       }
     }).then(data => {
       setLoading(false)
       if (data.status === 200) {
-        console.log(data.data)
         if (data.data.code === 200) {
+          reduxCommonActionShowNotification(dispatch, {
+            ...{
+              text: '',
+              title: '',
+              type: 'success',
+              shown: false
+            },
+            text: ttt('Tạo thành công đề thi với mã '+ data.data.data.code,'Added new test with code '+ data.data.data.code),
+            title: ttt('Tạo thành công đề thi','Added new test'),
+            type: 'success',
+          })
           done()
         }
         if (data.data.code !== 200) {
-          
-         
           reduxCommonActionShowNotification(dispatch, {
             ...{
               text: '',
@@ -38,7 +45,7 @@ export const ExamActivateButton = ({setLoading, id, done}: {
               shown: false
             },
             text: ttt(...data.data.error),
-            title: 'Error',
+            title: 'Get approve error',
             type: 'danger',
           })
         }
@@ -61,6 +68,6 @@ export const ExamActivateButton = ({setLoading, id, done}: {
   }
 
   return <KDOverflowMenuItem onClick={onClick}>
-      {ttt('Kích Hoạt Bài Thi', 'Activate')}
+      {ttt('Tạo đề thi cho kì thi', 'Add new test')}
     </KDOverflowMenuItem>
 }

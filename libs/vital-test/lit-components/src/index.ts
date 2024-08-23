@@ -36,6 +36,13 @@ import { OverflowMenu, OverflowMenuItem } from '@kyndryl-design-system/shidoka-a
 import { HeaderCategory, HeaderNav, HeaderDivider } from '@kyndryl-design-system/shidoka-applications/components/global/header'
 
 import {NumberInput} from '@kyndryl-design-system/shidoka-applications/components/reusable/numberInput/numberInput'
+import { Loader } from '@kyndryl-design-system/shidoka-applications/components/reusable/loaders/loader'
+
+export const KDLoader= createComponent({
+  tagName: 'kyn-loader',
+  elementClass: Loader,
+  react: React,
+})
 
 export const KDNumberInput= createComponent({
   tagName: 'kyn-number-input',
@@ -182,7 +189,10 @@ export const KDTHeader = createComponent({
 export const KDTTr = createComponent({
   tagName: 'kyn-tr',
   elementClass: TableRow,
-  react: React
+  react: React,
+  events: {
+    onSelect: 'on-row-select'
+  }
 })
 
 export const KDTTh = createComponent({

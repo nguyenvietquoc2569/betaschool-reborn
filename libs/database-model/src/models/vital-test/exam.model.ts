@@ -25,7 +25,8 @@ const VTExamSchema: Schema = new Schema({
     ref: 'StaffUser',
     required: false
   },
-  parts: {type: Array, required: true}
+  parts: {type: Array, required: true},
+  code: {type: String, required: true}
 })
 
 export type IVTExamMongoose = IVTExam & Document

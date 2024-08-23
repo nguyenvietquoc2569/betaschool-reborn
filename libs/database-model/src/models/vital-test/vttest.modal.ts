@@ -11,10 +11,15 @@ const VTTestSchema: Schema = new Schema({
   editor: {
     type: Schema.Types.ObjectId,
     ref: 'StaffUser',
-    required: true
+    required: false
   },
   code: {type: String, required: false},
   isActive: {type: Boolean, required: true},
+  activeOrDeBy: {
+    type: Schema.Types.ObjectId,
+    ref: 'StaffUser',
+    required: false
+  },
   createdByDay: { type: Number, required: true }
 })
 

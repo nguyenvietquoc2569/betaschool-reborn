@@ -161,6 +161,7 @@ export const addVTExam = async (req, res) => {
      editor: req.user._id,
      isActive: true,
      approveStatus: EVTApproveStatus.UNAPPROVED,
+     code: makeid(8)
     })
   tempdata.save().then((value) => {
       shouldRefreshTheTag=true
@@ -297,4 +298,14 @@ export const editVTExam = async (req, res) => {
       error: e.toString()
     })
   }
+}
+
+function makeid(length) {
+  let result           = '';
+  const characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+  const charactersLength = characters.length;
+  for ( let i = 0; i < length; i++ ) {
+     result += characters.charAt(Math.floor(Math.random() * charactersLength));
+  }
+  return result;
 }
