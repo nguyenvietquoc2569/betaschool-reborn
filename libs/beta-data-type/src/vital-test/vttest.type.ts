@@ -7,6 +7,7 @@ export interface IVTPartInTest {
   name: string
 }
 export interface IVTTest {
+  _id?: string,
   exam: IVTExam,
   parts: Array<IVTPartInTest>,
   editor: IStaffUser,

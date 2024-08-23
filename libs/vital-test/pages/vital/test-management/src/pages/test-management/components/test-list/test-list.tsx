@@ -10,6 +10,7 @@ import { FilterModalV2 } from '@betaschool-reborn/vital-test/pages/vital/share'
 import redreshIcon from '@carbon/icons/es/renew/24'
 import filterRemoveIcon from '@carbon/icons/es/close--filled/16'
 import { BUTTON_ICON_POSITION, BUTTON_KINDS, BUTTON_SIZES } from '@kyndryl-design-system/shidoka-foundation/components/button/defs'
+import { DownloadTestButton } from '../buttons/download-test'
 
 interface Props {
   examId: string,
@@ -207,7 +208,7 @@ export const TestList = ({examId}: Props) => {
                       anchorRight
                       assistiveText="Actions"
                     >
-                      
+                      <DownloadTestButton id={q._id || ''} setLoading={setLoading}></DownloadTestButton>
                     </KDOverflowMenu>
                   </KDTTd>
                 </KDTTr>)
