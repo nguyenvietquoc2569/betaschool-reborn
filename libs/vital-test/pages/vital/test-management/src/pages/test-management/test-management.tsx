@@ -70,6 +70,7 @@ export const TestManagement = () => {
 
   useDebounce(() => {
     setLoading(true)
+    setSelectedRow(-1)
     SecurePost(getBaseUrlForServiceFromFrontend(), {
       url: '/api/v1/vital-test/exam/get-working',
       data: {
