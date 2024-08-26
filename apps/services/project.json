@@ -41,8 +41,7 @@
       "executor": "@nx/js:node",
       "defaultConfiguration": "development",
       "options": {
-        "buildTarget": "services:build",
-        "assets": ["apps/services/src/assets"]
+        "buildTarget": "services:build"
       },
       "configurations": {
         "development": {

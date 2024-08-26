@@ -295,7 +295,7 @@ export function QuestionManagement(props: QuestionManagementProps) {
                           {q._id}
                         </KDTTd>
                         <KDTTd>
-                          {q.question}
+                          <div style={{ whiteSpace: 'pre-wrap' }}  dangerouslySetInnerHTML={{__html: q.htmlMakeUp}} />
                         </KDTTd>
                         <KDTTd>
                           {q.tags.map(t => <KDTag noTruncation={true} label={t} style={{marginRight: '4px'}}></KDTag>)}

@@ -16,8 +16,32 @@ export enum EVTProblemCategory {
 
 export const VTProblemCategoryList = [EVTProblemCategory.LISTENNING, EVTProblemCategory.READING, EVTProblemCategory.SPEAKING, EVTProblemCategory.WRITING, EVTProblemCategory.GRAMMAR]
 
+export enum EVTQuestionType {
+  OPTION,
+  // MULTICHOICE,
+  // DROPBOX,
+  WORDTRANSFORM
+}
+
+export interface IVTQuestion  {
+  id: string,
+  type: EVTQuestionType,
+  numberOfOptions: number,
+  anwsers: Array<any>
+  name: string,
+  point: number,
+  exactAnwser: boolean,
+  stt: number
+}
+
 export interface IVTProblem {
   _id?: string,
+
+  questions: Array<IVTQuestion>,
+  htmlMakeUp: string,
+  totalPoint?: number,
+
+  idCount: number
 
   tags: Array<string>,
   numberOfOptions: number,
@@ -36,6 +60,17 @@ export interface IVTProblem {
   activeOrDeBy?: IStaffUser
 }
 
+export const defaultVTQuestion: IVTQuestion = {
+  id: '',
+  type: EVTQuestionType.OPTION,
+  numberOfOptions: 4,
+  anwsers: ['A'],
+  name: '',
+  point: 1,
+  exactAnwser: true,
+  stt: 0
+}
+
 export const defaultVTProblem: IVTProblem = {
   tags: ['betaschool',],
   numberOfOptions: 4,
@@ -43,8 +78,13 @@ export const defaultVTProblem: IVTProblem = {
   swapAnswerIndex: [],
   anwsers: ['', '', '', ''],
   assetCode: [],
-  question: '<p>this is question</p>',
+  question: 'Question is ...',
   pointRef: 1,
+
+  questions: [defaultVTQuestion],
+  htmlMakeUp: '<p>Who is Miss Katar? </p><p><strong>{{0}}. A.</strong>Teacher <strong>	 	 \t\t\tB.</strong> Student <strong>	 	 \t\t\tC.</strong>EC <strong>	 	 \t\t\tD.</strong>Library Keeper</p>',
+  totalPoint: 0,
+  idCount: 0,
  
   approveStatus: EVTApproveStatus.UNAPPROVED,
   isActive: false

@@ -12,6 +12,11 @@ const VTProblemSchema: Schema = new Schema({
   pointRef: {type: Number, required: true},
   guidanceVideo: {type: String, required: false},
 
+  questions: [{type: Object,
+  }],
+  htmlMakeUp: {type: String, required: true},
+  totalPoint: {type: Number, required: false},
+
   approveStatus: {type: String, required: true},
   isActive: {type: Boolean, required: true},
   editor: {

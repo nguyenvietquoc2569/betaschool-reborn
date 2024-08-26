@@ -42,9 +42,9 @@ export function ProblemQuilEditor(props: PropType) {
 
   const refEditor = useRef<any>()
 
+
   return (
-        <ReactQuill ref={refEditor} value={props.html} formats={formats} modules={modules} onChange={handleProcedureContentChange} />
-  )
+        <ReactQuill ref={refEditor} value={props.html} formats={formats} modules={modules} onChange={handleProcedureContentChange} preserveWhitespace={true}/>)
 }
 // const upload = (file: any) => {
   // return new Promise((resolve, reject) => {

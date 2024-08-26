@@ -1,1 +1,13 @@
 /* You can add global styles to this file, and also import other style files */
+body {
+  background: var(--kd-color-background-accent-subtle);
+}
+
+.test {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--kd-color-background-ui-soft);
+  height: 100%;
+  border-radius: 4px;
+}
