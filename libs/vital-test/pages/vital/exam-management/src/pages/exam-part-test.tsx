@@ -99,18 +99,18 @@ export const ExamPartTest = () => {
             problems.map((problem, i) => <>
               <hr></hr>
               <h4>{ttt('Câu ', 'Problem ')} {i + 1}</h4>
-              <em>{problem.question}</em>
               <br/>
-              <strong>Point</strong>: {problem.pointRef}
+              <div style={{ whiteSpace: 'pre-wrap' }}  dangerouslySetInnerHTML={{__html: problem.htmlMakeUp}} />
               <br/>
-              <h4>{ttt('Lựa chọn:', 'Choices:')}</h4>
+              <br/>
+              <strong>Point</strong>: {problem.totalPoint}
+              <br/>
+              <h4>{ttt('Đáp án:', 'Answer:')}</h4>
               {
-                problem.anwsers.map((a, _i) => (<>
-                  <strong>{_i+1}:</strong> {a}<br/>
+                problem.questions.map((a, _i) => (<>
+                  <strong>{_i+1}:</strong> {a.anwsers}<br/>
                 </>))
               }
-              
-
             </>)
           }
         </>}

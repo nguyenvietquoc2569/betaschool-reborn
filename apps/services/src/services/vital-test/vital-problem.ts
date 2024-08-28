@@ -90,6 +90,15 @@ export const detailVTProblem = (req, res, next) => {
 
 export const addVTProblem = async (req, res) => {
   const { problem } = req.body
+
+  /// total point from invidual point
+  let totalPoint = 0
+  for (const q of (problem as IVTProblem).questions) {
+    totalPoint += q.point
+  }
+
+  (problem as IVTProblem).totalPoint = totalPoint
+
   const tempdata = new VTProblemModel({
      ...problem,
      editor: req.user._id,
@@ -119,6 +128,13 @@ export const editVTProblem = async (req, res) => {
     const model = await VTProblemModel.findOne({_id: new ObjectId(problem._id)})
       .populate({ path: 'editor', select: 'name' })
       .populate({ path: 'approvedBy', select: 'name' })
+    
+    let totalPoint = 0
+    for (const q of (problem as IVTProblem).questions) {
+      totalPoint += q.point
+    }
+  
+    (problem as IVTProblem).totalPoint = totalPoint
 
     model.overwrite({
       ...problem,
@@ -305,11 +321,11 @@ export function pickProblems(_problems: Array<IVTProblem>, totalPoint) {
     
     if (total < totalPoint) {
       re.push(problems[0])
-      total = total + problems[0].pointRef
+      total = total + problems[0].totalPoint
       problems.shift()
     }
     else if (total > totalPoint) {
-      total = total - re[re.length - 1].pointRef
+      total = total - re[re.length - 1].totalPoint
       re.pop()
     }
     if (total === totalPoint) {

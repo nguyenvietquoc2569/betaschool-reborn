@@ -31,7 +31,7 @@ export interface IVTQuestion  {
   name: string,
   point: number,
   exactAnwser: boolean,
-  stt: number
+  stt: number, // Dùng để đếm số stt la mã trong bài thi
 }
 
 export interface IVTProblem {
@@ -41,7 +41,7 @@ export interface IVTProblem {
   htmlMakeUp: string,
   totalPoint?: number,
 
-  idCount: number
+  idCount: number, // Dùng để đếm số stt la mã trong bài thi
 
   tags: Array<string>,
   numberOfOptions: number,

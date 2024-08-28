@@ -283,6 +283,7 @@ export function QuestionManagement(props: QuestionManagementProps) {
                     <KDTTr>
                       <KDTTh>ID</KDTTh>
                       <KDTTh>Question</KDTTh>
+                      <KDTTh>{ttt('Tổng điểm', 'Total point')}</KDTTh>
                       <KDTTh>Tags</KDTTh>
                       <KDTTh>{ttt('Trạng thái', 'Status')}</KDTTh>
                       <KDTTh></KDTTh>
@@ -296,6 +297,9 @@ export function QuestionManagement(props: QuestionManagementProps) {
                         </KDTTd>
                         <KDTTd>
                           <div style={{ whiteSpace: 'pre-wrap' }}  dangerouslySetInnerHTML={{__html: q.htmlMakeUp}} />
+                        </KDTTd>
+                        <KDTTd>
+                          {q.totalPoint}
                         </KDTTd>
                         <KDTTd>
                           {q.tags.map(t => <KDTag noTruncation={true} label={t} style={{marginRight: '4px'}}></KDTag>)}

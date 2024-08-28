@@ -16,6 +16,7 @@ const VTProblemSchema: Schema = new Schema({
   }],
   htmlMakeUp: {type: String, required: true},
   totalPoint: {type: Number, required: false},
+  idCount: {type: Number, required: false},
 
   approveStatus: {type: String, required: true},
   isActive: {type: Boolean, required: true},

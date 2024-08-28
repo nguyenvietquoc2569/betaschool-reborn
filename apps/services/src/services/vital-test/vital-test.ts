@@ -31,6 +31,8 @@ export const addVTTest = async (req, res) => {
     }
   }
 
+  finalizeTheTest(parts)
+
   const tempdata = new VTTestModel({
      exam: new ObjectId(examId),
      editor: req.user._id,
@@ -51,6 +53,31 @@ export const addVTTest = async (req, res) => {
       })
       return
     })
+}
+
+const finalizeTheTest = (parts: Array<IVTPartInTest>) => {
+  let questionStt = 0
+  let stt = 0
+  for (const part of parts) {
+    for (const problem of part.questions) {
+      questionStt += 1
+      problem.idCount = questionStt
+      console.log(problem)
+      for(const q of problem.questions) {
+        stt +=1
+        q.stt = stt
+      }
+
+      while (problem.htmlMakeUp.includes('{{x}}')) {
+        problem.htmlMakeUp = problem.htmlMakeUp.replace('{{x}}', String(questionStt))
+      }
+      for(let i=0; i< problem.questions.length; i++) {
+        while (problem.htmlMakeUp.includes(`{{${i}}}`)) {
+          problem.htmlMakeUp = problem.htmlMakeUp.replace(`{{${i}}}`, String(problem.questions[i].stt))
+        }
+      }
+    }
+  }
 }
 
 export const getListVTTest = async (req, res) => {
