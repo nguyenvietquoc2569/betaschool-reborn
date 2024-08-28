@@ -1,9 +1,9 @@
-import { EVTApproveStatus, extraTestTags, IVTExamPart, IVTPartInTest, IVTProblem, IVTTest } from '@betaschool-reborn/beta-data-type'
-import { VTExamModel, VTProblemModel, VTTestModel } from '@betaschool-reborn/database-model'
+import { VTExamModel, VTTestModel } from '@betaschool-reborn/database-model'
 import { ObjectId } from 'mongodb'
 import fs from 'fs'
 import pdf from 'html-pdf'
 import path from 'path'
+import { testPdfTemplate } from './test-pdf'
 
 export const downloadTest = async (req, res) => {
   const { testId } = req.query
@@ -28,7 +28,7 @@ export const downloadTest = async (req, res) => {
 
   console.log(path.resolve("apps/services/src/assets/test.hbs"))
 
-  let html = fs.readFileSync(path.resolve("apps/services/src/assets/test.html"), 'utf8');
+  let html = testPdfTemplate;
   html = html.replace('{{date}}', new Date().toDateString())
   html = html.replace('{{test.code}}', test.code)
   html = html.replace('{{exam.code}}', exam.code)
