@@ -98,6 +98,12 @@ export function ProblemEditor({question = defaultVTProblem, isNew, onChange, onS
           })
         }}
         value={question.tags.map(v => ({ value: v, label: v }))}
+        options={[
+          ...tags.map(t => ({value: t, label: t})), 
+          ...suggestTags.reduce((pre: Array<{value: string, label: string}>, s) => {
+            return [...pre, ...s.data.map(t => ({value: t.tag, label: ttt(...t.lang)}))]
+          }, [])
+        ]}
       />
       {errors.tags && <span className={style.error}>{ttt(...errors.tags)}</span>}
       <br></br>
