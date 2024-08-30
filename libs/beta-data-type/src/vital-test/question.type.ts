@@ -18,9 +18,10 @@ export const VTProblemCategoryList = [EVTProblemCategory.LISTENNING, EVTProblemC
 
 export enum EVTQuestionType {
   OPTION,
+  TEXT
   // MULTICHOICE,
   // DROPBOX,
-  WORDTRANSFORM
+  // WORDTRANSFORM
 }
 
 export interface IVTQuestion  {

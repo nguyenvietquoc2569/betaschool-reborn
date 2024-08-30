@@ -176,12 +176,13 @@ export function ProblemEditor({question = defaultVTProblem, isNew, onChange, onS
                 invalidText={!errors[`parts[${index}].name`] ? '' : ttt(...errors[`parts[${index}].name`])}
               ></Textbox> <br/><br/>
 
-              {/* <h4>{ttt('Loại câu hỏi', 'Question Type')}</h4>
+              <h4>{ttt('Loại câu hỏi', 'Question Type')}</h4>
               <Select 
                 options={[
-                  {value: EVTQuestionType.OPTION, label: ttt('Trắc nghiệm ABCD', 'Multiple Options')}
+                  {value: EVTQuestionType.OPTION, label: ttt('Trắc nghiệm ABCD', 'Multiple Options')},
+                  {value: EVTQuestionType.TEXT, label: ttt('Điền từ, câu', 'Text filling')}
                 ]}
-                value={[{value:part.anwsers[0] || '', label: part.anwsers[0] || ''}]}
+                value={[{value:part.type, label: (part.type === EVTQuestionType.OPTION ? ttt('Trắc nghiệm ABCD', 'Multiple Options') : ttt('Điền từ, câu', 'Text filling') )}]}
                 onChange={(e) => {
                   onChange({
                     ...question,
@@ -189,13 +190,37 @@ export function ProblemEditor({question = defaultVTProblem, isNew, onChange, onS
                       if (i===index) {
                         return {
                           ...ele,
-                          anwsers: [e?.value]
+                          type: e?.value || EVTQuestionType.OPTION,
+                          ... (e?.value === EVTQuestionType.OPTION ? {anwsers: ['A']}: {} )
                         }
                       } else return ele
                     })
                   })
                 }}
-              ></Select> */}
+              ></Select> <br/>
+              {
+                part.type === EVTQuestionType.TEXT && <>
+                  <h4>{ttt('Đáp án ', 'Answers')}</h4>
+                  <CreatableSelect
+                    isMulti 
+                    options={[]}
+                    value={part.anwsers.map(t => ({label: t, value: t}))}
+                    onChange={(e) => {
+                      onChange({
+                        ...question,
+                        questions: question.questions.map((ele,i) => {
+                          if (i===index) {
+                            return {
+                              ...ele,
+                              anwsers: e.map((e:any) => e.value)
+                            }
+                          } else return ele
+                        })
+                      })
+                    }}
+                  ></CreatableSelect>
+                </>
+              }
               {
                 part.type === EVTQuestionType.OPTION && <>
                   <h4>{ttt('Đáp án chính xác ', 'Correct Answer')}</h4>
