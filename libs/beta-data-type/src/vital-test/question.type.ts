@@ -192,6 +192,128 @@ export const suggestTags: IVTTagModal = [
     isSingleChoice: true,
   },
   {
+    title: ['Các dạng thì liên quan', 'Tense'],
+    id: 6,
+    data: [
+      {
+        tag: 'Past Simple',
+        lang: ['Quá khứ đơn','Past Simple']
+      },
+      {
+        tag: 'Present Simple',
+        lang: ['Hiện tại đơn','Present Simple']
+      },
+      {
+        tag: 'Future Simple',
+        lang: ['Tương lai đơn','Future Simple']
+      },
+      {
+        tag: 'Past Perfect',
+        lang: ['Quá khứ hoàn thành','Past Perfect']
+      },
+      {
+        tag: 'Present Perfect',
+        lang: ['Hiện tại hoàn thành','Present Perfect']
+      },
+      {
+        tag: 'Future Perfect',
+        lang: ['Tương lai hoàn thành','Future Perfect']
+      },
+      {
+        tag: 'Past Continuous',
+        lang: ['Quá khứ tiếp diễn','Past Continuous']
+      },
+      {
+        tag: 'Present Continuous',
+        lang: ['Hiện tại tiếp diễn','Present Continuous']
+      },
+      {
+        tag: 'Future Continuous',
+        lang: ['Tương lai tiếp diễn','Future Continuous']
+      },
+      {
+        tag: 'Past Perfect Continuous',
+        lang: ['Quá khứ hoàn thành tiếp diễn','Past Perfect Continuous']
+      },
+      {
+        tag: 'Present Perfect Continuous',
+        lang: ['Hiện tại hoàn thành tiếp diễn','Present Perfect Continuous']
+      },
+      {
+        tag: 'Future Perfect Continuous',
+        lang: ['Tương lai hoàn thành tiếp diễn','Future Perfect Continuous']
+      }
+    ],
+    isSingleChoice: false
+  },
+  {
+    title: ['Dạng câu hỏi', 'Question Type'],
+    id: 6,
+    data: [
+      {
+        tag: 'Trắc nghiệm',
+        lang: ['Trắc nghiệm','Multiple choice']
+      },
+      {
+        tag: 'Điền từ',
+        lang: ['Điền từ','Word Filling']
+      },
+      {
+        tag: 'Viết lại câu',
+        lang: ['Viết lại câu', 'Sentence Rewrite']
+      }
+    ],
+    isSingleChoice: false
+  },
+  {
+    title: ['Mục đích', 'Purpose'],
+    id: 6,
+    data: [
+      {
+        tag: 'Ôn thi tốt nghiệp II',
+        lang: ['Ôn thi tốt nghiệp II','Secondary school graduation']
+      },
+      {
+        tag: 'Ôn thi tốt nghiệp III',
+        lang: ['Ôn thi tốt nghiệp III','High school graduation']
+      },{
+        tag: 'Ôn thi vào lớp 6',
+        lang: ['Ôn thi vào lớp 6','Secondary school Entrance Test']
+      },{
+        tag: 'Ôn thi vào lớp 10',
+        lang: ['Ôn thi vào lớp 10','High school Entrance Test']
+      },{
+        tag: 'Ôn thi học kì',
+        lang: ['Ôn thi học kì','Semeter test']
+      },{
+        tag: 'Ôn thi học sinh giỏi',
+        lang: ['Ôn thi học sinh giỏi','olympic contest']
+      }
+    ],
+    isSingleChoice: false
+  },
+  {
+    title: ['Mức độ', 'Level'],
+    id: 6,
+    data: [
+      {
+        tag: 'dễ',
+        lang: ['Dễ','Easy']
+      },{
+        tag: 'trung bình',
+        lang: ['Trung Bình','Medium']
+      },{
+        tag: 'khó',
+        lang: ['Khó','Hard']
+      },{
+        tag: 'Mẹo',
+        lang: ['Mẹo','Tricky']
+      }
+    
+    ],
+    isSingleChoice: false
+  },
+  {
     title: ['Lớp', 'Class'],
     id: 0,
     data: Array(12).fill(0).map((_, index) => {

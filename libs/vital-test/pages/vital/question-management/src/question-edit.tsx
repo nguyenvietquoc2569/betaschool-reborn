@@ -141,9 +141,13 @@ export const QuestionEdit = () => {
         <br></br>
         <KDButton style={{
           marginLeft: '24px'
-        }} iconPosition={BUTTON_ICON_POSITION.LEFT} kind={BUTTON_KINDS.TERTIARY} href={
-          '/vital-test/question-manage/browser?filters=' + encodeURIComponent(question.tags.join(';'))
-        }>{ttt('Quay lại', 'Back')}</KDButton>
+        }} iconPosition={BUTTON_ICON_POSITION.LEFT} kind={BUTTON_KINDS.TERTIARY} 
+          // href={
+          //   '/vital-test/exam-management/browser?filters=' + encodeURIComponent(exam.tags.join(';'))
+          // }
+          href='javascript:void(0)'
+          onClick={() => {window.close()}}
+        >{ttt('Đóng cửa sổ', 'Close this window')}</KDButton>
       </>
     }
 

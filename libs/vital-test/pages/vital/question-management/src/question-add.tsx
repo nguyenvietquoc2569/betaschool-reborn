@@ -104,9 +104,13 @@ export const QuestionAdd = () => {
           kind={BUTTON_KINDS.PRIMARY_APP} iconPosition={BUTTON_ICON_POSITION.LEFT}>{ttt('Tiếp tục tạo thêm', 'Continue to add')}</KDButton>
         <KDButton style={{
           marginLeft: '24px'
-        }} iconPosition={BUTTON_ICON_POSITION.LEFT} kind={BUTTON_KINDS.TERTIARY} href={
-          '/vital-test/question-manage/browser?filters=' + encodeURIComponent(question.tags.join(';'))
-        }>{ttt('Huỷ Bỏ', 'Cancel')}</KDButton>
+        }} iconPosition={BUTTON_ICON_POSITION.LEFT} kind={BUTTON_KINDS.TERTIARY} 
+          // href={
+          //   '/vital-test/exam-management/browser?filters=' + encodeURIComponent(exam.tags.join(';'))
+          // }
+          href='javascript:void(0)'
+          onClick={() => {window.close()}}
+        >{ttt('Đóng cửa sổ', 'Close this window')}</KDButton>
       </>
     }
 

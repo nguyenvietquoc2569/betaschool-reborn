@@ -291,9 +291,13 @@ export function ProblemEditor({question = defaultVTProblem, isNew, onChange, onS
     <br/>
     <KDButton onClick={submit} iconPosition={BUTTON_ICON_POSITION.LEFT}>{isNew ? ttt('Thêm mới', 'Add new') : ttt('Lưu lại', 'Save')}</KDButton>
     <KDButton style={{
-      marginLeft: '24px'
-    }} iconPosition={BUTTON_ICON_POSITION.LEFT} kind={BUTTON_KINDS.TERTIARY} href={
-      '/vital-test/question-manage/browser?filters=' + encodeURIComponent(question.tags.join(';'))
-    }>{ttt('Huỷ Bỏ', 'Cancel')}</KDButton>
+          marginLeft: '24px'
+        }} iconPosition={BUTTON_ICON_POSITION.LEFT} kind={BUTTON_KINDS.TERTIARY} 
+          // href={
+          //   '/vital-test/exam-management/browser?filters=' + encodeURIComponent(exam.tags.join(';'))
+          // }
+          href='javascript:void(0)'
+          onClick={() => {window.close()}}
+        >{ttt('Đóng cửa sổ', 'Close this window')}</KDButton>
   </>
 }
