@@ -5,16 +5,22 @@ export const testPdfTemplate = `<!DOCTYPE html>
   <title>New Template.html</title>
   <meta charset="UTF-8">
 </head>
+<style>
+  p {
+    line-height: 12px;
+    margin-bottom: 0px;
+    margin-top: 0px;
+  }
+</style>
 <body>
   <!-- <div data-page="1" class="page first-page" style="top: 0px; height: 1132.3417322835px; width: 800.64566929134px; border: solid 1px transparent;"> -->
     <div style="margin-top: 24px;margin-bottom: 8px; margin-left: 24px; font-size: 10px;">
       <strong>BETASCHOOL BÌNH SƠN </strong><br/>
       
-
       <strong>Test Code:</strong> &nbsp;&nbsp;{{test.code}} - <strong>Ngày: </strong>{{date}}<br/>
       <strong>Exam Code:</strong> {{exam.code}} - {{exam.name}}
     </div>
-    <div style="margin-left: 24px;margin-right: 24px;font-size: 10px;line-height: 4px;">
+    <div style="margin-left: 24px;margin-right: 24px;font-size: 10px;line-height: 14px;">
       {{questions}}
     </div>
   <!-- </div> -->

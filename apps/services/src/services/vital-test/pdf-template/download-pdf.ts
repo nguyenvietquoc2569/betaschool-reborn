@@ -38,7 +38,7 @@ export const downloadTest = async (req, res) => {
   html = html.replace('{{questions}}', 
     `<div style="white-space: pre-wrap;">
       ${test.parts.reduce((prev, part) => {
-        return prev + '' + part.questions.map(q => q.htmlMakeUp).join('<br/>') + '<br/>'
+        return prev + '' + part.questions.map(q => q.htmlMakeUp).join('<div style="margin-top: 4px;"/>') + '<div style="margin-top: 4px;"/>'
       }, '')}
     </div>`)
   
