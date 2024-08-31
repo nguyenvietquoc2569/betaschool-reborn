@@ -1,0 +1,59 @@
+{
+  "name": "booth-app",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/booth-app/src",
+  "projectType": "application",
+  "targets": {
+    "build": {
+      "executor": "nx-electron:build",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/apps/booth-app",
+        "main": "apps/booth-app/src/main.ts",
+        "tsConfig": "apps/booth-app/tsconfig.app.json",
+        "assets": ["apps/booth-app/src/assets"]
+      },
+      "configurations": {
+        "production": {
+          "optimization": true,
+          "extractLicenses": true,
+          "inspect": false,
+          "fileReplacements": [
+            {
+              "replace": "apps/booth-app/src/environments/environment.ts",
+              "with": "apps/booth-app/src/environments/environment.prod.ts"
+            }
+          ]
+        }
+      }
+    },
+    "serve": {
+      "executor": "nx-electron:execute",
+      "options": {
+        "buildTarget": "booth-app:build"
+      }
+    },
+    "package": {
+      "executor": "nx-electron:package",
+      "options": {
+        "name": "booth-app",
+        "frontendProject": "booth-frontend",
+        "sourcePath": "dist/apps",
+        "outputPath": "dist/packages",
+        "prepackageOnly": true
+      }
+    },
+    "make": {
+      "executor": "nx-electron:make",
+      "options": {
+        "name": "booth-app",
+        "frontendProject": "booth-frontend",
+        "sourcePath": "dist/apps",
+        "outputPath": "dist/executables"
+      }
+    },
+    "lint": {
+      "command": "eslint apps/booth-app/**/*.ts"
+    }
+  }
+}

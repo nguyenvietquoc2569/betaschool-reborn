@@ -58,5 +58,6 @@
         "linter": "eslint"
       }
     }
-  }
+  },
+  "defaultProject": "booth-app"
 }

@@ -1,5 +1,5 @@
 {
-  "name": "@betaschool-reborn/source",
+  "name": "betaschool-reborn-source",
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
@@ -24,7 +24,8 @@
     "workspace-schematic": "nx workspace-schematic",
     "dep-graph": "nx dep-graph",
     "help": "nx help",
-    "start-client-site-prod": "next start"
+    "start-client-site-prod": "next start",
+    "postinstall": "electron-builder install-app-deps"
   },
   "private": true,
   "dependencies": {
@@ -154,6 +155,8 @@
     "jest-environment-jsdom": "^29.4.1",
     "jest-environment-node": "^29.4.1",
     "nx": "18.0.6",
+    "nx-electron": "^18.0.1",
+    "electron": "^32.0.1",
     "prettier": "^2.6.2",
     "react-refresh": "^0.10.0",
     "ts-jest": "^29.1.0",
