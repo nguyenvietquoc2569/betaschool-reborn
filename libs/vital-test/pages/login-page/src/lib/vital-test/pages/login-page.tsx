@@ -24,7 +24,7 @@ export const LoginPage = (props: LoginPageProps) => {
   const [isValid, setIsValid] = useState(false)
   const isLoading = useTypedSelector((state) => state.session.isLoading)
   const isLogin = useTypedSelector(state => state.session.isLoggedIn)
-  let navigate = useNavigate()
+  const navigate = useNavigate()
   const [searchParams] = useSearchParams()
 
 
@@ -66,7 +66,8 @@ export const LoginPage = (props: LoginPageProps) => {
     if (urlEncoded) {
       window.location.href = decodeURIComponent(urlEncoded)
     } else {
-      navigate("/")
+    console.log('navigate to root')
+      navigate("/", { replace: true })
     }
   }
 

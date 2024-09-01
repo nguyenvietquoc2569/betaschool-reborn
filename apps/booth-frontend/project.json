@@ -12,7 +12,7 @@
         "compiler": "babel",
         "outputPath": "dist/apps/booth-frontend",
         "index": "apps/booth-frontend/src/index.html",
-        "baseHref": "./",
+        "baseHref": "/",
         "main": "apps/booth-frontend/src/main.tsx",
         "tsConfig": "apps/booth-frontend/tsconfig.app.json",
         "assets": [
@@ -29,7 +29,8 @@
           "extractLicenses": false,
           "optimization": false,
           "sourceMap": true,
-          "vendorChunk": true
+          "vendorChunk": true,
+          "baseHref": "/"
         },
         "production": {
           "fileReplacements": [
@@ -43,7 +44,8 @@
           "sourceMap": false,
           "namedChunks": false,
           "extractLicenses": true,
-          "vendorChunk": false
+          "vendorChunk": false,
+          "baseHref": "./"
         }
       }
     },
