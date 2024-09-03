@@ -16,6 +16,9 @@
     "baseUrl": ".",
     "paths": {
       "@betaschool-reborn/beta-data-type": ["libs/beta-data-type/src/index.ts"],
+      "@betaschool-reborn/booth-app/pages/mainpage": [
+        "libs/booth-app/pages/mainpage/src/index.ts"
+      ],
       "@betaschool-reborn/coreui-lib": ["libs/coreui-lib/src/index.tsx"],
       "@betaschool-reborn/database-model": ["libs/database-model/src/index.ts"],
       "@betaschool-reborn/database-model/*": ["libs/database-model/src/*"],
@@ -50,7 +53,8 @@
       "@betaschool-reborn/vital-test/utils": [
         "libs/vital-test/utils/src/index.ts"
       ],
-      "@betaschool/coreui-lib/*": ["libs/coreui-lib/src/*"]
+      "@betaschool/coreui-lib/*": ["libs/coreui-lib/src/*"],
+      "booth-app/pages/scoring": ["libs/booth-app/pages/scoring/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

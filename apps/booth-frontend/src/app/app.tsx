@@ -11,6 +11,8 @@ import { Link, Route, Navigate, HashRouter, Routes } from 'react-router-dom';
 import { LoginPage } from '@betaschool-reborn/vital-test/pages/login-page';
 import { useNavigate } from 'react-router-dom';
 import { BTShell } from '../components/shell';
+import { Mainpage } from '@betaschool-reborn/booth-app/pages/mainpage';
+import { Scoring } from 'booth-app/pages/scoring';
 
 export function App() {
   const isLogin = useTypedSelector(state => state.session.isLoggedIn)
@@ -25,7 +27,11 @@ export function App() {
           <Routes>
             <Route
               path="/"
-              element={<>hello</>}
+              element={<Mainpage></Mainpage>}
+            />
+            <Route
+              path="/scoring"
+              element={<Scoring></Scoring>}
             />
             <Route
               path="/login"
