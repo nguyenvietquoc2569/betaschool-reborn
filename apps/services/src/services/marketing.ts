@@ -1,5 +1,4 @@
 import axios from 'axios'
-import {File} from '@web-std/file';
 import B2 from 'backblaze-b2'
 import { v4 as uuidv4 } from 'uuid'
 import { MktSpeakingModel } from '@betaschool-reborn/database-model/models/index'

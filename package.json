@@ -35,6 +35,7 @@
     "@ant-design/pro-layout": "^6.15.3",
     "@ant-design/pro-table": "^2.30.8",
     "@coreui/icons": "^3.0.1",
+    "@google-cloud/vision": "^4.3.2",
     "@kyndryl-design-system/shidoka-applications": "^1.32.4",
     "@kyndryl-design-system/shidoka-foundation": "^1.7.1",
     "@lit/react": "^1.0.5",
@@ -98,6 +99,7 @@
     "react-select": "^5.8.0",
     "react-share": "^5.1.0",
     "react-transition-group": "^4.4.5",
+    "react-webcam": "^7.2.0",
     "redux": "^5.0.1",
     "redux-localstorage": "^0.4.1",
     "redux-thunk": "^3.1.0",
@@ -144,6 +146,7 @@
     "@typescript-eslint/eslint-plugin": "^6.13.2",
     "@typescript-eslint/parser": "^6.13.2",
     "babel-jest": "^29.4.1",
+    "electron": "^32.0.1",
     "esbuild": "^0.19.2",
     "eslint": "~8.48.0",
     "eslint-config-next": "13.4.1",
@@ -156,14 +159,13 @@
     "jest-environment-jsdom": "^29.4.1",
     "jest-environment-node": "^29.4.1",
     "nx": "18.0.6",
+    "nx-electron": "^18.0.1",
     "prettier": "^2.6.2",
     "react-refresh": "^0.10.0",
     "ts-jest": "^29.1.0",
     "ts-node": "10.9.1",
     "typescript": "~5.3.2",
-    "url-loader": "^4.1.1",
-    "nx-electron": "^18.0.1",
-    "electron": "^32.0.1"
+    "url-loader": "^4.1.1"
   },
   "peerDependencies": {
     "electron": "^32.0.1"

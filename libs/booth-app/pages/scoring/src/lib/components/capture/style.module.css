@@ -1,0 +1,17 @@
+.webcam-container {
+  position: relative;
+}
+
+.overlay-container {
+  position: absolute ;
+  width: 640px;
+  height: 480px;
+  top: 0 ;
+  right: 0 ;
+  bottom: 0 ;
+  left: 0;
+}
+
+.container {
+  margin: 32px auto;
+}

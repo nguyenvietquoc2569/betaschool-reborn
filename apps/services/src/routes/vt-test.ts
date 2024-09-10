@@ -3,6 +3,7 @@ import { activeVTProblem, addVTProblem, approveVTProblem, detailVTProblem, editV
 import { activeVTExam, addVTExam, approveVTExam, detailVTExam, editVTExam, getExamTheTagsList, getListVTExam, getListWorkingVTExam } from '../services/vital-test/vital-test-exam'
 import { addVTTest, getListVTTest } from '../services/vital-test/vital-test'
 import { downloadTest } from '../services/vital-test/pdf-template/download-pdf'
+import { uploadAnswerSheet } from '../services/vital-test/answer-sheet'
 export const router = express.Router()
 
 router.post('/get-problem', getListVTProblem)
@@ -26,3 +27,6 @@ router.post('/exam/testProblemPickup', testAPart)
 router.post('/test/get', getListVTTest)
 router.post('/test/add', addVTTest)
 router.get('/test/download', downloadTest)
+
+
+router.post('/answersheet/upload', uploadAnswerSheet)

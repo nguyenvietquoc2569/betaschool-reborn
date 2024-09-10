@@ -2,6 +2,7 @@ import { EVTApproveStatus, extraTestTags, IVTExamPart, IVTPartInTest, IVTProblem
 import { VTExamModel, VTProblemModel, VTTestModel } from '@betaschool-reborn/database-model'
 import { ObjectId } from 'mongodb'
 import { pickProblems, shuffleArray } from './vital-problem'
+import vision from '@google-cloud/vision'
 
 export const addVTTest = async (req, res) => {
   const { examId } = req.body
