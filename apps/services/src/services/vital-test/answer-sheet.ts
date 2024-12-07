@@ -1,7 +1,13 @@
-
 import axios from 'axios'
 import B2 from 'backblaze-b2'
 import { v4 as uuidv4 } from 'uuid'
+
+// const client = new vision.ImageAnnotatorClient({
+//   credentials: {
+//     client_email: 'Betaschool-creadetials@betaschool.edu.vn ',
+//     private_key: 'AIzaSyA9zhWjtZJ1ed2EZNuSxXYljYnU3dSaZOg'
+//   }
+// });
 
 let b2DownloadURl = ''
 let b2
@@ -63,13 +69,28 @@ export const uploadAnswerSheet = async (req, res) => {
     };
 
     const fileInfo = await b2.uploadFile(params)
-    console.log(fileInfo)
+    const resGCV = await axios.post('https://vision.googleapis.com/v1/images:annotate?key=AIzaSyA9zhWjtZJ1ed2EZNuSxXYljYnU3dSaZOg', {
+        "requests": [
+          {
+            "image": {
+              "content": base64.split(',')[1]
+            },
+            "features": [
+              {
+                "type": "DOCUMENT_TEXT_DETECTION"
+              }
+            ]
+          }
+        ]
+    })
+
     res.send({
       code: 200,
       data: {
         fileInfo: fileInfo.data,
         fileUrl:  `${b2DownloadURl}/file/${process.env.ANSWERSHEET_BACKBLAZE_BUCKET}/${fileInfo.data.fileName}`,
-        b2DownloadURl
+        b2DownloadURl,
+        gvc: resGCV.data.responses
       }
     })
   } catch (e) {

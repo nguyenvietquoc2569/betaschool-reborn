@@ -3,7 +3,10 @@ import styles from './style.module.css'
 import Webcam from "react-webcam"
 import { KDButton } from '@betaschool-reborn/vital-test/lit-components'
 import { BUTTON_KINDS, BUTTON_SIZES } from '@kyndryl-design-system/shidoka-foundation/components/button/defs'
-import { useCallback, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
+
+
+
 export const CaptureScreen = ({score}: {score: (x: string) => void}) => {
   const {ttt} = useLangContext()
   const webcamRef = useRef<Webcam>(null)
@@ -17,6 +20,22 @@ export const CaptureScreen = ({score}: {score: (x: string) => void}) => {
   const retake = () => {
     setImgSrc(null);
   };
+
+  const [deviceId, setDeviceId] = useState(0);
+  const [devices, setDevices] = useState<MediaDeviceInfo[]>([]);
+
+
+  const handleDevices = 
+    (mediaDevices: MediaDeviceInfo[]) =>
+      setDevices(mediaDevices.filter(({ kind }: any) => kind === "videoinput"))
+
+  useEffect(
+    () => {
+      navigator.mediaDevices.enumerateDevices().then(handleDevices);
+    },
+    [handleDevices]
+  );
+
 
   const svgIcon = () => (
     <svg
@@ -43,7 +62,8 @@ export const CaptureScreen = ({score}: {score: (x: string) => void}) => {
       {imgSrc ? (
         <img src={imgSrc} alt="webcam" />
       ) : <div className={styles['webcam-container']}>
-            <Webcam height={480} width={640} ref={webcamRef} screenshotFormat="image/jpeg"
+            <Webcam ref={webcamRef} screenshotFormat="image/jpeg"
+              videoConstraints={{ deviceId: devices[deviceId % devices.length]?.deviceId || '' }}
             >
             </Webcam>
             {/* <div className={styles['overlay-container']}>
@@ -58,8 +78,15 @@ export const CaptureScreen = ({score}: {score: (x: string) => void}) => {
       <KDButton size={BUTTON_SIZES.LARGE} kind={BUTTON_KINDS.PRIMARY_APP} onClick={() => score(imgSrc)}>{ttt('Chấm bài', 'Score the answersheet')}</KDButton>
       <KDButton size={BUTTON_SIZES.LARGE} kind={BUTTON_KINDS.TERTIARY} onClick={retake} style={{marginLeft: '16px'}}>{ttt('Chụp lại', 'Retake')}</KDButton>
       </div>
-    ) : (
+    ) : ( <div>
       <KDButton size={BUTTON_SIZES.LARGE} kind={BUTTON_KINDS.PRIMARY_APP} onClick={capture}>{ttt('Chụp tờ trả lời', 'Capture the answersheet')}</KDButton>
+      <KDButton size={BUTTON_SIZES.LARGE} kind={BUTTON_KINDS.TERTIARY} onClick={()=>setDeviceId(deviceId + 1)} style={{marginLeft: '16px'}}>{ttt('Chuyển camera', 'Switch camera')}</KDButton>
+
+
+
+
+
+      </div>
     )}
   </>
 }
