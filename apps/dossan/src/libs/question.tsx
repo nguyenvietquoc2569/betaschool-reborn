@@ -17,7 +17,7 @@ export const QuestionPlay = () => {
     setPageNumber(1);
   }
 
-  return <div>
+  return <>
       <KDDropDown
         onChange={(e: any) => {
           setQuestionSetSelected(Number(e.detail.value))
@@ -42,6 +42,9 @@ export const QuestionPlay = () => {
           onChange={(e: any) => {
             setTabSelected(e.detail.selectedTabId)
           }}
+          style={{
+            width: '100%',
+          }}
         >
           {
             doosanQuestionData.questions[questionSetSelected].parts.map((part, index) => {
@@ -59,7 +62,7 @@ export const QuestionPlay = () => {
                 }
 
                 {
-                  part.type === 'audio' &&  <ReactPlayer url={part.url} controls={true}/>
+                  part.type === 'audio' &&  <ReactPlayer height={100} url={part.url} controls={true}/>
                 }
 
                 {
@@ -77,5 +80,5 @@ export const QuestionPlay = () => {
         </KDTabs>
       }
       
-  </div>
+  </>
 }
