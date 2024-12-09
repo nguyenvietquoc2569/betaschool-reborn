@@ -1,23 +1,81 @@
-import { KDTab, KDTabs } from '@betaschool-reborn/vital-test/lit-components'
+import { KDButton, KDDropDown, KDDropDownOption, KDTab, KDTabPanel, KDTabs } from '@betaschool-reborn/vital-test/lit-components'
 import { useState } from 'react'
+import { doosanQuestionData } from './questions.data'
+import {PdfViewer} from './pdf-viewer'
+import ReactPlayer from 'react-player'
+
 
 export const QuestionPlay = () => {
   const [tabSelected, setTabSelected] = useState<string>('0')
-  return <div>
-     <KDTabs
-      tabSize='md'
-      tabStyle='contained'
-      onChange={(e: any) => {
-        setTabSelected(e.detail.selectedTabId)
-      }}
-    >
+  const [questionSetSelected, setQuestionSetSelected] = useState<number>(-1)
 
-        <KDTab slot='tabs' id={String(0)} selected={tabSelected===String(0)}>
-          Part 0
-        </KDTab>
-        <KDTab slot='tabs' id={String(1)} selected={tabSelected===String(1)}>
-          Part 1
-        </KDTab>
-    </KDTabs>
+  const [numPages, setNumPages] = useState<number>(0);
+  const [pageNumber, setPageNumber] = useState(1);
+
+  function onDocumentLoadSuccess({ numPages }: {numPages: number}) {
+    setNumPages(numPages);
+    setPageNumber(1);
+  }
+
+  return <div>
+      <KDDropDown
+        onChange={(e: any) => {
+          setQuestionSetSelected(Number(e.detail.value))
+          setTabSelected(String(0))
+        }}
+      >
+        <span slot="label">Select a question set</span>
+        {
+          doosanQuestionData.questions.map((question, index) => {
+            return <KDDropDownOption value={String(index)}>Question Set {index + 1}</KDDropDownOption>
+          })
+        }
+
+      </KDDropDown>
+      <br></br><br></br>
+
+      {
+        questionSetSelected !== -1 && 
+        <KDTabs
+          tabSize='md'
+          tabStyle='contained'
+          onChange={(e: any) => {
+            setTabSelected(e.detail.selectedTabId)
+          }}
+        >
+          {
+            doosanQuestionData.questions[questionSetSelected].parts.map((part, index) => {
+              return <KDTab slot='tabs' id={String(index)} selected={tabSelected===String(index)}>
+                {part.name}
+              </KDTab>
+            })
+          }
+
+          {
+            doosanQuestionData.questions[questionSetSelected].parts.map((part, index) => {
+              return <KDTabPanel tabId={String(index)} >
+                {
+                  part.type === 'pdf' &&  <PdfViewer pdfUrl={part.url} />
+                }
+
+                {
+                  part.type === 'audio' &&  <ReactPlayer url={part.url} controls={true}/>
+                }
+
+                {
+                  part.type === 'image' &&  <img src={part.url}/>
+                }
+
+                {
+                  part.type === 'file' && <KDButton onClick={() => window.open(part.url, "_blank")} href='javascript:void(0)' >
+                  Download {part.name}
+                </KDButton>
+                }
+              </KDTabPanel>
+            })
+          }
+        </KDTabs>
+      }
+      
   </div>
 }
