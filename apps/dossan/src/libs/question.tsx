@@ -7,7 +7,7 @@ import ReactPlayer from 'react-player'
 
 export const QuestionPlay = () => {
   const [tabSelected, setTabSelected] = useState<string>('0')
-  const [questionSetSelected, setQuestionSetSelected] = useState<number>(-1)
+  const [questionSetSelected, setQuestionSetSelected] = useState<number>(0)
 
   const [numPages, setNumPages] = useState<number>(0);
   const [pageNumber, setPageNumber] = useState(1);
@@ -23,6 +23,7 @@ export const QuestionPlay = () => {
           setQuestionSetSelected(Number(e.detail.value))
           setTabSelected(String(0))
         }}
+        value={String(questionSetSelected)}
       >
         <span slot="label">Select a question set</span>
         {
@@ -37,6 +38,7 @@ export const QuestionPlay = () => {
       {
         questionSetSelected !== -1 && 
         <KDTabs
+          key={questionSetSelected}
           tabSize='md'
           tabStyle='contained'
           onChange={(e: any) => {
