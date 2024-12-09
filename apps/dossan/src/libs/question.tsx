@@ -27,7 +27,7 @@ export const QuestionPlay = () => {
         <span slot="label">Select a question set</span>
         {
           doosanQuestionData.questions.map((question, index) => {
-            return <KDDropDownOption value={String(index)}>Question Set {index + 1}</KDDropDownOption>
+            return <KDDropDownOption value={String(index)}>{question.name}</KDDropDownOption>
           })
         }
 

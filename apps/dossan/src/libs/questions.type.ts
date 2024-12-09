@@ -11,6 +11,7 @@ export interface IDoosanPart {
 }
 
 export interface IDoosanQuestion {
+  name? : string,
   parts: Array<IDoosanPart>
 }
 export interface IDoosanQuestions {
