@@ -1,5 +1,5 @@
 def distributedTasks = [:]
-def version = '5.0.0'
+def version = '5.0.1'
 def projects = [:]
 def raw
 def baseSha = 'last-success-build'
@@ -15,6 +15,18 @@ stage("Build") {
         sh script: "git pull https://${gitUsername}:${gitPassword}@github.com/nguyenvietquoc2569/betaschool-reborn.git --tags"
         
         sh 'yarn install --frozen-lockfile'
+
+        // build doosan
+        sh "npx nx run apps/dossan:build:production"
+        docker.build("nguyenvietquoc2569/betaschool-reborn-doosan:${version}", "--no-cache . -f apps/doosan/Dockerfile")
+        sh "docker login -u ${docUsername} -p ${docPassword}"
+        sh "docker push nguyenvietquoc2569/betaschool-reborn-doosan:${version}"
+
+        // build dns
+        docker.build("nguyenvietquoc2569/betaschool-reborn-dnsserver:${version}", "--no-cache . -f apps/dnsserver/Dockerfile")
+        sh "docker login -u ${docUsername} -p ${docPassword}"
+        sh "docker push nguyenvietquoc2569/betaschool-reborn-dnsserver:${version}"
+
         // sh ''
         // sh 'npm install'
         raw = sh(script: "npx nx show projects --affected --type app --base=${baseSha} --target=${target}", returnStdout: true)
