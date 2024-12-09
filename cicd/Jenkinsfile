@@ -20,7 +20,7 @@ stage("Build") {
         sh "npx nx run apps/dossan:build:production"
         docker.build("nguyenvietquoc2569/betaschool-reborn-dossan:${version}", "--no-cache . -f apps/dossan/Dockerfile")
         sh "docker login -u ${docUsername} -p ${docPassword}"
-        sh "docker push nguyenvietquoc2569/betaschool-reborn-doosan:${version}"
+        sh "docker push nguyenvietquoc2569/betaschool-reborn-dossan:${version}"
 
         // build dns
         docker.build("nguyenvietquoc2569/betaschool-reborn-dnsserver:${version}", "--no-cache . -f apps/dnsserver/Dockerfile")
