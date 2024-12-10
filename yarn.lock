@@ -2027,19 +2027,22 @@
   resolved "https://registry.yarnpkg.com/@js-sdsl/ordered-map/-/ordered-map-4.4.2.tgz#9299f82874bab9e4c7f9c48d865becbfe8d6907c"
   integrity sha512-iUKgm52T8HOE/makSxjqoWhe95ZJA1/G1sYsGev2JDKUSS14KAgg1LHb+Ba+IPow0xflbnSkOsZcO08C7w1gYw==
 
-"@kyndryl-design-system/shidoka-applications@^1.32.4":
-  version "1.34.2"
-  resolved "https://registry.yarnpkg.com/@kyndryl-design-system/shidoka-applications/-/shidoka-applications-1.34.2.tgz#dd32ab265b6c0b136ac05d6d97b20eb7973292a1"
-  integrity sha512-/AeyjE0Xpfm2oOkVYQTmxnoq2mqfTyl8tgQdERG6C0dor3RrDVIgp5a6nyuGr+2l8vBL3kLijt+hZAGdiqSsEg==
+"@kyndryl-design-system/shidoka-applications@^1.46.1":
+  version "1.48.1"
+  resolved "https://registry.yarnpkg.com/@kyndryl-design-system/shidoka-applications/-/shidoka-applications-1.48.1.tgz#918d69b292366891d76b134017bee01cadbd2f30"
+  integrity sha512-YzN3dVXBkkvHM3WtxkqclQlMtpfFuMquwLcGJ8ywY190MYo8/dUiFRj/ffo7kJXC5tzxI9/p5Pzc83qt2mrvng==
   dependencies:
     "@carbon/icon-helpers" "^10.37.0"
     "@carbon/icons" "^11.43.0"
+    "@kyndryl-design-system/shidoka-icons" "^1.1.0"
     "@lit/context" "^1.1.0"
     deepmerge-ts "^7.1.0"
     gridstack "^10.1.2"
     lit "^2.7.6"
     lottie-web "^5.12.2"
+    prismjs "^1.29.0"
     query-selector-shadow-dom "^1.0.1"
+    swiper "^11.1.12"
 
 "@kyndryl-design-system/shidoka-foundation@^1.7.1":
   version "1.7.5"
@@ -2050,6 +2053,11 @@
     "@carbon/icons" "^11.14.0"
     lit "^2.5.0"
     query-selector-shadow-dom "^1.0.1"
+
+"@kyndryl-design-system/shidoka-icons@^1.1.0":
+  version "1.9.0"
+  resolved "https://registry.yarnpkg.com/@kyndryl-design-system/shidoka-icons/-/shidoka-icons-1.9.0.tgz#ec908ed5022330e84102b66c70184b67546a773e"
+  integrity sha512-7AFD3D7wuS+EeUv+biAi5SUhynfe8gGHl4rAk0RiPm2AOBz8xzmRgxYVaP97x5u6Z3F4YTSguJPjbrmvi3mwfA==
 
 "@leichtgewicht/ip-codec@^2.0.1":
   version "2.0.5"
@@ -3629,6 +3637,13 @@
   version "18.3.0"
   resolved "https://registry.yarnpkg.com/@types/react-dom/-/react-dom-18.3.0.tgz#0cbc818755d87066ab6ca74fbedb2547d74a82b0"
   integrity sha512-EhwApuTmMBmXuFOikhQLIBUn6uFg81SwLMOAUgodJF14SOBOCMdU04gDoYi0WOJJHD144TL32z4yDqCW3dnkQg==
+  dependencies:
+    "@types/react" "*"
+
+"@types/react-modal@3.16.3":
+  version "3.16.3"
+  resolved "https://registry.yarnpkg.com/@types/react-modal/-/react-modal-3.16.3.tgz#250f32c07f1de28e2bcf9c3e84b56adaa6897013"
+  integrity sha512-xXuGavyEGaFQDgBv4UVm8/ZsG+qxeQ7f77yNrW3n+1J6XAstUy5rYHeIHPh1KzsGc6IkCIdu6lQ2xWzu1jBTLg==
   dependencies:
     "@types/react" "*"
 
@@ -7916,6 +7931,11 @@ executable@^4.1.0:
   integrity sha512-8iA79xD3uAch729dUG8xaaBBFGaEa0wdD2VkYLFHwlqosEj/jT66AzcreRDSgV7ehnNLBW2WR5jIXwGKjVdTLg==
   dependencies:
     pify "^2.2.0"
+
+exenv@^1.2.0:
+  version "1.2.2"
+  resolved "https://registry.yarnpkg.com/exenv/-/exenv-1.2.2.tgz#2ae78e85d9894158670b03d47bec1f03bd91bb9d"
+  integrity sha512-Z+ktTxTwv9ILfgKCk32OX3n/doe+OcLTRtqK9pcL+JsP3J1/VW8Uvl4ZjLlKqeW4rzK4oesDOGMEMRIZqtP4Iw==
 
 exit@^0.1.2:
   version "0.1.2"
@@ -12748,6 +12768,11 @@ pretty-format@^29.0.0, pretty-format@^29.7.0:
     ansi-styles "^5.0.0"
     react-is "^18.0.0"
 
+prismjs@^1.29.0:
+  version "1.29.0"
+  resolved "https://registry.yarnpkg.com/prismjs/-/prismjs-1.29.0.tgz#f113555a8fa9b57c35e637bba27509dcf802dd12"
+  integrity sha512-Kx/1w86q/epKcmte75LNrEoT+lX8pBpavuAbvJWRXar7Hz8jrtF+e3vY751p0R8H9HdArwaCTNDDzHg/ScJK1Q==
+
 private@^0.1.6:
   version "0.1.8"
   resolved "https://registry.yarnpkg.com/private/-/private-0.1.8.tgz#2381edb3689f7a53d653190060fcf822d2f368ff"
@@ -13459,6 +13484,26 @@ react-is@^18.0.0, react-is@^18.2.0:
   version "18.3.1"
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-18.3.1.tgz#e83557dc12eae63a99e003a46388b1dcbb44db7e"
   integrity sha512-/LLMVyas0ljjAtoYiPqYiL8VWXzUUdThrmU5+n20DZv+a+ClRoevUzw5JxU+Ieh5/c87ytoTBV9G1FiKfNJdmg==
+
+react-lifecycles-compat@^3.0.0:
+  version "3.0.4"
+  resolved "https://registry.yarnpkg.com/react-lifecycles-compat/-/react-lifecycles-compat-3.0.4.tgz#4f1a273afdfc8f3488a8c516bfda78f872352362"
+  integrity sha512-fBASbA6LnOU9dOU2eW7aQ8xmYBSXUIWr+UmF9b1efZBazGNO+rcXT/icdKnYm2pTwcRylVUYwW7H1PHfLekVzA==
+
+react-modal-overlay@1.0.3:
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/react-modal-overlay/-/react-modal-overlay-1.0.3.tgz#2d8bf58c063c06d92f131178383261a9522a2719"
+  integrity sha512-phdHGtapzBMBYfVcWZa6P2HSDuIh7OEOxPUgaK+ym0FvSZYRpSQ3oN01tSTZG4RRDbxXhBOJEI6I7kbiE9eywA==
+
+react-modal@3.16.1:
+  version "3.16.1"
+  resolved "https://registry.yarnpkg.com/react-modal/-/react-modal-3.16.1.tgz#34018528fc206561b1a5467fc3beeaddafb39b2b"
+  integrity sha512-VStHgI3BVcGo7OXczvnJN7yT2TWHJPDXZWyI/a0ssFNhGZWsPmB8cF0z33ewDXq4VfYMO1vXgiv/g8Nj9NDyWg==
+  dependencies:
+    exenv "^1.2.0"
+    prop-types "^15.7.2"
+    react-lifecycles-compat "^3.0.0"
+    warning "^4.0.3"
 
 react-pdf@9.1.1:
   version "9.1.1"
@@ -15013,6 +15058,11 @@ svgo@^3.0.2, svgo@^3.2.0:
     css-what "^6.1.0"
     csso "^5.0.5"
     picocolors "^1.0.0"
+
+swiper@^11.1.12:
+  version "11.1.15"
+  resolved "https://registry.yarnpkg.com/swiper/-/swiper-11.1.15.tgz#e2258c8d38282e2f115ca463d6e8c5b84cdcf1ca"
+  integrity sha512-IzWeU34WwC7gbhjKsjkImTuCRf+lRbO6cnxMGs88iVNKDwV+xQpBCJxZ4bNH6gSrIbbyVJ1kuGzo3JTtz//CBw==
 
 swr@^1.2.0:
   version "1.3.0"

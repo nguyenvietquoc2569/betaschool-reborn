@@ -4,8 +4,21 @@ import './header.scss'
 import { KDFooter, KDShell } from '@betaschool-reborn/vital-test/lit-components'
 import Marquee from "react-fast-marquee";
 import { QuestionPlayV2 } from '../libs/questionv2';
+import { PasswordProtection } from '../libs/password';
+import { useState } from 'react';
 
 export function App() {
+
+  const [unlock, setUnlock] = useState(false)
+  const [refresh, setRefresh] = useState(0)
+  const sentOut = (ok: boolean) => {
+    if (ok) {
+      setUnlock(true)
+    } else {
+      setRefresh(r => r+1)
+    }
+  }
+
   return (
     
     <div style={{margin: 'var(--kd-negative-page-gutter)'}}>
@@ -33,7 +46,8 @@ export function App() {
 
 
       <main>
-          <QuestionPlayV2></QuestionPlayV2>
+        {!unlock && <PasswordProtection key={refresh} sentOut={sentOut}></PasswordProtection>}
+        {unlock && <QuestionPlayV2></QuestionPlayV2>}
       </main>
 
 
