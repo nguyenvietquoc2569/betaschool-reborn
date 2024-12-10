@@ -1,5 +1,5 @@
 def distributedTasks = [:]
-def version = '5.0.1'
+def version = '5.0.2'
 def projects = [:]
 def raw
 def baseSha = 'last-success-build'
@@ -23,9 +23,9 @@ stage("Build") {
         sh "docker push nguyenvietquoc2569/betaschool-reborn-dossan:${version}"
 
         // build dns
-        docker.build("nguyenvietquoc2569/betaschool-reborn-dnsserver:${version}", "--no-cache . -f apps/dnsserver/Dockerfile")
-        sh "docker login -u ${docUsername} -p ${docPassword}"
-        sh "docker push nguyenvietquoc2569/betaschool-reborn-dnsserver:${version}"
+        // docker.build("nguyenvietquoc2569/betaschool-reborn-dnsserver:${version}", "--no-cache . -f apps/dnsserver/Dockerfile")
+        // sh "docker login -u ${docUsername} -p ${docPassword}"
+        // sh "docker push nguyenvietquoc2569/betaschool-reborn-dnsserver:${version}"
 
         // sh ''
         // sh 'npm install'

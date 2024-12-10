@@ -2,8 +2,8 @@
 import { QuestionPlay } from '../libs/question';
 import './header.scss'
 import { KDFooter, KDShell } from '@betaschool-reborn/vital-test/lit-components'
-
 import Marquee from "react-fast-marquee";
+import { QuestionPlayV2 } from '../libs/questionv2';
 
 export function App() {
   return (
@@ -33,7 +33,7 @@ export function App() {
 
 
       <main>
-          <QuestionPlay></QuestionPlay>
+          <QuestionPlayV2></QuestionPlayV2>
       </main>
 
 

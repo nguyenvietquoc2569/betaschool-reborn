@@ -3,8 +3,6 @@ import { Document, Page } from 'react-pdf';
 import { KDButton } from '@betaschool-reborn/vital-test/lit-components'
 import { useState } from 'react';
 
-import 'pdfjs-dist/build/pdf.worker.min.mjs';
-
 export const PdfViewer = ({ pdfUrl }: {pdfUrl: string}) => {
   const [numPages, setNumPages] = useState<number>(0);
   const [pageNumber, setPageNumber] = useState(1);
