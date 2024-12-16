@@ -254,26 +254,26 @@ export const doosanQuestionData: IDoosanQuestions = {
     },
 
     //10
-    {
-      name: 'Test 10',
-      parts: [
-        {
-          name: 'Audio (Speed 1.0)',
-          url: 'https://DoosanToeic.s3.us-west-004.backblazeb2.com/10/AUDIO+(1).mp3',
-          type: IDocType.audio
-        },
-        {
-          name: 'Questions',
-          url: 'https://DoosanToeic.s3.us-west-004.backblazeb2.com/10/%C4%90E%CC%82%CC%80+BA%CC%80I.pdf',
-          type: IDocType.pdf
-        },
-        {
-          name: 'Transcript + Key',
-          url: 'https://DoosanToeic.s3.us-west-004.backblazeb2.com/10/KEY+%2B+TRANSCRIPT.pdf',
-          type: IDocType.pdf
-        }
-      ]
-    },
+    // {
+    //   name: 'Test 10',
+    //   parts: [
+    //     {
+    //       name: 'Audio (Speed 1.0)',
+    //       url: 'https://DoosanToeic.s3.us-west-004.backblazeb2.com/10/AUDIO+(1).mp3',
+    //       type: IDocType.audio
+    //     },
+    //     {
+    //       name: 'Questions',
+    //       url: 'https://DoosanToeic.s3.us-west-004.backblazeb2.com/10/%C4%90E%CC%82%CC%80+BA%CC%80I.pdf',
+    //       type: IDocType.pdf
+    //     },
+    //     {
+    //       name: 'Transcript + Key',
+    //       url: 'https://DoosanToeic.s3.us-west-004.backblazeb2.com/10/KEY+%2B+TRANSCRIPT.pdf',
+    //       type: IDocType.pdf
+    //     }
+    //   ]
+    // },
 
 
 
