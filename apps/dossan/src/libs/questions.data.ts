@@ -12,11 +12,11 @@ export const doosanQuestionData: IDoosanQuestions = {
           url: 'https://DoosanToeic.s3.us-west-004.backblazeb2.com/01/AUDIO+(TO%CC%82%CC%81C+%C4%90O%CC%A3%CC%82+1.0).MP3',
           type: IDocType.audio
         },
-        {
-          name: 'Audio (Speed 2.0)',
-          url: 'https://DoosanToeic.s3.us-west-004.backblazeb2.com/01/AUDIO+(TO%CC%82%CC%81C+%C4%90O%CC%A3%CC%82+1.2).MP3',
-          type: IDocType.audio
-        },
+        // {
+        //   name: 'Audio (Speed 2.0)',
+        //   url: 'https://DoosanToeic.s3.us-west-004.backblazeb2.com/01/AUDIO+(TO%CC%82%CC%81C+%C4%90O%CC%A3%CC%82+1.2).MP3',
+        //   type: IDocType.audio
+        // },
         {
           name: 'Questions',
           url: 'https://DoosanToeic.s3.us-west-004.backblazeb2.com/01/%C4%90E%CC%82%CC%80+BA%CC%80I.pdf',
@@ -43,11 +43,11 @@ export const doosanQuestionData: IDoosanQuestions = {
           url: 'https://DoosanToeic.s3.us-west-004.backblazeb2.com/02/AUDIO+(TO%CC%82%CC%81C+%C4%90O%CC%A3%CC%82+1.0)+(1).MP3',
           type: IDocType.audio
         },
-        {
-          name: 'Audio (Speed 2.0)',
-          url: 'https://DoosanToeic.s3.us-west-004.backblazeb2.com/02/AUDIO+(TO%CC%82%CC%81C+%C4%90O%CC%A3%CC%82+1.2).MP3',
-          type: IDocType.audio
-        },
+        // {
+        //   name: 'Audio (Speed 2.0)',
+        //   url: 'https://DoosanToeic.s3.us-west-004.backblazeb2.com/02/AUDIO+(TO%CC%82%CC%81C+%C4%90O%CC%A3%CC%82+1.2).MP3',
+        //   type: IDocType.audio
+        // },
         {
           name: 'Questions',
           url: 'https://DoosanToeic.s3.us-west-004.backblazeb2.com/02/%C4%90E%CC%82%CC%80+BA%CC%80I.pdf',

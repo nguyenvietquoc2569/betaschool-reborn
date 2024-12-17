@@ -1,5 +1,5 @@
 def distributedTasks = [:]
-def version = '5.0.5'
+def version = '5.0.6'
 def projects = [:]
 def raw
 def baseSha = 'last-success-build'
