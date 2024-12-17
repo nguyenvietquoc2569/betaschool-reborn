@@ -129,7 +129,7 @@ export const doosanQuestionData: IDoosanQuestions = {
         },
         {
           name: 'Questions',
-          url: 'https://DoosanToeic.s3.us-west-004.backblazeb2.com/05/%C4%90E%CC%82%CC%80+BA%CC%80I.pdf',
+          url: 'https://DoosanToeic.s3.us-west-004.backblazeb2.com/05/%C4%90E%CC%82%CC%80+BA%CC%80I+(updated).pdf',
           type: IDocType.pdf
         },
         {
@@ -166,8 +166,8 @@ export const doosanQuestionData: IDoosanQuestions = {
         },
         {
           name: 'Key',
-          url: 'https://DoosanToeic.s3.us-west-004.backblazeb2.com/06/ANSWER.xlsx',
-          type: IDocType.file
+          url: 'https://DoosanToeic.s3.us-west-004.backblazeb2.com/06/KEY+6.pdf',
+          type: IDocType.pdf
         },
       ]
     },
