@@ -193,7 +193,7 @@ export const doosanQuestionData: IDoosanQuestions = {
         },
         {
           name: 'Key',
-          url: 'https://DoosanToeic.s3.us-west-004.backblazeb2.com/07/KEY+RC.pdf',
+          url: 'https://DoosanToeic.s3.us-west-004.backblazeb2.com/07/KEY+7.pdf',
           type: IDocType.pdf
         },
       ]
