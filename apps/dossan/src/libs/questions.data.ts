@@ -112,7 +112,7 @@ export const doosanQuestionData: IDoosanQuestions = {
         },
         {
           name: 'Key',
-          url: 'https://DoosanToeic.s3.us-west-004.backblazeb2.com/04/KEY.png',
+          url: 'https://DoosanToeic.s3.us-west-004.backblazeb2.com/04/key-4.jpg',
           type: IDocType.image
         },
       ]
