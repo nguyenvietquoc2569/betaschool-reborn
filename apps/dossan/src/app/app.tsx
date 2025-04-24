@@ -4,7 +4,7 @@ import './header.scss'
 import { KDFooter, KDShell } from '@betaschool-reborn/vital-test/lit-components'
 import Marquee from "react-fast-marquee";
 import { QuestionPlayV2 } from '../libs/questionv2';
-import { PasswordProtection } from '../libs/password';
+import { PasswordProtection, passwords } from '../libs/password';
 import { useState } from 'react';
 
 export function App() {
@@ -46,7 +46,7 @@ export function App() {
 
 
       <main>
-        {!unlock && <PasswordProtection key={refresh} sentOut={sentOut}></PasswordProtection>}
+        {!unlock && <PasswordProtection passwords={passwords} key={refresh} sentOut={sentOut}></PasswordProtection>}
         {unlock && <QuestionPlayV2></QuestionPlayV2>}
       </main>
 

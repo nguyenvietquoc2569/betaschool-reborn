@@ -1,7 +1,7 @@
 import { ModalBox, Textbox } from '@betaschool-reborn/vital-test/lit-components';
 import { useCallback, useState } from 'react';
 
-const passwords = [
+export const passwords = [
   'Youcandoit7',
   'Topnow7',
   'Bepro$',
@@ -9,7 +9,7 @@ const passwords = [
   'Scorebig!',
   'Goal900!',
 ]
-export const PasswordProtection = ({sentOut}: {sentOut: (ok: boolean) => void}) => {
+export const PasswordProtection = ({sentOut, passwords}: {sentOut: (ok: boolean) => void, passwords: Array<string>}) => {
   const [password, setPassword] = useState('');
   const passwordChange = (value: any) => {
     setPassword(value.target.value)
