@@ -16,6 +16,10 @@ stage("Build") {
         
         sh 'yarn install --frozen-lockfile'
 
+        docker.build("nguyenvietquoc2569/betaschool-reborn-dnsserver:${version}", "--no-cache . -f apps/dnsserver/Dockerfile")
+        sh "docker login -u ${docUsername} -p ${docPassword}"
+        sh "docker push nguyenvietquoc2569/betaschool-reborn-dnsserver:${version}"
+
         // build doosan
         sh "npx nx run apps/dossan:build:production"
         docker.build("nguyenvietquoc2569/betaschool-reborn-dossan:${version}", "--no-cache . -f apps/dossan/Dockerfile")
@@ -23,9 +27,7 @@ stage("Build") {
         sh "docker push nguyenvietquoc2569/betaschool-reborn-dossan:${version}"
 
         // build dns
-        // docker.build("nguyenvietquoc2569/betaschool-reborn-dnsserver:${version}", "--no-cache . -f apps/dnsserver/Dockerfile")
-        // sh "docker login -u ${docUsername} -p ${docPassword}"
-        // sh "docker push nguyenvietquoc2569/betaschool-reborn-dnsserver:${version}"
+
 
         // sh ''
         // sh 'npm install'
