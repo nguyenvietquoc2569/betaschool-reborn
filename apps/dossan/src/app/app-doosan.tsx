@@ -6,7 +6,6 @@ import Marquee from "react-fast-marquee";
 import { QuestionPlayV2 } from '../libs/questionv2';
 import { PasswordProtection, passwords } from '../libs/password';
 import { useState } from 'react';
-import { BocTham } from '../libs/spkt/boctham';
 
 export function App() {
 
@@ -29,16 +28,13 @@ export function App() {
           href=""
           className="logo-link interactive"
         >
-          <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRY8hrOqKKV1GeWf7b_YZ93kNqj_gSEsi0Hjg&s" height={68} alt='logodossan' ></img>
-          <img src={'https://scontent-hkg1-1.xx.fbcdn.net/v/t39.30808-6/474488971_1333705871378720_7009368911692003946_n.jpg?_nc_cat=105&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=cXr7KBPRNu0Q7kNvwHC5TEi&_nc_oc=Adn4uUvaIvUBFF9-FTkN8A_R-s71f3ZPvte6A6jI5uiNJGEuCMlyhkshK8zFDhuO__g&_nc_zt=23&_nc_ht=scontent-hkg1-1.xx&_nc_gid=ICS3jYn2NN-1HbIUYBojQg&oh=00_AfE6hetVsxkt5nGv3NKTLYpR53n8dvCMyBfnuM0VKvQNGA&oe=6810A5CE'} alt={"logo"} style={{
+          <img src={'assets/doosan.png'} height={68} alt='logodossan' ></img>
+          <img src={'https://betaschool.edu.vn/_next/image?url=%2Fimages%2Flogo-1.png&w=96&q=75'} alt={"logo"} style={{
             marginLeft: '10px',
           }}/>
           
 
-          <span className="title">BỐC THĂM CUỘC THI SÁNG TẠO ROBOT QUẢNG NGÃI 2025</span>
-          &nbsp; --- <img src={'https://betaschool.edu.vn/_next/image?url=%2Fimages%2Flogo-1.png&w=96&q=75'} alt={"logo"} style={{
-            marginLeft: '10px',
-          }}/> Hỗ trợ
+          <span className="title">BỐC THĂM CUỘC THI SÁNG TẠO ROBOT QUẢNG NGÃI </span>
         </a>
 
         <div className="header__right">
@@ -50,11 +46,16 @@ export function App() {
 
 
       <main>
-        <BocTham></BocTham>
+        {!unlock && <PasswordProtection passwords={passwords} key={refresh} sentOut={sentOut}></PasswordProtection>}
+        {unlock && <QuestionPlayV2></QuestionPlayV2>}
       </main>
 
 
-  
+      <Marquee>
+        <a target='_blank' href='https://www.facebook.com/photo/?fbid=1323616322212814&set=a.701347497773036'>
+          Betaschool khai giảng lớp Ôn luyện Toiec với giáo viên chất lượng và học phí siêu ưu đãi 650k/tháng - xem tại đây
+        </a>
+      </Marquee>
       <KDFooter>
         <span slot="copyright">
           Copyright © 2024 Nguyen Viet Ltd. All rights reserved.

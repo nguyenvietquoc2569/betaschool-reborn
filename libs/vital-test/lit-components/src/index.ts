@@ -165,7 +165,7 @@ export const KDCheckbox = createComponent({
   elementClass: Checkbox,
   react: React,
   events: {
-    'onChange': 'on-checkbox-group-change'
+    'onChange': 'on-checkbox-change'
   }
 })
 
