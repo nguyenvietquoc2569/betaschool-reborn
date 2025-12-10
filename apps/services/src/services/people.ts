@@ -119,7 +119,7 @@ export const linkPeopleToDotB = async (req, res, next) => {
 
     const response = await axios({
       method: 'post',
-      url: `https://beta.dotb.cloud/rest/v11_3/v1/search_object`,
+      url: `https://dotb.betaschool.edu.vn/rest/v11_3/v1/search_object`,
       headers: { 
         'Content-Type': 'application/json', 
         'content-language': 'vi', 

@@ -3,7 +3,7 @@ import axios from 'axios'
 export const getTheCentersFromDotB = (async function(req, res) {
   axios({
     method: 'post',
-    url: `https://beta.dotb.cloud/rest/v11_3/v1/get_center_list`,
+    url: `https://dotb.betaschool.edu.vn/rest/v11_3/v1/get_center_list`,
     headers: { 
       'Content-Type': 'application/json', 
       'content-language': 'vi', 
@@ -32,7 +32,7 @@ export const getClassForTheCenterFromDotB = (async function(req, res) {
   const {startDate, endDate, centerId} = req.body
   axios({
     method: 'post',
-    url: `https://beta.dotb.cloud/rest/v11_3/v1/get_class_list`,
+    url: `https://dotb.betaschool.edu.vn/rest/v11_3/v1/get_class_list`,
     headers: { 
       'Content-Type': 'application/json', 
       'content-language': 'vi', 
