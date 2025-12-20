@@ -1,5 +1,5 @@
 def distributedTasks = [:]
-def version = '5.1.2'
+def version = '5.1.3'
 def projects = [:]
 def raw
 def baseSha = 'last-success-build'
@@ -16,9 +16,13 @@ stage("Build") {
         
         sh 'yarn install --frozen-lockfile'
 
-        docker.build("nguyenvietquoc2569/betaschool-reborn-services:${version}", "--no-cache . -f apps/services/Dockerfile")
+        docker.build("nguyenvietquoc2569/betaschool-reborn-dnsserver:${version}", "--no-cache . -f apps/dnsserver/Dockerfile")
         sh "docker login -u ${docUsername} -p ${docPassword}"
-        sh "docker push nguyenvietquoc2569/betaschool-reborn-services:${version}"
+        sh "docker push nguyenvietquoc2569/betaschool-reborn-dnsserver:${version}"
+
+        // docker.build("nguyenvietquoc2569/betaschool-reborn-services:${version}", "--no-cache . -f apps/services/Dockerfile")
+        // sh "docker login -u ${docUsername} -p ${docPassword}"
+        // sh "docker push nguyenvietquoc2569/betaschool-reborn-services:${version}"
 
         // // build doosan
         // sh "npx nx run apps/dossan:build:production"
